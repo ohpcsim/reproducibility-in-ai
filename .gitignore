@@ -1,2 +1,4 @@
 *.sif
-miniforge.sh
+*.tar
+gpu/lock.txt
+__pycache__/

@@ -1,4 +1,4 @@
-"""Generate the synthetic dataset used in this workshop.
+"""Generate the synthetic dataset for this study.
 
 Provenance: synthetic, y = 2.5 * x + 1.0 + noise, seed 20261110.
 Run once; the outputs are tracked by DVC, not Git.

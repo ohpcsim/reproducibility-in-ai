@@ -1,0 +1,8 @@
+model: provider-x/model-y
+revision: 2026-10-01
+run_date: 2026-11-03
+settings: {temperature: 0, seed: 1234, max_tokens: 2000}
+system_prompt: prompts/system.md @ 4f2a91c
+evaluation: evaluations/cases-v3.jsonl
+acceptance: tests/accept.py, 41 of 42 passed, failed case kept
+not_exposed: routing, hidden instructions, post-training
