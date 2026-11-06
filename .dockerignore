@@ -1,0 +1,6 @@
+*.sif
+miniforge.sh
+dvc-demo
+dvc-store
+origin.git
+collab

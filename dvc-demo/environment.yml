@@ -1,0 +1,7 @@
+name: repro-dvc
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy=2
+  - dvc=3
