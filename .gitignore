@@ -2,3 +2,6 @@ _build/
 node_modules/
 __pycache__/
 .ipynb_checkpoints/
+gpu/lock.txt
+*.tar
+*.sif

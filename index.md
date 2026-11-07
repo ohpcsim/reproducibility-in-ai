@@ -5,7 +5,7 @@ subject: Hands-on exercises
 
 These are the exercises from the Reproducibility in AI workshop at Rice Research Computing Day. You do them on your own time, with these pages and a terminal. Each one gives you a project that's broken in a realistic way. You find the problem and fix it, and a script checks your work.
 
-You don't need a GPU, a cluster or an account.
+You don't need a GPU, a cluster or an account for the exercises.
 
 ## The idea: literate science
 
@@ -73,5 +73,7 @@ It works the same way everywhere: read the instructions, and paste the commands 
 4. Do step 1, then run its check, `python ../check.py --short`.
 
 Want to try the task yourself? [The same task in five tools](tools/five-tools.md) shows how to sign in, the exact command, what each tool wrote, and whether the tests accepted it: Claude Code, Codex, Cursor, a local model and free models.
+
+Two more pages are optional, and you run them yourself: [if you need a GPU](gpu/gpu.md), and [if you need a container](gpu/container.md).
 
 The code here is MIT licensed. Each exercise names its data, its license and how to cite it.

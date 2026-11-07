@@ -25,6 +25,10 @@ project:
         - file: tools/cursor.md
         - file: tools/local-model.md
         - file: tools/free-models.md
+    - title: Optional, run it yourself
+      children:
+        - file: gpu/gpu.md
+        - file: gpu/container.md
 site:
   template: book-theme
   options:
