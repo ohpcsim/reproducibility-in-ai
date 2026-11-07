@@ -4,8 +4,9 @@
 It works in throwaway clones, so it can't damage your project. It works out the right
 answer from what you registered, so there's no answer in this file to look up.
 
-python check.py --short   checks step 1, the short path.
-python check.py           checks everything.
+Run it from project/:
+python ../check.py --short   checks step 1, the short path.
+python ../check.py           checks everything.
 """
 import json
 import os
@@ -74,7 +75,7 @@ def clone_into(tmp, ref=None):
 def check_versions(versions):
     usable = [v for v in versions.values() if v["accuracy"] is not None]
     report(len(usable) >= 2, f"{len(usable)} versions are registered" if len(usable) >= 2 else
-           "Register at least two versions: train a second width, commit it, and use gto register (step 1).")
+           "Register at least two versions. Train a second width, commit it, and use gto register (step 1).")
 
 
 def check_prod_choice(versions):
@@ -173,11 +174,11 @@ def check_all_versions(versions):
 
 def main():
     if not (PROJECT / ".git").exists():
-        print("FAIL  project/ is not there. Run: python scripts/setup_project.py")
+        print("FAIL  project/ is not there. From the folder above it, run: python scripts/setup_project.py")
         return 1
     versions = registered()
     if not versions:
-        print("FAIL  Nothing is registered yet. Run the setup cells.")
+        print("FAIL  Nothing is registered. From the folder above project/, run: python scripts/setup_project.py --reset")
         return 1
     check_versions(versions)
     prod = check_prod_choice(versions)
@@ -186,7 +187,7 @@ def main():
     if "--short" in sys.argv:
         print(f"\n{sum(results)} of {len(results)} parts pass.")
         if all(results):
-            print("You've finished the short path. Steps 2 and 3 are optional. To check them too, run: python check.py")
+            print("You've finished the short path. Steps 2 and 3 are optional. To check them too, run: python ../check.py")
             return 0
         return 1
     check_split_test()

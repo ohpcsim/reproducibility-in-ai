@@ -31,7 +31,8 @@ jobs:
       - name: Build each exercise's own environment
         run: |
           for exercise in 01-gitops 02-dataops 03-registry; do
-            conda env create --quiet --prefix "$RUNNER_TEMP/envs/$exercise" --file "exercises/$exercise/environment.yml"
+            conda env create --quiet --prefix "$RUNNER_TEMP/envs/$exercise" --file "exercises/$exercise/.binder/environment.yml"
+            conda install --quiet --yes --prefix "$RUNNER_TEMP/envs/$exercise" ipykernel jupyter_server
           done
       - name: Install Jupyter Book
         run: |

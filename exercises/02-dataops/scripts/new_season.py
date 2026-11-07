@@ -10,7 +10,7 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parents[1]
 
-df = pd.read_csv(HERE / "data" / "penguins.csv")
+df = pd.read_csv(HERE / ".exercise" / "data" / "penguins.csv")
 new = df[(df["year"] > 2007) & df["flipper_length_mm"].notna()]
 
 inches = new.sample(40, random_state=2009).index

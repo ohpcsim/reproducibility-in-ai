@@ -3,7 +3,7 @@ title: Reproducibility in AI
 subject: Hands-on exercises
 ---
 
-These are the exercises from the Reproducibility in AI workshop at Rice Research Computing Day. You do them on your own time, in a browser or on your laptop. Each one gives you a project that's broken in a realistic way. You find the problem and fix it, and a script checks your work.
+These are the exercises from the Reproducibility in AI workshop at Rice Research Computing Day. You do them on your own time, with these pages and a terminal. Each one gives you a project that's broken in a realistic way. You find the problem and fix it, and a script checks your work.
 
 You don't need a GPU, a cluster or an account.
 
@@ -28,7 +28,7 @@ Your group's published number won't rerun. Declare what's missing, find the comm
 
 15 minutes for the short path, 30 for all of it.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-gitops?urlpath=lab/tree/gitops.ipynb>` [Read the page](exercises/01-gitops/gitops.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-gitops?urlpath=lab/workspaces/exercise>` [Read the page](exercises/01-gitops/gitops.ipynb)
 :::
 
 :::{card} 2. DataOps
@@ -38,7 +38,7 @@ A bad delivery passes your pipeline. Make it stop, roll back with DVC, and repai
 
 15 minutes for the short path, 35 for all of it.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-dataops?urlpath=lab/tree/dataops.ipynb>` [Read the page](exercises/02-dataops/dataops.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-dataops?urlpath=lab/workspaces/exercise>` [Read the page](exercises/02-dataops/dataops.ipynb)
 :::
 
 :::{card} 3. Model registry
@@ -48,7 +48,7 @@ Train and register versions with DVC and GTO. Refuse a candidate that scores 1.0
 
 15 minutes for the short path, 40 for all of it.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-registry?urlpath=lab/tree/registry.ipynb>` [Read the page](exercises/03-registry/registry.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-registry?urlpath=lab/workspaces/exercise>` [Read the page](exercises/03-registry/registry.ipynb)
 :::
 
 :::{card} 4. LLM documentation
@@ -63,9 +63,11 @@ About 35 minutes, when it's ready.
 
 ## How to start
 
+It works the same way everywhere: read the instructions, and paste the commands into a terminal.
+
 1. Pick an exercise. If you're not sure, start with the first.
-2. Select **Open in Binder**. Your browser opens a free temporary session with everything installed. The first start can take a few minutes. A session has 2 GB of memory and ends when it sits idle, so download anything you want to keep.
-3. Or [set up your laptop](setup.md), which takes about 10 minutes the first time. Your work stays with you.
-4. Follow the notebook, and run `python check.py --short` when you finish step 1.
+2. Select **Open in Binder**. Your browser opens a free temporary session with a terminal on the left and the instructions on the right, with everything installed. The first start can take a few minutes. A session has 2 GB of memory and ends when it sits idle, so download anything you want to keep.
+3. Or [set up your laptop](setup.md) and use your own terminal with these pages. You don't need Jupyter, and your work stays with you.
+4. Do step 1, then run its check, `python ../check.py --short`.
 
 The code here is MIT licensed. Each exercise names its data, its license and how to cite it.

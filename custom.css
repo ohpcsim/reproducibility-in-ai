@@ -98,3 +98,32 @@ pre code {
   white-space: pre-wrap !important;
   overflow-wrap: anywhere;
 }
+
+/* Recorded output reads like a terminal. */
+.myst-jp-stream-output pre {
+  border-left: 3px solid var(--repro-panel);
+  padding-left: 0.75rem;
+}
+
+/* Plain slate text and blue strings, in place of the theme's warm gray and red. */
+:root {
+  --myst-color-prose-body: #27323f;
+  --myst-color-text: #1b2530;
+  --repro-code-text: #27323f;
+  --repro-code-string: var(--repro-blue);
+}
+
+.dark {
+  --myst-color-prose-body: #dce6f0;
+  --myst-color-text: #eef4fa;
+  --repro-code-text: #dce6f0;
+  --repro-code-string: #9cc8f2;
+}
+
+pre code {
+  color: var(--repro-code-text);
+}
+
+pre code .hljs-string {
+  color: var(--repro-code-string);
+}

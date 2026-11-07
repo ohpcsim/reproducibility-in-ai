@@ -1,6 +1,7 @@
 #!/bin/sh
 # Build the site with every exercise notebook run untouched.
 # Usage: ./build_site.sh <env of 01-gitops> <env of 02-dataops> <env of 03-registry>
+# Each env is its exercise's .binder/environment.yml plus ipykernel and jupyter_server.
 # Run it from a clean copy, because running the notebooks writes project/ folders.
 #
 # Each notebook has to run in its own exercise environment: exercise 1's failure

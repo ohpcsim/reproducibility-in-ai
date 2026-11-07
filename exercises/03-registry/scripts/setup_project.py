@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the group's repository in project/, with a teammate's branch that asks for promotion.
+"""Build the group's repository in project/: the first release in prod, and a teammate's branch that asks for promotion.
 
 Run it again and it leaves your work alone. To start over, use --reset. That deletes your work.
 """
@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[1]
-FILES = HERE / "scripts" / "project"
+FILES = HERE / ".exercise" / "project"
 PROJECT = HERE / "project"
 BUCKET = HERE / "osn-bucket"
 
@@ -64,6 +64,12 @@ def build():
     git("checkout", "--quiet", "main")
     (PROJECT / "model.pkl").unlink()
 
+    # The first release. Nobody ran dvc push for it, and the exercise's step 3 is about that.
+    run("dvc", "repro", "--quiet")
+    commit("Train with 32 hidden units")
+    run("gto", "register", "digits-clf", "--version", "v1.0.0")
+    run("gto", "assign", "digits-clf", "--version", "v1.0.0", "--stage", "prod")
+
 
 def main():
     if "--reset" in sys.argv:
@@ -73,7 +79,7 @@ def main():
         print("project/ already exists, so I left your work alone. To start over: python scripts/setup_project.py --reset")
         return
     build()
-    print("Built project/ with the scripts and Sam's candidate-v2 branch, and osn-bucket/ as a stand-in for object storage.")
+    print("Built project/ with release v1.0.0 in prod and Sam's candidate-v2 branch, and osn-bucket/ as a stand-in for object storage. Now run: cd project")
 
 
 main()

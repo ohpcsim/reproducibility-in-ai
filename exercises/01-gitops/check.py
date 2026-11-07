@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Check your work. Each part prints PASS or FAIL with what to do next. It reads what you committed.
 
-python check.py --short   checks step 1, the short path.
-python check.py           checks everything.
+Run it from project/:
+python ../check.py --short   checks step 1, the short path.
+python ../check.py           checks everything.
 """
 import ast
 import hashlib
@@ -74,6 +75,19 @@ def imported_packages(tracked):
     return found
 
 
+def explain_undeclared(package):
+    """Say which easy mistake this is: the wrong file, an unsaved edit, or a missing commit."""
+    edited = (PROJECT / "environment.yml").read_text()
+    session = (HERE / ".binder" / "environment.yml").read_text()
+    if re.search(rf"^\s*-\s*{package}\b", edited, re.M):
+        print(f"      You added {package} to environment.yml in project/, but it isn't committed. Run: git add environment.yml, then git commit.")
+    elif re.search(rf"^\s*-\s*{package}\b", session, re.M):
+        print(f"      You added {package} to .binder/environment.yml, which is the session's file. Take it out and edit environment.yml in project/.")
+    elif ENV.exists():
+        print(f"      envs/co2 was built from a file without {package}. Edit environment.yml in project/ and confirm with git diff environment.yml.")
+        print("      Then delete the old environment with: rm -rf ../envs/co2")
+
+
 def check_declared():
     tracked = git("ls-tree", "-r", "--name-only", "HEAD").stdout.split()
     packages = imported_packages(tracked)
@@ -81,6 +95,8 @@ def check_declared():
     missing = {p: f for p, f in packages.items() if p not in declared}
     report(not missing, "environment.yml declares every import" if not missing else
            "; ".join(f"{f} imports {p}, and the committed environment.yml does not declare it" for p, f in missing.items()))
+    for package in missing:
+        explain_undeclared(package)
 
     locks = [name for name in tracked if re.fullmatch(r"explicit-[\w-]+\.txt", name)]
     if not locks:
@@ -103,7 +119,7 @@ def rerun_growth(clone, python=sys.executable):
 def check_number(clone):
     fresh = run(sys.executable, "check_fresh.py", cwd=clone)
     report(fresh.returncode == 0, "metrics.json matches a rerun" if fresh.returncode == 0 else
-           "The committed metrics.json does not match a rerun. Run check_fresh.py in project/ to see the numbers.")
+           "The committed metrics.json does not match a rerun. Run python check_fresh.py to see the numbers.")
     growth = rerun_growth(clone)
     ok = growth is not None and good_growth(growth)
     report(ok, "The growth rate is the one this data supports" if ok else
@@ -124,7 +140,7 @@ def check_message():
         previous = degree
     if culprit is None:
         report(False, "I can't find the commit that changed the degree. Did the history get rewritten? "
-                      "To start over: python scripts/setup_project.py --reset")
+                      "To start over, from the folder above project/: python scripts/setup_project.py --reset")
         return
     later = git("log", "--format=%H%x00%B%x01", f"{culprit}..HEAD").stdout.split("\x01")
     for entry in later:
@@ -176,7 +192,7 @@ def check_env():
               if line.startswith("http") and "#" in line}
     ok = bool(mine) and wanted == installed
     report(ok, "envs/co2 is exactly what the lock lists" if ok else
-           "envs/co2 does not match your lock for this platform. Write the lock from this environment, or rebuild the environment from the lock.")
+           "envs/co2 does not match your lock for this platform. If you changed environment.yml after building, run rm -rf ../envs/co2 and build it and write the lock again.")
     return True
 
 
@@ -213,7 +229,7 @@ def check_rebuild():
 
 def main():
     if not (PROJECT / ".git").exists():
-        print("FAIL  project/ is not there. Run: python scripts/setup_project.py")
+        print("FAIL  project/ is not there. From the folder above it, run: python scripts/setup_project.py")
         print("       If you deleted it for step 3, clone it again: git clone remote/co2.git project")
         return 1
     check_declared()
@@ -222,7 +238,7 @@ def main():
             check_runs()
         print(f"\n{sum(results)} of {len(results)} parts pass.")
         if all(results):
-            print("You've finished the short path. Steps 2 and 3 are optional. To check them too, run: python check.py")
+            print("You've finished the short path. Steps 2 and 3 are optional. To check them too, run: python ../check.py")
             return 0
         return 1
     with tempfile.TemporaryDirectory() as tmp:

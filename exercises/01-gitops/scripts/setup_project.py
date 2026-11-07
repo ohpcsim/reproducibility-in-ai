@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[1]
-FILES = HERE / "scripts" / "project"
+FILES = HERE / ".exercise" / "project"
 PROJECT = HERE / "project"
 REMOTE = HERE / "remote" / "co2.git"
 
@@ -83,7 +83,7 @@ def build():
     git("init", "--quiet", "--initial-branch=main")
     git("config", "core.autocrlf", "false")
 
-    shutil.copytree(HERE / "data", PROJECT / "data", ignore=shutil.ignore_patterns("SOURCE.md"))
+    shutil.copytree(HERE / ".exercise" / "data", PROJECT / "data", ignore=shutil.ignore_patterns("SOURCE.md"))
     for name in ("trend.py", "check_fresh.py", "environment.yml", "hooks/pre-commit"):
         copy(name)
     write("analyze.py", FIRST_ANALYZE)
@@ -127,7 +127,7 @@ def main():
         print("The repository already exists, so I left your work alone. To start over: python scripts/setup_project.py --reset")
         return
     build()
-    print("Built project/ with six commits, and remote/co2.git as a stand-in for GitHub.")
+    print("Built project/ with six commits, and remote/co2.git as a stand-in for GitHub. Now run: cd project")
 
 
 main()

@@ -9,4 +9,3 @@ dependencies:
   - dvc=3
   - gto
   - git
-  - jupyterlab

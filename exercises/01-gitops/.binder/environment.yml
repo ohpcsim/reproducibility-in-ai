@@ -7,4 +7,3 @@ dependencies:
   - pyyaml
   - pytest
   - git
-  - jupyterlab

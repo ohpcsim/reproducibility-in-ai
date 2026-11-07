@@ -4,8 +4,9 @@
 It works in a throwaway clone, so it can't damage your project. It plants its own bad
 deliveries, so it doesn't hold a list of answers to look up.
 
-python check.py --short   checks step 1, the short path.
-python check.py           checks everything.
+Run it from project/:
+python ../check.py --short   checks step 1, the short path.
+python ../check.py           checks everything.
 """
 import json
 import os
@@ -22,7 +23,7 @@ import yaml
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE / "project"
 BUCKET = HERE / "osn-bucket"
-TABLE = HERE / "data" / "penguins.csv"
+TABLE = HERE / ".exercise" / "data" / "penguins.csv"
 
 results = []
 
@@ -107,7 +108,7 @@ def check_committed():
     tracked = run("git", "ls-tree", "-r", "--name-only", "HEAD").stdout.split()
     missing = [f for f in ("dvc.yaml", "dvc.lock", "metrics.json", "data/penguins.csv.dvc") if f not in tracked]
     if missing:
-        return report(False, f"Not committed yet: {', '.join(missing)}. Run the setup cells, which commit them.")
+        return report(False, f"Not committed yet: {', '.join(missing)}. From the folder above project/, run: python scripts/setup_project.py --reset")
     stages = yaml.safe_load(run("git", "show", "HEAD:dvc.yaml").stdout).get("stages", {})
     absent = [s for s in ("clean", "validate", "report") if s not in stages]
     if absent:
@@ -198,12 +199,12 @@ def check_negative_control():
 def main():
     short = "--short" in sys.argv
     if not (PROJECT / ".git").exists():
-        print("FAIL  project/ is not there. Run: python scripts/setup_project.py")
+        print("FAIL  project/ is not there. From the folder above it, run: python scripts/setup_project.py")
         return 1
     if run("git", "status", "--porcelain").stdout.strip():
         print("Note: you have uncommitted changes. This checks your last commit only.\n", flush=True)
     if not check_committed():
-        print("\nThe setup cells come first.")
+        print("\nSet the project up first.")
         return 1
 
     full = pd.read_csv(TABLE)
@@ -221,7 +222,7 @@ def main():
             check_refusals(clone, full, rng)
             print(f"\n{sum(results)} of {len(results)} parts pass.")
             if all(results):
-                print("You've finished the short path. Steps 2 and 3 are optional. To check them too, run: python check.py")
+                print("You've finished the short path. Steps 2 and 3 are optional. To check them too, run: python ../check.py")
                 return 0
             return 1
         check_season(clone, full, first_season)

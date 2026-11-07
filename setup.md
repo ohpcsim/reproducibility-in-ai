@@ -2,7 +2,7 @@
 title: Set up your laptop
 ---
 
-You can do every exercise in Binder with nothing installed. Set up your laptop if you want to keep your work. You need about 3 GB of free disk for the three exercises, and no administrator access except to turn on WSL2. You don't need a GPU.
+You can do every exercise in Binder with nothing installed. Set up your laptop if you want to keep your work. You'll read the exercise pages on this site in your browser, and paste the commands into your terminal. You need about 3 GB of free disk for the three exercises, and no administrator access except to turn on WSL2. You don't need Jupyter or a GPU.
 
 ## Step 1: get a shell
 
@@ -58,27 +58,30 @@ conda install --yes git
 
 Each exercise is its own branch of one repository, with its own environment. Pick the row you want. Building an environment takes a few minutes the first time.
 
-| Exercise | Branch | Environment | Notebook |
-|---|---|---|---|
-| 1. GitOps | `binder-01-gitops` | `repro-gitops` | `gitops.ipynb` |
-| 2. DataOps | `binder-02-dataops` | `repro-dataops` | `dataops.ipynb` |
-| 3. Model registry | `binder-03-registry` | `repro-registry` | `registry.ipynb` |
+| Exercise | Branch | Environment |
+|---|---|---|
+| 1. GitOps | `binder-01-gitops` | `repro-gitops` |
+| 2. DataOps | `binder-02-dataops` | `repro-dataops` |
+| 3. Model registry | `binder-03-registry` | `repro-registry` |
 
 For exercise 1, that looks like this:
 
 ```bash
 git clone --branch binder-01-gitops --single-branch https://github.com/ohpcsim/reproducibility-in-ai.git gitops
 cd gitops
-conda env create --file environment.yml
+conda env create --quiet --file .binder/environment.yml
 conda activate repro-gitops
-jupyter lab gitops.ipynb
+python scripts/setup_project.py
+cd project
 ```
 
-JupyterLab opens in your browser. Follow the notebook from the top. On WSL2, if no browser opens, copy the link it prints into your Windows browser.
+You're now in the `project` folder, ready for the [exercise's first step](exercises/01-gitops/gitops.ipynb). If you close the window, open a new one and turn conda on, then run `conda activate repro-gitops` and `cd gitops/project`.
+
+To edit files, use any text editor. If you're not sure, `nano environment.yml` works in the terminal. Press Control-O to save and Control-X to leave.
 
 ## When you're done
 
-Stop JupyterLab with Control-C. Everything an exercise makes is in its folder or its environment, so this removes it all:
+Everything an exercise makes is in its folder or its environment. To remove it all, go to the folder above `gitops` and paste this:
 
 ```bash
 conda deactivate
@@ -86,4 +89,4 @@ conda env remove --yes --name repro-gitops
 rm -rf gitops
 ```
 
-That's the idea from the talk. The environment is cattle, and you can rebuild it from the file in the repository.
+The environment is cattle, and you can rebuild it from the file in the repository.

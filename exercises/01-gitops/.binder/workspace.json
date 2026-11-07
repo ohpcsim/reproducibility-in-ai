@@ -1,0 +1,70 @@
+{
+ "data": {
+  "layout-restorer:data": {
+   "main": {
+    "dock": {
+     "type": "split-area",
+     "orientation": "horizontal",
+     "sizes": [
+      0.5,
+      0.5
+     ],
+     "children": [
+      {
+       "type": "tab-area",
+       "currentIndex": 0,
+       "widgets": [
+        "terminal:1"
+       ]
+      },
+      {
+       "type": "tab-area",
+       "currentIndex": 0,
+       "widgets": [
+        "notebook:gitops.ipynb"
+       ]
+      }
+     ]
+    },
+    "current": "terminal:1"
+   },
+   "down": {
+    "size": 0,
+    "widgets": []
+   },
+   "left": {
+    "collapsed": false,
+    "current": "filebrowser",
+    "widgets": [
+     "filebrowser"
+    ]
+   },
+   "right": {
+    "collapsed": true,
+    "widgets": []
+   },
+   "relativeSizes": [
+    0.14,
+    0.86,
+    0
+   ]
+  },
+  "notebook:gitops.ipynb": {
+   "data": {
+    "path": "gitops.ipynb",
+    "factory": "Notebook"
+   }
+  },
+  "terminal:1": {
+   "data": {
+    "name": "1"
+   }
+  },
+  "file-browser-filebrowser:cwd": {
+   "path": "project"
+  }
+ },
+ "metadata": {
+  "id": "exercise"
+ }
+}

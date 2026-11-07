@@ -7,4 +7,3 @@ dependencies:
   - pyyaml
   - dvc=3
   - git
-  - jupyterlab
