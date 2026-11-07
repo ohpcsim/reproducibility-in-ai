@@ -2,7 +2,7 @@ name: Build and publish the site
 
 on:
   push:
-    branches: [site]
+    branches: [main]
   workflow_dispatch:
 
 permissions:

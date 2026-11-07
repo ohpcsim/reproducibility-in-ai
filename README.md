@@ -1,0 +1,16 @@
+# Reproducibility in AI
+
+Hands-on exercises from the Reproducibility in AI workshop at Rice Research Computing Day, November 10, 2026.
+
+**Start here: https://ohpcsim.github.io/reproducibility-in-ai/**
+
+| Exercise | Question | Open in Binder |
+|---|---|---|
+| 1. GitOps | How fast is CO2 rising? | [Launch](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-gitops?urlpath=lab/workspaces/exercise) |
+| 2. DataOps | Does a new field season change how body mass tracks flipper length in penguins? | [Launch](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-dataops?urlpath=lab/workspaces/exercise) |
+| 3. Model registry | Which digit classifier should we promote? | [Launch](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-registry?urlpath=lab/workspaces/exercise) |
+| 4. LLM documentation | Can your tests catch a bad model card? | [Launch](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-llm?urlpath=lab/workspaces/exercise) |
+
+You read the page and paste commands into a terminal, on Binder or on your own machine. No GPU, cluster or account needed.
+
+The site is built from this repository with `jupyter-book build --execute --strict`, so the output on its pages comes from real runs. Code is MIT licensed. Each exercise names its data, its license and how to cite it.
