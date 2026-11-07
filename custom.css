@@ -1,0 +1,94 @@
+/* Blue for links and headers, light blue for panels. Green marks a pass.
+   Orange and rust are only for small warning and fail marks. */
+:root {
+  --repro-blue: #155faa;
+  --repro-panel: #dbebfb;
+  --repro-pass: #7ea53e;
+  --repro-warn: #cf8729;
+  --repro-fail: #b13a14;
+  --myst-color-link: var(--repro-blue);
+  --myst-color-link-hover: #0f4a85;
+  --myst-color-link-underline: var(--repro-blue);
+  --myst-color-primary: var(--repro-blue);
+  --myst-color-primary-hover: #0f4a85;
+  --myst-color-active: var(--repro-blue);
+  --myst-color-active-surface: var(--repro-panel);
+  --myst-color-focus-ring: var(--repro-blue);
+  --myst-color-code: var(--repro-blue);
+}
+
+/* The dark theme keeps the same hues, with light text on dark panels. */
+.dark {
+  --repro-heading: var(--repro-panel);
+  --repro-panel-dark: #12324f;
+  --myst-color-link: #9cc8f2;
+  --myst-color-link-hover: var(--repro-panel);
+  --myst-color-link-underline: #9cc8f2;
+  --myst-color-primary: var(--repro-blue);
+  --myst-color-active: #9cc8f2;
+  --myst-color-active-surface: var(--repro-panel-dark);
+  --myst-color-code: #9cc8f2;
+}
+
+.myst-made-with-myst {
+  display: none;
+}
+
+.myst-home-link,
+.myst-fm-block-title,
+.article h1,
+.article h2,
+.article h3,
+.article h4 {
+  color: var(--repro-heading, var(--repro-blue));
+}
+
+.myst-card {
+  background-color: var(--repro-panel-dark, var(--repro-panel));
+  border-color: var(--repro-blue);
+}
+
+.myst-card strong,
+.myst-card-title {
+  color: var(--repro-heading, var(--repro-blue));
+}
+
+a.button {
+  background-color: var(--repro-blue);
+  color: #fff;
+  margin-right: 0.75rem;
+}
+
+a.button:hover {
+  background-color: #0f4a85;
+}
+
+/* PASS and FAIL in the printed output of check.py, and warnings from the tools. */
+.ansi-green-fg,
+.ansi-red-fg {
+  border-radius: 0.2rem;
+  font-weight: 700;
+  padding: 0 0.3em;
+}
+
+.ansi-green-fg {
+  background-color: var(--repro-pass);
+  color: #16240a;
+}
+
+.ansi-red-fg {
+  background-color: var(--repro-fail);
+  color: #fff;
+}
+
+.ansi-yellow-fg {
+  color: var(--repro-warn);
+}
+
+/* Long commands and output wrap, so nothing is hidden off the side of the page. */
+/* The important flag is needed because the theme's code highlighter sets white-space inline. */
+pre,
+pre code {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere;
+}

@@ -28,9 +28,14 @@ GROWTH_DIGEST = "e3de544612819db8542e147a809c2fb7f876814d049aafb1ba69e38b297f4ea
 results = []
 
 
+def mark(ok):
+    word, color = ("PASS", 32) if ok else ("FAIL", 31)
+    return f"\033[{color}m{word}\033[0m" if sys.stdout.isatty() or os.environ.get("CLICOLOR_FORCE") else word
+
+
 def report(ok, message):
     results.append(ok)
-    print(f"{'PASS' if ok else 'FAIL'}  {message}")
+    print(f"{mark(ok)}  {message}")
 
 
 def run(*args, cwd=PROJECT, env=None):
@@ -79,7 +84,7 @@ def check_declared():
 
     locks = [name for name in tracked if re.fullmatch(r"explicit-[\w-]+\.txt", name)]
     if not locks:
-        report(False, "No lock file is committed. Write one with conda list --explicit --md5 (slide 17) and commit it.")
+        report(False, "No lock file is committed. Write one with conda list --explicit --md5 and commit it.")
         return
     for lock in locks:
         absent = set(packages) - package_names(git("show", f"HEAD:{lock}").stdout)

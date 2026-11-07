@@ -8,6 +8,7 @@ python check.py --short   checks step 1, the short path.
 python check.py           checks everything.
 """
 import json
+import os
 import random
 import re
 import subprocess
@@ -26,9 +27,14 @@ TABLE = HERE / "data" / "penguins.csv"
 results = []
 
 
+def mark(ok):
+    word, color = ("PASS", 32) if ok else ("FAIL", 31)
+    return f"\033[{color}m{word}\033[0m" if sys.stdout.isatty() or os.environ.get("CLICOLOR_FORCE") else word
+
+
 def report(ok, message):
     results.append(ok)
-    print(f"{'PASS' if ok else 'FAIL'}  {message}", flush=True)
+    print(f"{mark(ok)}  {message}", flush=True)
     return ok
 
 

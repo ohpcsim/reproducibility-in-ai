@@ -1,0 +1,22 @@
+stages:
+  split:
+    cmd: python split.py
+    deps:
+      - split.py
+    params:
+      - split
+    outs:
+      - splits.json:
+          cache: false
+  train:
+    cmd: python train.py
+    deps:
+      - splits.json
+      - train.py
+    params:
+      - train
+    outs:
+      - model.pkl
+    metrics:
+      - metrics.json:
+          cache: false

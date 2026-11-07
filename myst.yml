@@ -1,10 +1,22 @@
 version: 1
 project:
   title: Reproducibility in AI
+  description: Hands-on exercises for researchers. Fix a broken project, and a script checks your work.
   license:
     code: MIT
   toc:
-    - file: exercises/01-gitops/gitops.ipynb
-    - file: exercises/02-dataops/dataops.ipynb
+    - file: index.md
+    - file: setup.md
+    - title: Exercises
+      children:
+        - file: exercises/01-gitops/gitops.ipynb
+          title: "1. GitOps"
+        - file: exercises/02-dataops/dataops.ipynb
+          title: "2. DataOps"
+        - file: exercises/03-registry/registry.ipynb
+          title: "3. Model registry"
 site:
   template: book-theme
+  options:
+    style: custom.css
+    logo_text: Reproducibility in AI

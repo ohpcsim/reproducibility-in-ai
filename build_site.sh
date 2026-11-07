@@ -1,6 +1,6 @@
 #!/bin/sh
 # Build the site with every exercise notebook run untouched.
-# Usage: ./build_site.sh <env of 01-gitops> <env of 02-dataops>
+# Usage: ./build_site.sh <env of 01-gitops> <env of 02-dataops> <env of 03-registry>
 # Run it from a clean copy, because running the notebooks writes project/ folders.
 #
 # Each notebook has to run in its own exercise environment: exercise 1's failure
@@ -19,4 +19,5 @@ run_notebook() (
 
 run_notebook "$1" 01-gitops gitops.ipynb
 run_notebook "$2" 02-dataops dataops.ipynb
+run_notebook "$3" 03-registry registry.ipynb
 "$JUPYTER_BOOK" build --site --html --execute --strict

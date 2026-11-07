@@ -1,6 +1,4 @@
-# DataOps: a new field season arrives
-
-Does a new field season change how body mass tracks flipper length in penguins?
+# DataOps: does a new field season change how body mass tracks flipper length in penguins?
 
 Open the notebook and follow it. Short path, about 15 minutes: the setup cells and step 1, then `python check.py --short`. The full exercise takes about 35 minutes.
 

@@ -1,0 +1,60 @@
+name: Build and publish the site
+
+on:
+  push:
+    branches: [site]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - uses: conda-incubator/setup-miniconda@v4
+        with:
+          miniforge-version: latest
+          auto-activate-base: true
+      - name: Build each exercise's own environment
+        run: |
+          for exercise in 01-gitops 02-dataops 03-registry; do
+            conda env create --quiet --prefix "$RUNNER_TEMP/envs/$exercise" --file "exercises/$exercise/environment.yml"
+          done
+      - name: Install Jupyter Book
+        run: |
+          python -m venv "$RUNNER_TEMP/jb"
+          "$RUNNER_TEMP/jb/bin/python" -m pip install --quiet "jupyter-book==2.1.7"
+      - name: Run every notebook untouched and build the site under --strict
+        env:
+          BASE_URL: /${{ github.event.repository.name }}
+          JUPYTER_BOOK: ${{ runner.temp }}/jb/bin/jupyter-book
+        run: ./build_site.sh "$RUNNER_TEMP/envs/01-gitops" "$RUNNER_TEMP/envs/02-dataops" "$RUNNER_TEMP/envs/03-registry"
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _build/html
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
