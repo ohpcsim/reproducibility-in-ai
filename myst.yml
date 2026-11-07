@@ -15,6 +15,16 @@ project:
           title: "2. DataOps"
         - file: exercises/03-registry/registry.ipynb
           title: "3. Model registry"
+        - file: exercises/04-llm/llm.ipynb
+          title: "4. LLM documentation"
+    - title: The same task in five tools
+      children:
+        - file: tools/five-tools.md
+        - file: tools/claude-code.md
+        - file: tools/codex.md
+        - file: tools/cursor.md
+        - file: tools/local-model.md
+        - file: tools/free-models.md
 site:
   template: book-theme
   options:

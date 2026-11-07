@@ -1,0 +1,19 @@
+# Filled in from the recording. Nothing in card.md was edited.
+note: The second turn of the codex run. The two decisions exist only in this chat message.
+tool: Codex CLI
+tool_version: 0.165.0
+provider: OpenAI
+model: gpt-6.1-sol (the default for this account)
+revision: not exposed beyond the model name
+run_date: 2026-11-07T19:16:39Z
+settings:
+  temperature: not exposed
+  seed: not exposed
+  max_tokens: not exposed
+prompt: runs/recorded-prompt.md
+command: "codex exec resume --last --skip-git-repo-check -c sandbox_mode=workspace-write --json \"<the chat message below>\""
+evaluation: tests/test_card.py
+not_exposed:
+  - sampling settings and seed
+  - the tool's built-in instructions
+  - any serving changes behind the model name

@@ -1,0 +1,2 @@
+Rules from step 1: rejected. missing the accuracy to three decimals; numbers not in the evidence: 0.99
+With the two decisions from step 3: rejected. missing the accuracy to three decimals; numbers not in the evidence: 0.99; no teaching-only decision; no refusal of candidate-v2

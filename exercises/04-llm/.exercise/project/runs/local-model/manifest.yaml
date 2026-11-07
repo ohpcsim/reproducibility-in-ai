@@ -1,0 +1,16 @@
+# Filled in from the recording. Nothing in card.md was edited.
+tool: Ollama
+tool_version: 0.9.6, CPU build from conda-forge
+provider: none, it ran on this machine
+model: qwen2.5-coder:7b, Q4_K_M, Apache 2.0
+revision: sha256-60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463
+run_date: 2026-11-07T19:14:05Z
+settings:
+  temperature: Ollama's default
+  seed: not set
+  max_tokens: Ollama's default
+prompt: runs/recorded-prompt.md
+command: "{ cat prompt.md; for f in release.yaml metrics.json params.yaml sources.yaml artifacts.yaml README.md; do printf '\\n--- %s ---\\n' \"$f\"; cat \"$f\"; done; } | ollama run qwen2.5-coder:7b > card.md"
+evaluation: tests/test_card.py
+not_exposed:
+  - how the model was trained, beyond what its publisher states

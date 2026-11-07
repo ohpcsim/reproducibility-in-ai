@@ -2,7 +2,7 @@
 title: Set up your laptop
 ---
 
-You can do every exercise in Binder with nothing installed. Set up your laptop if you want to keep your work. You'll read the exercise pages on this site in your browser, and paste the commands into your terminal. You need about 3 GB of free disk for the three exercises, and no administrator access except to turn on WSL2. You don't need Jupyter or a GPU.
+You can do every exercise in Binder with nothing installed. Set up your laptop if you want to keep your work. You'll read the exercise pages on this site in your browser, and paste the commands into your terminal. You need about 3 GB of free disk for the four exercises, and no administrator access except to turn on WSL2. You don't need Jupyter or a GPU.
 
 ## Step 1: get a shell
 
@@ -63,6 +63,7 @@ Each exercise is its own branch of one repository, with its own environment. Pic
 | 1. GitOps | `binder-01-gitops` | `repro-gitops` |
 | 2. DataOps | `binder-02-dataops` | `repro-dataops` |
 | 3. Model registry | `binder-03-registry` | `repro-registry` |
+| 4. LLM documentation | `binder-04-llm` | `repro-llm` |
 
 For exercise 1, that looks like this:
 

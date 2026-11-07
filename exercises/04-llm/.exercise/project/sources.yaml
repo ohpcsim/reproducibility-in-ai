@@ -1,0 +1,15 @@
+dataset:
+  name: Optical Recognition of Handwritten Digits
+  creators: E. Alpaydin and C. Kaynak
+  year: 1998
+  doi: 10.24432/C50P49
+  url: https://archive.ics.uci.edu/dataset/80/optical+recognition+of+handwritten+digits
+  license: CC BY 4.0
+  license_url: https://creativecommons.org/licenses/by/4.0/
+  images: 1797
+  image_size: 8 by 8 pixels
+  classes: 10
+  pixel_values: 0 to 16
+  loaded_with: sklearn.datasets.load_digits
+software:
+  scikit_learn: https://scikit-learn.org/

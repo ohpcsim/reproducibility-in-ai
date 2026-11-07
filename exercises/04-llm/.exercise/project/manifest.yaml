@@ -1,0 +1,13 @@
+# Fill this in for the card you accept. If something isn't exposed to you, say so under not_exposed.
+tool:
+tool_version:
+provider:
+model:
+revision:
+run_date:
+settings:
+prompt:
+evaluation:
+acceptance:
+reviewer:
+not_exposed:

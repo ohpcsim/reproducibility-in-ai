@@ -1,0 +1,19 @@
+# Filled in from the recording. Nothing in card.md was edited.
+tool: Cursor CLI
+tool_version: 2026.09.18-9a7762b
+provider: Cursor
+model: Auto (the default; the tool reports only this)
+revision: not exposed
+run_date: 2026-11-07T19:12:18Z
+settings:
+  temperature: not exposed
+  seed: not exposed
+  max_tokens: not exposed
+prompt: runs/recorded-prompt.md
+command: "cursor-agent -p --force --trust --output-format stream-json \"$(cat prompt.md)\""
+evaluation: tests/test_card.py
+not_exposed:
+  - which model Auto chose
+  - sampling settings and seed
+  - the tool's built-in instructions
+  - routing

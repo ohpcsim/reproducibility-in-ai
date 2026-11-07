@@ -54,9 +54,11 @@ Train and register versions with DVC and GTO. Refuse a candidate that scores 1.0
 :::{card} 4. LLM documentation
 **Can your tests catch a bad model card?**
 
-Write the tests first, then run them over model cards written by LLMs. This one needs recorded runs that aren't ready yet, so there's no page or Binder for it today.
+Write the tests first, then run them over cards that five tools really wrote. Find out what a second model needs from your project. With recordings, so no model runs and you don't need a key.
 
-About 35 minutes, when it's ready.
+15 minutes for the short path, 35 for all of it.
+
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-llm?urlpath=lab/workspaces/exercise>` [Read the page](exercises/04-llm/llm.ipynb)
 :::
 
 ::::
@@ -69,5 +71,7 @@ It works the same way everywhere: read the instructions, and paste the commands 
 2. Select **Open in Binder**. Your browser opens a free temporary session with a terminal on the left and the instructions on the right, with everything installed. The first start can take a few minutes. A session has 2 GB of memory and ends when it sits idle, so download anything you want to keep.
 3. Or [set up your laptop](setup.md) and use your own terminal with these pages. You don't need Jupyter, and your work stays with you.
 4. Do step 1, then run its check, `python ../check.py --short`.
+
+Want to try the task yourself? [The same task in five tools](tools/five-tools.md) shows how to sign in, the exact command, what each tool wrote, and whether the tests accepted it: Claude Code, Codex, Cursor, a local model and free models.
 
 The code here is MIT licensed. Each exercise names its data, its license and how to cite it.

@@ -1,0 +1,5 @@
+# PLANTED. Edited by hand, not produced by any model.
+planted: true
+edited_from: runs/codex/card.md
+edit: Changed 0.989 to 0.99.
+reason: None of the five recorded tools made this error, and the exercise needs one.
