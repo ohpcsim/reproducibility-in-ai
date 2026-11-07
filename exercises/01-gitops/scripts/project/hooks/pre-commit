@@ -1,0 +1,3 @@
+#!/bin/sh
+# Refuse a commit whose metrics.json does not match a rerun.
+exec python check_fresh.py

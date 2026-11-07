@@ -1,0 +1,10 @@
+version: 1
+project:
+  title: Reproducibility in AI
+  license:
+    code: MIT
+  toc:
+    - file: exercises/01-gitops/gitops.ipynb
+    - file: exercises/02-dataops/dataops.ipynb
+site:
+  template: book-theme

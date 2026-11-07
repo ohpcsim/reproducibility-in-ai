@@ -1,0 +1,6 @@
+/project/
+/remote/
+/envs/
+__pycache__/
+.ipynb_checkpoints/
+_build/
