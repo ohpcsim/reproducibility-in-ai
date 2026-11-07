@@ -28,6 +28,12 @@
   --myst-color-active: #9cc8f2;
   --myst-color-active-surface: var(--repro-panel-dark);
   --myst-color-code: #9cc8f2;
+  --myst-color-bg: #0d1a27;
+  --myst-color-bg-secondary: #122334;
+  --myst-color-surface: #122334;
+  --myst-color-surface-hover: #1a3048;
+  --myst-color-border: #24405c;
+  --myst-color-border-strong: #33587c;
 }
 
 .myst-made-with-myst {
