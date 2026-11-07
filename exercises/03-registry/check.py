@@ -128,7 +128,7 @@ def check_split_test():
     good = show("HEAD", "splits.json")
     rng = random.Random()
     good_splits = json.loads(good)
-    cases = {"Sam's candidate-v2": candidate}
+    cases = {"candidate-v2": candidate}
     for first, second in (("train", "test"), ("train", "val"), ("val", "test")):
         cases[f"one row shared by {first} and {second}"] = json.dumps(plant_overlap(good_splits, rng, first, second))
 

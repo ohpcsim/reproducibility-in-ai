@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the group's repository in project/: the first release in prod, and a teammate's branch that asks for promotion.
+"""Build the group's repository in project/: the first release in prod, and a branch that asks for promotion.
 
 Run it again and it leaves your work alone. To start over, use --reset. That deletes your work.
 """
@@ -52,7 +52,7 @@ def build():
     run("dvc", "remote", "add", "--default", "storage", str(BUCKET))
     commit("Add the digit classifier, its pipeline and its registry entry")
 
-    # The teammate's branch: more hidden units, and every row in the training set.
+    # The candidate branch: more hidden units, and every row in the training set.
     git("checkout", "--quiet", "-b", "candidate-v2")
     split = PROJECT / "split.py"
     split.write_text(re.sub(r'"train": sorted\(order\[:first\]\)', '"train": sorted(order)', split.read_text()))
@@ -79,7 +79,7 @@ def main():
         print("project/ already exists, so I left your work alone. To start over: python scripts/setup_project.py --reset")
         return
     build()
-    print("Built project/ with release v1.0.0 in prod and Sam's candidate-v2 branch, and osn-bucket/ as a stand-in for object storage. Now run: cd project")
+    print("Built project/ with release v1.0.0 in prod and the candidate-v2 branch, and osn-bucket/ as a stand-in for object storage. Now run: cd project")
 
 
 main()

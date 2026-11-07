@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Be a stranger: clone the project into an empty folder and try to restore every registered version by tag."""
+"""Clone the project into an empty folder and try to restore every registered version by tag."""
 import subprocess
 import sys
 import tempfile
@@ -30,5 +30,5 @@ with tempfile.TemporaryDirectory() as tmp:
             print(f"{tag}: restored into an empty folder")
         else:
             failed += 1
-            print(f"{tag}: FAILED. Its model isn't in the bucket, so a stranger can't get it.")
+            print(f"{tag}: FAILED. Its model isn't in the bucket, so a clean clone can't restore it.")
 sys.exit(1 if failed else 0)
