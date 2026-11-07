@@ -56,6 +56,18 @@ apptainer build --fakeroot --force repro-gpu.sif repro-gpu.def
 apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py
 ```
 
+## With a pre-built image
+
+You don't have to build your own. NVIDIA's [NGC catalog](https://catalog.ngc.nvidia.com) has PyTorch images with CUDA already configured, and they're tested by NVIDIA. Pick a tag recent enough for your GPU, then record and use its digest rather than the tag, the same way as above. Run the same check on it. We did not run this one, so treat these commands as a starting point.
+
+```bash
+docker pull nvcr.io/nvidia/pytorch:YY.MM-py3
+docker inspect --format '{{index .RepoDigests 0}}' nvcr.io/nvidia/pytorch:YY.MM-py3
+apptainer pull ngc-pytorch.sif docker://nvcr.io/nvidia/pytorch@sha256:THE_DIGEST
+sha256sum ngc-pytorch.sif
+apptainer exec --nv ngc-pytorch.sif python verify_gpu.py
+```
+
 ## On WSL2
 
 On WSL2, `--nv` alone doesn't reach the GPU. WSL2 exposes it differently, through `/dev/dxg` and `/usr/lib/wsl`, and there's no `/dev/nvidia0`. Here's what the check printed, which is why the check exists:
