@@ -119,14 +119,16 @@ The goal:
 
 ## Thesis
 
-- Interactive HPC workloads are inherently stateful.
-- Capturing the state of an HPC system is almost impossible.
-- Cloud-native methods help you express your full computational environment.
-- Declarative approaches are more portable and less fragile than procedural ones.
-- Treating every system as stateless makes it portable in its software, OS and libraries, and in its data.
-- Managing software interactively, with conda or pip, probably isn't enough. Use declarative, reproducible definitions.
-- Leaving data on a POSIX file system probably isn't enough for AI workloads. Use GitOps and DataOps.
-- Leaving your method in a chat session probably isn't enough. Keep it in the project, harness and model agnostic.
+"Bringing cloud-native, declarative, and stateless concepts to batch HPC workloads solves most problems."
+
+- Interactive HPC workloads are stateful.
+- You can't capture the state of an HPC system.
+- Cloud-native tools declare the full computational environment.
+- Declarative beats procedural: more portable, less fragile.
+- Stateless systems make software, OS, libraries and data portable.
+- Interactive conda or pip installs don't reproduce. Declare and lock them.
+- Data left on a POSIX file system doesn't reproduce. Version it, with GitOps and DataOps.
+- A method left in a chat session doesn't reproduce. Put it in the project, harness and model agnostic.
 
 ## From the ideas to the exercises
 
