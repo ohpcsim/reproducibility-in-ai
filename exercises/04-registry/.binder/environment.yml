@@ -9,3 +9,5 @@ dependencies:
   - dvc=3
   - gto
   - git
+  - nano
+  - vim

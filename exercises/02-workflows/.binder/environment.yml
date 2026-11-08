@@ -8,3 +8,5 @@ dependencies:
   - pyyaml
   - snakemake-minimal=9
   - git
+  - nano
+  - vim
