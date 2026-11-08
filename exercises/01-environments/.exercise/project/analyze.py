@@ -1,14 +1,12 @@
-"""How much heavier is a penguin per mm of flipper, within a species? Writes metrics.json."""
+"""Sexual dimorphism: male minus female mean body mass, per species, in grams. Writes metrics.json."""
 import json
 
 import pandas as pd
 
-df = pd.read_csv("data/penguins.csv").dropna(subset=["flipper_length_mm", "body_mass_g"])
-
-# Center each species on its own mean, so the slope compares penguins within a species.
-x = df["flipper_length_mm"] - df.groupby("species")["flipper_length_mm"].transform("mean")
-y = df["body_mass_g"] - df.groupby("species")["body_mass_g"].transform("mean")
-metrics = {"slope_g_per_mm": round(float((x * y).sum() / (x * x).sum()), 3), "n_rows": len(df)}
+df = pd.read_csv("data/penguins.csv").dropna(subset=["body_mass_g", "sex"])
+means = df.groupby(["species", "sex"])["body_mass_g"].mean().unstack()
+metrics = {f"dimorphism_g_{species.lower()}": round(float(row["male"] - row["female"]), 1) for species, row in means.iterrows()}
+metrics["n_rows"] = len(df)
 
 with open("metrics.json", "w") as out:
     json.dump(metrics, out, indent=2)
