@@ -5,3 +5,4 @@ __pycache__/
 gpu/lock.txt
 *.tar
 *.sif
+gpu/.venv/

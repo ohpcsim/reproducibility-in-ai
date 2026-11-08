@@ -15,6 +15,11 @@ project:
           title: "1. Software environments"
         - file: exercises/01-environments/containers.md
           title: "1b. Environments in containers"
+        - file: gpu/gpu.md
+          title: "1c. PyTorch with a GPU"
+          children:
+            - file: gpu/container.md
+              title: "1c. Containers"
         - file: exercises/02-workflows/workflows.ipynb
           title: "2. Workflows"
         - file: exercises/02-workflows/nextflow.md
@@ -36,8 +41,6 @@ project:
     - title: Optional, run it yourself
       children:
         - file: uv.md
-        - file: gpu/gpu.md
-        - file: gpu/container.md
 site:
   template: book-theme
   options:

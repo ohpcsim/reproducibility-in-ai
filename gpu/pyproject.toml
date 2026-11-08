@@ -1,0 +1,14 @@
+[project]
+name = "repro-gpu"
+version = "0.1.0"
+requires-python = "==3.12.*"
+dependencies = ["numpy", "torch"]
+
+# On Linux, torch comes from PyTorch's CUDA 13.0 index. Elsewhere it comes from PyPI.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu130", marker = "sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true

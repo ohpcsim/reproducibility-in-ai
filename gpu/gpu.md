@@ -1,24 +1,42 @@
 ---
-title: If you need a GPU
+title: PyTorch with a GPU
 ---
 
-- This page is optional, and none of the exercises need it.
+- This is part 1c of [Exercise 1](../exercises/01-environments/environments.ipynb). It's optional, and none of the other exercises need it.
 - You run it yourself, on a Linux machine or WSL2 with an NVIDIA GPU.
-- It won't work on a Mac, and there's no Binder for it, because Binder has no GPU.
+- It won't work on a Mac, because Macs have no NVIDIA GPU, and we didn't test on one.
+- There's no Binder for it, because Binder has no GPU.
+- The output on this page is a recording from real runs, labeled with the machine, architecture, GPU and driver.
+- The machines that build this site have no GPU, so this page doesn't rerun when the site is published.
+
+## Learning objectives
+
+- Install PyTorch with CUDA three ways: with conda, with uv, and in a container.
+- Check each route with the same script, which fails if it can't reach the GPU.
+- Choose a route for your own project.
+
+## The problem
 
 - An environment that installs isn't an environment that works.
-- The usual trap is a CUDA build that doesn't match your GPU.
+- The usual trap is a CUDA build that doesn't match your GPU or your driver.
 - It may install fine, then crash when it does real work, or quietly fall back to the CPU.
-- So you check it the same way on every system.
+- So you check it the same way on every route.
 
-- The output on this page is a recording from real runs, labeled with the architecture and GPU.
-- The machines that build this site have no GPU, so this page doesn't rerun when the site is published.
+## What you'll do
+
+1. Step 1, conda: build the environment from `environment.yml`, write the lock and run the check.
+2. Step 2, uv: sync the environment from `uv.lock` and run the check.
+3. Step 3, containers: carry the conda lock into a container, on [the container page](container.md).
+
+- Steps 1 and 2 take a few minutes each, mostly downloading. Step 3 takes longer.
+- Each environment uses 5 to 6 GB of disk.
 
 ## What you need
 
-- You need [conda](../setup.md), an NVIDIA driver, and about 10 GB of free disk.
-- On a cluster, do this on a GPU node, for example in a session from `srun --gpus=1 --pty bash`, because a login node has no driver for conda to look at.
-- The flags vary by site.
+- An NVIDIA GPU, and its driver, already installed. No route here installs the driver.
+- `nvidia-smi` prints your driver version, and the newest CUDA version it supports, at the top right.
+- [conda](../setup.md) for step 1, [uv](../uv.md) for step 2, and about 15 GB of free disk for both.
+- On a cluster, do this on a GPU node, for example in a session from `srun --gpus=1 --pty bash`, because a login node has no GPU driver. The flags vary by site.
 
 Get the files:
 
@@ -37,19 +55,25 @@ cd reproducibility-in-ai/gpu
 :language: python
 ```
 
-## The environment
+## Step 1: conda
 
-- This file doesn't name a CUDA version.
-- Conda looks at your driver and your architecture, and picks a build they support.
-- `pytorch-gpu` comes from conda-forge.
+**Problem:** you need PyTorch built for your GPU, with CUDA libraries that match your driver.
+
+**Facts**
+
+- `pytorch-gpu` comes from conda-forge, and it brings the CUDA libraries as conda packages.
+- This file doesn't name a CUDA version. Conda looks at your driver and your architecture, and picks a build they support.
+- The lock lists exactly what you got on this machine. It covers one platform, so each platform needs its own lock.
 
 ```{literalinclude} environment.yml
 :language: yaml
 ```
 
+**Steps**
+
 - Build it, write the lock, and run the check.
 - The build took about a minute on our machines, and the environment is about 6 GB.
-- The lock lists exactly what you got on this machine, so commit it to your own project, and write down the kernel, driver and GPU next to it.
+- Commit the lock to your own project, and write down the kernel, driver and GPU next to it.
 
 ```bash
 conda env create --quiet --file environment.yml
@@ -59,13 +83,9 @@ nvidia-smi --query-gpu=name,driver_version --format=csv
 uname -m -r
 ```
 
-## What it printed
+You'll see your own versions and device. Recorded November 7, 2026, and the same on aarch64 when we ran it again on November 8:
 
-- You'll see your own versions and device.
-- These two runs used the same file, and conda chose a build for each machine.
-- Recorded November 7, 2026.
-
-**aarch64, NVIDIA GB10, driver 580.178.04, Linux:**
+**NVIDIA DGX Spark: aarch64, NVIDIA GB10, driver 580.178.04, Ubuntu 24.04:**
 
 ```text
 torch           2.14.1
@@ -77,7 +97,7 @@ matmul 4096^2   0.0607 s, checksum -4.8324e+05
 host            Linux-7.0.0-1024-nvidia-aarch64-with-glibc2.39
 ```
 
-**x86_64, NVIDIA GeForce RTX 3070, driver 610.74, WSL2:**
+**Windows PC with WSL2: x86_64, NVIDIA GeForce RTX 3070, driver 610.74, Ubuntu 24.04:**
 
 ```text
 torch           2.14.1
@@ -91,14 +111,9 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 
 - The checksums differ because these are different machines with different builds.
 - Compare a checksum only between routes on the same machine.
-- Each lock is good only for its own platform: the first says `linux-aarch64` and the second says `linux-64`, and the PyTorch builds in them are different files.
+- Each lock is good only for its own platform. The first says `linux-aarch64` and the second says `linux-64`, and the PyTorch builds in them are different files.
 
-## If the check fails
-
-- Choose the CUDA version yourself.
-- Run `nvidia-smi`, and add `- cuda-version=X.Y` to `environment.yml`, with the version it reports.
-
-Then start clean:
+If the check fails, choose the CUDA version yourself. Add `- cuda-version=X.Y` to `environment.yml`, with the version `nvidia-smi` reports, and start clean:
 
 ```bash
 conda env remove --yes --name repro-gpu
@@ -107,6 +122,101 @@ conda list -n repro-gpu --explicit --md5 > lock.txt
 conda run -n repro-gpu python verify_gpu.py
 ```
 
-- When you're done, `conda env remove --yes --name repro-gpu` gets the disk back.
-- The environment is cattle, and your lock can rebuild it.
-- If you need to carry it to another system, go on to [the container page](container.md).
+## Step 2: uv
+
+**Problem:** the same PyTorch with CUDA, from Python packages only, with one lock for every platform.
+
+**Facts**
+
+- On PyPI, `torch` for Linux comes with one CUDA version, which PyTorch picks for each release.
+- PyTorch's own index, `download.pytorch.org`, has one index per CUDA version, so you pick. `cu130` is CUDA 13.0.
+- `[[tool.uv.index]]` names that index. `explicit = true` means uv uses it only for packages that point to it.
+- `[tool.uv.sources]` points `torch` at that index on Linux. On macOS and Windows, `torch` comes from PyPI, and it has no CUDA there.
+- The wheels carry the CUDA runtime libraries, as `nvidia-*` packages such as `nvidia-cuda-runtime` and `nvidia-cublas`. They don't carry the driver.
+- The CUDA 13.0 build needs driver 580 or newer. Its x86_64 wheel has code for compute capability 7.5 and up, and its aarch64 wheel for 8.0 and up. The GB10, at 12.1, runs the 12.0 code.
+- `numpy` is there because `torch` warns when it's missing.
+- This follows [uv's PyTorch guide](https://docs.astral.sh/uv/guides/integration/pytorch/). [PyTorch's install page](https://pytorch.org/get-started/locally/) lists the CUDA builds.
+
+```{literalinclude} pyproject.toml
+:language: toml
+```
+
+- `uv.lock` is one file, with entries for each platform. It has two `torch` entries.
+- On Linux it's `2.14.1+cu130` from PyTorch's index, with one wheel for x86_64 and one for aarch64.
+- On macOS and Windows it's `2.15.0` from PyPI, with one wheel for Apple silicon and one for Windows on x86_64. PyTorch's `cu130` index stops at 2.14.1.
+- So the same lock gives different `torch` versions on Linux and on a Mac.
+
+**Steps**
+
+- `uv lock` keeps the versions in the committed `uv.lock` unless you changed `pyproject.toml`.
+- `uv sync --locked` builds `.venv` from the lock, and stops if the lock doesn't match `pyproject.toml`.
+
+```bash
+uv lock
+uv sync --locked
+uv run --locked python verify_gpu.py
+```
+
+- With an empty uv cache, the sync downloaded 3.2 GB on aarch64 and 3.0 GB on x86_64, in about 30 seconds on each machine. Your network sets the time.
+- `.venv` is about 5 GB, and uv's cache keeps another copy of the downloads, about 5 GB.
+- On aarch64, every `uv sync` and `uv run` prints `Uninstalled 1 package` and `Installed 1 package`. That's `nvidia-cusparselt-cu13`, whose wheel has a platform tag, `manylinux2014_sbsa`, that uv doesn't match to the installed copy. It takes a few milliseconds, and the check still passes.
+
+Recorded November 8, 2026, with uv 0.12.11, Python 3.12, and the `uv.lock` in this folder:
+
+**NVIDIA DGX Spark: aarch64, NVIDIA GB10, driver 580.178.04, Ubuntu 24.04:**
+
+```text
+torch           2.14.1+cu130
+cuda runtime    13.0
+cuda available  True
+device          NVIDIA GB10
+capability      (12, 1)
+matmul 4096^2   0.1274 s, checksum -4.8324e+05
+host            Linux-7.0.0-1024-nvidia-aarch64-with-glibc2.39
+```
+
+**Windows PC with WSL2: x86_64, NVIDIA GeForce RTX 3070, driver 610.74, Ubuntu 24.04:**
+
+```text
+torch           2.14.1+cu130
+cuda runtime    13.0
+cuda available  True
+device          NVIDIA GeForce RTX 3070
+capability      (8, 6)
+matmul 4096^2   0.0876 s, checksum 3.7091e+04
+host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
+```
+
+- On each machine, the checksum matches the conda route's.
+- The CUDA runtime is 13.0 here and 13.4 with conda. The two routes chose different CUDA builds of the same PyTorch version.
+- The time varies from run to run. The checksum is the check.
+
+If the check fails:
+
+- If `nvidia-smi` reports a CUDA version below 13.0, or your GPU's capability is below what the wheel has code for, use the `cu126` index.
+- Change `cu130` to `cu126` in both places in `pyproject.toml`, then run `uv lock`, `uv sync --locked` and the check again.
+
+## Step 3: containers
+
+- A container carries the whole stack, apart from the driver, to the next system.
+- [The container page](container.md) builds an image from your conda lock with Docker or Podman, converts it to an Apptainer SIF for a cluster, and runs the same check inside.
+- On WSL2, Apptainer's `--nv` doesn't reach the GPU. [The WSL2 section](container.md#on-wsl2) has the fix, `--bind /usr/lib/wsl`.
+- Rootless Podman 4.9 can't read the GPU spec that NVIDIA's current toolkit writes. [The admin fix](container.md#podman-admin-fix) needs root once.
+
+## Which to use
+
+- Use conda when you need CUDA and system libraries managed as packages. Lock each platform.
+- Use uv when the machine's driver is right and you only need Python packages. One lock covers every platform, with per-platform entries inside it.
+- Use a container to carry the whole stack to a cluster. Build it from a lock, and record its digest or the SIF's hash.
+
+| Route | aarch64, GB10, Linux | x86_64, RTX 3070, WSL2 |
+|---|---|---|
+| conda | Passed | Passed |
+| uv | Passed | Passed |
+| Containers | See [what we ran where](container.md#what-we-ran-where) | See [what we ran where](container.md#what-we-ran-where) |
+
+## Clean up
+
+- The environments are cattle, and your locks can rebuild them.
+- `conda env remove --yes --name repro-gpu` removes the conda environment.
+- `rm -rf .venv` removes the uv environment. `uv cache dir` shows where uv keeps its downloads, and `uv cache clean` empties that cache for every project.

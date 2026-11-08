@@ -18,10 +18,10 @@ title: Tools and documentation
 
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
-| conda | A package and environment manager. It builds an environment from `environment.yml`, with Python and non-Python packages. | Every exercise, [the GPU page](gpu/gpu.md) and [the container page](gpu/container.md). | [Conda documentation](https://docs.conda.io/projects/conda/en/latest/) | [Getting started with conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) |
+| conda | A package and environment manager. It builds an environment from `environment.yml`, with Python and non-Python packages. | Every exercise, [1c](gpu/gpu.md) and [the container page](gpu/container.md). | [Conda documentation](https://docs.conda.io/projects/conda/en/latest/) | [Getting started with conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) |
 | Miniforge | A small conda installer that gets its packages from conda-forge. | [Set up your environment](setup.md), step 2. | [README](https://github.com/conda-forge/miniforge) | The README has the install steps. |
 | conda-forge | A community channel of conda packages. | Every environment file in the workshop lists it as the only channel. | [conda-forge documentation](https://conda-forge.org/docs/) | [A brief introduction](https://conda-forge.org/docs/user/introduction/) |
-| uv | A Python package and project manager, written in Rust. | [Exercise 1](exercises/01-environments/environments.ipynb) and [the uv route](uv.md). | [uv documentation](https://docs.astral.sh/uv/) | [Getting started](https://docs.astral.sh/uv/getting-started/) |
+| uv | A Python package and project manager, written in Rust. | [Exercise 1](exercises/01-environments/environments.ipynb), [1c](gpu/gpu.md) and [the uv route](uv.md). | [uv documentation](https://docs.astral.sh/uv/) | [Getting started](https://docs.astral.sh/uv/getting-started/) |
 
 ## conda and uv
 
@@ -52,7 +52,7 @@ The workshop uses conda. [The uv route](uv.md) shows the same exercises with uv.
 | OSN | The Open Storage Network, object storage for research data that you reach from laptops, clusters and cloud platforms. | Exercises [3](exercises/03-dataops/dataops.ipynb) and [4](exercises/04-registry/registry.ipynb) use a local folder that stands in for an OSN bucket. | [OSN user documentation](https://openstoragenetwork.github.io/docs/) | [Why use OSN?](https://openstoragenetwork.github.io/docs/why-osn/) |
 | pandas | Data tables for Python. | [Exercise 3](exercises/03-dataops/dataops.ipynb). In [exercise 1](exercises/01-environments/environments.ipynb), the project imports it without declaring it, and you declare it. | [pandas documentation](https://pandas.pydata.org/docs/) | [Getting started](https://pandas.pydata.org/docs/getting_started/index.html) |
 | scikit-learn | Machine learning for Python. | [Exercise 4](exercises/04-registry/registry.ipynb) trains its digit classifiers with it. | [scikit-learn documentation](https://scikit-learn.org/stable/) | [Getting started](https://scikit-learn.org/stable/getting_started.html) |
-| PyTorch | Deep learning for Python, with GPU support. | [The GPU page](gpu/gpu.md) and [the container page](gpu/container.md). | [PyTorch documentation](https://docs.pytorch.org/docs/stable/) | [Learn the basics](https://docs.pytorch.org/tutorials/beginner/basics/intro.html) |
+| PyTorch | Deep learning for Python, with GPU support. | [1c, PyTorch with a GPU](gpu/gpu.md) and [its container page](gpu/container.md). | [PyTorch documentation](https://docs.pytorch.org/docs/stable/) | [Learn the basics](https://docs.pytorch.org/tutorials/beginner/basics/intro.html) |
 
 ## Containers
 
