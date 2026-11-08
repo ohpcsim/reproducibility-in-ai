@@ -2,11 +2,21 @@
 # Set up the Binder session at build time, so the learner starts ready to work.
 set -euo pipefail
 python scripts/setup_project.py
+# A read-only copy of the exercise page for the right panel, because selecting text in a notebook opens cells for editing.
+jupyter nbconvert --to markdown dataops.ipynb --output exercise --TagRemovePreprocessor.remove_input_tags=remove-input --log-level=WARN
+# Links to other site pages go to the published site.
+python - <<'EOF'
+import re
+from pathlib import Path
+page = Path("exercise.md")
+site = "https://ohpcsim.github.io/reproducibility-in-ai/"
+page.write_text(re.sub(r"\]\((?![a-z]+:)(?:[^)\s#]*/)?([^)\s/#]+)\.(?:md|ipynb)(#[^)\s]*)?\)", lambda m: f"]({site}{m[1]}{m[2] or ''})", page.read_text()))
+EOF
 jupyter lab workspaces import .binder/workspace.json
 settings=~/.jupyter/lab/user-settings/@jupyterlab/apputils-extension
 mkdir -p "$settings"
 echo '{"fetchNews": "false"}' > "$settings/notification.jupyterlab-settings"
-# New terminals start in the project folder, with a short prompt. Only interactive shells, because the server itself starts through a login shell.
+# New terminals start in the project folder, with a short prompt, and vi opens vim. Only interactive shells, because the server itself starts through a login shell.
 for startup in ~/.bashrc ~/.profile; do
-    echo 'case $- in *i*) if [ "$PWD" = "$HOME" ] && [ -d "$HOME/project" ]; then cd "$HOME/project"; fi; PS1="\\w\\$ " ;; esac' >> "$startup"
+    echo 'case $- in *i*) if [ "$PWD" = "$HOME" ] && [ -d "$HOME/project" ]; then cd "$HOME/project"; fi; PS1="\\w\\$ "; alias vi=vim ;; esac' >> "$startup"
 done

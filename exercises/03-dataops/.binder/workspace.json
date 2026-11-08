@@ -21,7 +21,7 @@
        "type": "tab-area",
        "currentIndex": 0,
        "widgets": [
-        "notebook:dataops.ipynb"
+        "markdownviewer-widget:exercise.md"
        ]
       }
      ]
@@ -49,10 +49,10 @@
     0
    ]
   },
-  "notebook:dataops.ipynb": {
+  "markdownviewer-widget:exercise.md": {
    "data": {
-    "path": "dataops.ipynb",
-    "factory": "Notebook"
+    "path": "exercise.md",
+    "factory": "Markdown Preview"
    }
   },
   "terminal:1": {
