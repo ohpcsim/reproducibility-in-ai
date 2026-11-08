@@ -10,7 +10,7 @@ title: If you need a container
 +++ {"tags": ["track-linux", "track-hpc"]}
 
 - A tag such as `ubuntu:24.04` can move, and a sha256 digest can't, so this file pins the base image by digest and the installer by version.
-- The digest is for a multi-architecture image, and Docker or Podman pulls the right one for your machine.
+- The digest is for a multi-architecture image, and Docker pulls the right one for your machine.
 - `uname -m` picks the matching installer.
 +++
 
@@ -84,13 +84,21 @@ From the `gpu` folder, with your `lock.txt` in it:
 ```bash
 podman build -t repro-gpu:v1 .
 podman run --rm --device nvidia.com/gpu=all repro-gpu:v1
-podman save --format docker-archive -o repro-gpu.tar repro-gpu:v1
+podman save --format docker-archive -o repro-gpu-podman.tar repro-gpu:v1
 ```
+
+- The file has its own name, because `podman save` won't write over Docker's `repro-gpu.tar`.
 
 - `--device nvidia.com/gpu=all` asks for the GPU through CDI, the Container Device Interface.
 - It needs a CDI spec that an administrator makes with `nvidia-ctk cdi generate`, in `/etc/cdi` or `/var/run/cdi`. ([NVIDIA's CDI guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html))
 - `nvidia-ctk cdi list` shows the devices the spec names.
-- Then convert `repro-gpu.tar` to a SIF and run it, with the same `apptainer` commands as [the Docker route](#with-docker-and-apptainer).
+- Then convert Podman's file to a SIF and run it:
+
+```bash
+apptainer build --force repro-gpu.sif docker-archive://repro-gpu-podman.tar
+sha256sum repro-gpu.sif
+apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py
+```
 
 - **Recorded November 8, 2026, on aarch64, NVIDIA GB10, driver 580.178.04, Ubuntu 24.04, with Podman 4.9.3 rootless and Apptainer 1.5.5.**
 - `podman build` and `podman save` worked.
@@ -101,7 +109,7 @@ Error: setting up CDI devices: unresolvable CDI devices nvidia.com/gpu=all
 ```
 
 - `podman --log-level=debug run ...` shows the reason, `json: unknown field "additionalGids"`.
-- [The admin fix below](#podman-admin-fix) makes the toolkit write a spec Podman 4.9 reads.
+- [The admin fix below](#podman-admin-fix) needs root. Without it, `podman run` with the GPU fails this way on Podman 4.9.
 - Without `--device`, the container runs, and the check fails as it should when there's no GPU:
 
 ```text
@@ -123,7 +131,7 @@ matmul 4096^2   0.0914 s, checksum -4.8324e+05
 host            Linux-7.0.0-1024-nvidia-aarch64-with-glibc2.39
 ```
 
-- So before the fix below, Podman built the image and Apptainer ran it on the GPU.
+- So without the fix, Podman built the image and Apptainer ran it on the GPU.
 
 (podman-admin-fix)=
 ### The admin fix for Podman 4.9
@@ -131,7 +139,7 @@ host            Linux-7.0.0-1024-nvidia-aarch64-with-glibc2.39
 - On Ubuntu 24.04, Podman is 4.9.3.
 - NVIDIA Container Toolkit 1.20 writes a CDI spec in version 0.7.0, and Podman 4.9 can't read it.
 - An administrator can make the toolkit write an older spec instead. It takes one systemd drop-in for `nvidia-cdi-refresh.service`, then a restart of that service.
-- This needs root:
+- This needs root. We applied it on our machine, checked it, then removed it again, so our later runs failed with `unresolvable CDI devices nvidia.com/gpu=all`:
 
 ```bash
 sudo mkdir -p /etc/systemd/system/nvidia-cdi-refresh.service.d
@@ -140,8 +148,8 @@ sudo systemctl daemon-reload
 sudo systemctl restart nvidia-cdi-refresh.service
 ```
 
-- The toolkit then writes a spec in version 0.5.0, which Podman 4.9 reads.
-- The side effect is that containers no longer get the `video` and `render` groups for the display devices. CUDA uses `/dev/nvidia*`, so it isn't affected.
+- With the drop-in, the toolkit wrote a spec in version 0.5.0, which Podman 4.9 read.
+- The side effect is that containers no longer got the `video` and `render` groups for the display devices. CUDA uses `/dev/nvidia*`, so it wasn't affected.
 - Podman 5 reads the 0.7.0 spec directly, so it shouldn't need the drop-in. We didn't test Podman 5.
 
 - **Recorded November 8, 2026, on the same machine, after the fix, with rootless Podman 4.9.3.**
@@ -234,6 +242,8 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 (gpu-what-we-ran-where)=
 ## What we ran where
 
++++ {"tags": ["track-linux"]}
+
 | Step | aarch64, GB10, Linux | x86_64, RTX 3070, WSL2 |
 |---|---|---|
 | `docker build`, `docker run --gpus all`, `docker save` | Ran, and passed | Not run, because this machine has no Docker |
@@ -249,12 +259,28 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 | `apptainer exec --bind /usr/lib/wsl` | Not needed | Passed |
 
 - So the `docker-archive://` route, from Docker or Podman, has only run on aarch64.
++++ {"tags": ["track-wsl2", "track-hpc"]}
+
+| Step | aarch64, GB10, Linux | x86_64, RTX 3070, WSL2 |
+|---|---|---|
+| `docker build`, `docker run --gpus all`, `docker save` | Ran, and passed | Not run, because this machine has no Docker |
+| `apptainer build` from `docker-archive://` | Ran, and passed | Not run, because it needs the Docker file |
+| `apptainer build --fakeroot` from `repro-gpu.def` | Ran, and passed | Ran, and passed |
+| `apptainer exec --nv` | Passed | Failed, as shown above |
+| `apptainer exec --bind /usr/lib/wsl` | Not needed | Passed |
+
+- So the `docker-archive://` route, from Docker, has only run on aarch64.
++++
+
 - We expect it to work on x86_64 too, because the Dockerfile picks its installer with `uname -m` and the base image's digest covers both architectures, but we haven't run it there.
 
 - When you're done, remove what you made.
-+++ {"tags": ["track-linux", "track-hpc"]}
++++ {"tags": ["track-linux"]}
 
-- `docker rmi repro-gpu:v1` or `podman rmi repro-gpu:v1` removes the image, and `rm -f repro-gpu.tar repro-gpu.sif` removes the files.
+- `docker rmi repro-gpu:v1` or `podman rmi repro-gpu:v1` removes the image, and `rm -f repro-gpu.tar repro-gpu-podman.tar repro-gpu.sif` removes the files.
++++ {"tags": ["track-hpc"]}
+
+- `docker rmi repro-gpu:v1` removes the image, and `rm -f repro-gpu.tar repro-gpu.sif` removes the files.
 +++ {"tags": ["track-wsl2"]}
 
 - `rm repro-gpu.sif` removes the SIF.
