@@ -15,6 +15,8 @@ project:
           title: "1. GitOps"
         - file: exercises/02-workflows/workflows.ipynb
           title: "2. Workflows"
+        - file: exercises/02-workflows/nextflow.md
+          title: "2b. Workflows in Nextflow"
         - file: exercises/03-dataops/dataops.ipynb
           title: "3. DataOps"
         - file: exercises/04-registry/registry.ipynb
