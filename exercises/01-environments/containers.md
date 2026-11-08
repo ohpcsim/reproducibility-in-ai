@@ -309,6 +309,7 @@ rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json .
 
 ## Things that trip people up
 
+- The uv image's build may print `warning: Failed to hardlink files; falling back to full copy`. It's harmless. uv copies the files instead.
 +++ {"tags": ["track-mac"]}
 
 - Disk space. The two images took 1.3 GB. The conda image is almost four times the uv image, because the Miniforge base image alone is about 600 MB.

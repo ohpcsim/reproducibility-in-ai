@@ -66,7 +66,13 @@ cd project
 - `NXF_ANSI_LOG=false` makes Nextflow print one plain line per task, `Submitted process` or `Cached process`, as recorded on this page. Without it, Nextflow redraws a live table in your terminal, with the same information.
 - `nextflow -version` is the first run. It printed `version 26.10.5 build 14654` for us, and it also confirms that Nextflow found Java.
 - Every command below runs in that `project` folder.
+- In a new terminal, turn conda on as in [Set up](../../setup.md), then run `conda activate repro-nextflow`, `export NXF_ANSI_LOG=false` and `cd workflows-nextflow/project` from the folder above it.
 - To start over, go to the folder above it and run `python scripts/setup_project.py --nextflow --reset`. This deletes your work.
+
+**Editing files**
+
+- Use any text editor.
+- If you're not sure, `nano FILE` works in the terminal. Control-O saves and Control-X leaves.
 
 The environment:
 
@@ -329,4 +335,12 @@ PASS  A changed report.statistic reruns REPORT, and -resume takes the rest from 
 | arm64, macOS 27.0.1 | Yes, 0 of 1 | Yes, 4 of 4 | 33 s | 0.41 GB |
 
 - The WSL2 and macOS rows ran an earlier version of this page, where you wrote `VALIDATE` and `REPORT` yourself.
-- When you're done, `conda env remove --yes --name repro-nextflow` gets the disk back.
+## When you're done
+
+From the folder above `workflows-nextflow`:
+
+```bash
+conda deactivate
+conda env remove --yes --name repro-nextflow
+rm -rf workflows-nextflow
+```

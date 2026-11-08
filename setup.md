@@ -2,19 +2,14 @@
 title: Set up your environment
 ---
 
-- Each exercise needs a terminal, Git and the packages in its environment file.
 
 +++ {"tags": ["track-binder"]}
 
+- Each exercise needs a terminal, Git and the packages in its environment file.
 - You get them in your browser with Binder.
-
-+++
-
 - You read the exercise pages on this site and paste the commands into the terminal.
 - You don't need Jupyter or a GPU.
 - [Tools and documentation](tools.md) lists each tool, with links to its documentation.
-
-+++ {"tags": ["track-binder"]}
 
 ## Binder and BinderHub: how it works
 
@@ -81,7 +76,7 @@ When you open it, BinderHub does this ([what happens when a user clicks a Binder
 - Paste it in the terminal: Ctrl+Shift+V, or right-click and choose Paste. Cmd+V on a Mac is untested, so right-click if it doesn't work.
 - Edit a file: double-click it in the file panel on the far left. Save with Ctrl+S, or Cmd+S on a Mac.
 - Or edit it in the terminal with `nano <file>`, `vi <file>` or `vim <file>`. nano is the simplest. Ctrl+O, then Enter, saves. Ctrl+X quits.
-- The environment is active and `project` is built, so skip to [Check your setup](#check-your-setup).
+- The environment is active and `project` is built, so you start at the exercise's first step.
 
 (download-your-work)=
 ### Download your work
@@ -97,33 +92,25 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 - The file has your commits too, because `project` is a Git repository.
 - To unpack it on your own machine, run `tar -xzf my-work.tar.gz`.
 
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
++++ {"tags": ["track-mac"]}
 
-## Your own machine
-
-+++ {"tags": ["track-hpc"]}
-
-## Your account on a shared machine or cluster
-
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
-- Disk use is about 3 GB for all four exercises, with conda's package cache.
-
-+++ {"tags": ["track-mac", "track-hpc"]}
-
-- You don't need administrator access.
-
+- This page gets your Mac ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access.
 +++ {"tags": ["track-linux"]}
 
-- You don't need administrator access, except to install Docker, Podman or Apptainer for the optional Exercises 1b and 1c.
-
+- This page gets your Linux machine ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access, except to install Docker, Podman or Apptainer for 1b and 1c.
 +++ {"tags": ["track-wsl2"]}
 
-- You don't need administrator access, except to turn on WSL2 and to install Apptainer for the optional Exercises 1b and 1c. Apptainer's Ubuntu packages install with `sudo`.
+- This page gets your Windows PC ready for the exercises: Ubuntu in WSL2, conda and Git, and if you want them, uv and Apptainer. You need administrator access to turn on WSL2, and `sudo` in Ubuntu to install Apptainer for 1b and 1c.
++++ {"tags": ["track-hpc"]}
+
+- This page gets your account on a shared Linux machine or cluster ready for the exercises: a shell, conda and Git, and if you want them, uv and Apptainer. You don't need administrator access.
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
+- Each exercise page then clones its own copy of the exercise and builds its own environment.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
-### Step 1: get a shell
+## Step 1: get a shell
 
 +++ {"tags": ["track-mac"]}
 
@@ -158,7 +145,7 @@ wsl --install -d Ubuntu
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
-### Step 2: install conda
+## Step 2: install conda
 
 - The exercises use conda to build their environments.
 - [Miniforge](https://github.com/conda-forge/miniforge) is a small installer that gets its packages from conda-forge, and it installs in your home folder.
@@ -179,7 +166,7 @@ source ~/miniforge3/bin/activate
 - The last line turns conda on in this window.
 - Run it again each time you open a new one.
 
-### Step 3: check for Git
+## Step 3: check for Git
 
 ```bash
 git --version
@@ -191,78 +178,18 @@ If that fails, install Git into conda's base environment:
 conda install --yes git
 ```
 
-### Step 4: get an exercise
-
-- Each exercise is its own branch of one repository, with its own environment.
-- Pick the row you want.
-- Building an environment takes a few minutes the first time.
-
-| Exercise | Branch | Environment |
-|---|---|---|
-| 1. Software environments | `binder-01-environments` | `repro-environments` |
-| 2. Workflows | `binder-02-workflows` | `repro-workflows` |
-| 3. Versioning data | `binder-03-dataops` | `repro-dataops` |
-| 4. Model registry | `binder-04-registry` | `repro-registry` |
-
-For exercise 1, that looks like this:
-
-```bash
-git clone --branch binder-01-environments --single-branch https://github.com/ohpcsim/reproducibility-in-ai.git environments
-cd environments
-conda env create --quiet --file .binder/environment.yml
-conda activate repro-environments
-python scripts/setup_project.py
-cd project
-```
-
-- You're now in the `project` folder, ready for the [exercise's first step](exercises/01-environments/environments.ipynb).
-- If you close the window, open a new one and turn conda on, then run `conda activate repro-environments` and `cd environments/project`.
-- If `conda env create` says the prefix already exists, an environment with that name is left from an earlier run. The rest of the block then uses that old environment and leaves a half-built `environments` folder. Remove both, then paste the block again: `conda deactivate; conda env remove -n repro-environments -y; cd ../..; rm -rf environments`
-- The block leaves you in `environments/project`, so `cd ../..` goes to the folder above `environments`. If `cd project` failed too, use `cd ..` instead.
-- For another exercise, use its environment from the table and its folder name.
-
-(container-tool)=
-### Optional: a container tool (Exercises 1b and 1c only)
-
-- Binder and Exercises 1, 2, 3 and 4 don't need one.
-
-+++ {"tags": ["track-mac"]}
-
-- Install [Docker Desktop](https://docs.docker.com/desktop/) or [Podman Desktop](https://podman-desktop.io/). Each runs a small Linux VM.
-
-+++ {"tags": ["track-linux"]}
-
-- Install Docker Engine or Podman from your distribution's packages, with `sudo`. [Docker's install page](https://docs.docker.com/engine/install/) and [Podman's](https://podman.io/docs/installation) list the steps for each distribution.
-- Or install Apptainer, for 1b's Route B and 1c. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html) has the steps. Check with `apptainer --version`.
-
-+++ {"tags": ["track-wsl2"]}
-
-- Install Apptainer inside WSL2, in the Ubuntu window, with `sudo`. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html#install-ubuntu-packages) has the Ubuntu steps. Check with `apptainer --version`.
-
-+++ {"tags": ["track-hpc"]}
-
-- Apptainer is usually installed by your admins; check with `apptainer --version`. ([Apptainer](https://apptainer.org/docs/user/main/))
-
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
 (install-uv)=
-### Optional: uv
+## Optional: uv
 
-- uv manages Python, virtual environments and packages from PyPI.
-- It is very fast at resolving and installing Python packages. See [uv's benchmarks](https://docs.astral.sh/uv/#highlights).
-- It downloads Python itself, so this route needs neither conda nor a system Python.
-- `pyproject.toml` declares the packages. `uv.lock` records their versions and hashes in one cross-platform file.
-- conda also handles non-Python packages, including R, C/C++ libraries, CUDA, MPI and GDAL. That's why the exercises lead with conda.
-- Exercises 2, 3 and 4 have a "With uv instead of conda" option. Exercise 1 uses uv as part of the lesson.
+- uv installs Python and a project's packages from its `pyproject.toml` and `uv.lock`.
+- Exercise 1a's conda environment already has uv.
 +++ {"tags": ["track-mac"]}
 
-- Exercise 1a's conda environment includes uv. Install uv yourself only for the uv option in Exercises 2 to 4.
+- You need it for the "With uv instead of conda" option in Exercises 2 to 4.
 +++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
-- Exercise 1a's conda environment includes uv. Install uv yourself only for the uv option in Exercises 2 to 4 and for step 2 of 1c.
+- You need it for the "With uv instead of conda" option in Exercises 2 to 4, and for step 2 of 1c.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
-- Run the [official uv installer](https://docs.astral.sh/uv/getting-started/installation/):
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -270,113 +197,39 @@ source "$HOME/.local/bin/env"
 uv --version
 ```
 
-- Git comes from your system. uv does not install Git.
+(container-tool)=
+## Optional: a container tool
 
 +++ {"tags": ["track-mac"]}
 
-- If Git is missing, use `xcode-select --install`.
+- Only Exercise 1b uses one.
+- Install [Docker Desktop](https://docs.docker.com/desktop/) or [Podman Desktop](https://podman-desktop.io/). Each runs a small Linux VM.
 
-+++ {"tags": ["track-linux", "track-wsl2"]}
++++ {"tags": ["track-linux"]}
 
-- If Git is missing, use `sudo apt install git` on Ubuntu.
+- Only Exercises 1b and 1c use one.
+- Install Docker Engine or Podman from your distribution's packages, with `sudo`. [Docker's install page](https://docs.docker.com/engine/install/) and [Podman's](https://podman.io/docs/installation) list the steps for each distribution.
+- Or install Apptainer, for 1b's Route B and 1c. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html) has the steps. Check with `apptainer --version`.
+
++++ {"tags": ["track-wsl2"]}
+
+- Only Exercises 1b and 1c use one.
+- Install Apptainer inside WSL2, in the Ubuntu window, with `sudo`. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html#install-ubuntu-packages) has the Ubuntu steps. Check with `apptainer --version`.
+
++++ {"tags": ["track-hpc"]}
+
+- Only Exercises 1b and 1c use one.
+- Apptainer is usually installed by your admins. Check with `apptainer --version`. ([Apptainer](https://apptainer.org/docs/user/main/))
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
-- Exercises 2 to 4 each pin Python 3.12.12 in `.python-version` and require Python 3.12 in `pyproject.toml`.
-- Their uv configuration requires managed Python. `uv sync --locked` downloads that Python, builds `.venv` and installs the locked packages.
-- The lock chooses wheels for your platform. The target platforms are Linux x86_64 and aarch64, and macOS Intel and Apple silicon.
-- DVC requires ANTLR 4.9.3, which has no PyPI wheel. uv builds this pure Python dependency from its source archive. It needs no C/C++ compiler.
-- Snakemake requires connection-pool 0.0.3, which also has no PyPI wheel. uv builds it from its pure Python source archive.
-- The DataOps and registry configurations constrain cryptography below 49 to keep Intel macOS wheels available.
-
-+++
 
 (messages-you-can-ignore)=
-### Messages you can ignore
+## Messages you can ignore
 
-- `conda env create` may print `WARNING conda.conda_pypi...` with current Miniforge. It's harmless.
-- It may also print a "Did you know? ... conda-pypi" tip. It's harmless.
-- In exercises 3 and 4, DVC may print "Waiting to acquire lock. If DVC froze, see hardlink_lock" several times. It's harmless, and the command finishes.
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
-- In Exercise 1b, the uv image's build may print `warning: Failed to hardlink files; falling back to full copy`. It's harmless. uv copies the files instead.
 - The Miniforge installer may print `warning  libmamba Security Warning: This transaction includes executing package scripts (pre/post-link/unlink) if present.` It's harmless. The installer may run setup scripts that come with conda-forge's packages, and the warning says so.
 - The uv installer may print `WARN: The following commands are shadowed by other commands in your PATH: uv uvx` when an exercise's conda environment is active. That environment's own uv comes first in `PATH`. Either uv works.
-
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
-### Edit files
-
-- Use any text editor.
-- If you're not sure, `nano environment.yml` works in the terminal.
-- Press Control-O to save and Control-X to leave.
+- `conda env create` may print `WARNING conda.conda_pypi...` and a "Did you know? ... conda-pypi" tip with current Miniforge. Both are harmless.
 
 +++
 
-(check-your-setup)=
-## Check your setup
-
-Run the exercise's short check from the `project` folder:
-
-```bash
-python ../check.py --short
-```
-
-- It prints one line per part, each starting with PASS or FAIL, and a count at the end.
-- On a fresh project, most parts fail. That's expected, because the failures are the exercise.
-- For exercise 1 on a fresh project, it prints six FAIL lines and `0 of 6 parts pass.`
-+++ {"tags": ["track-binder"]}
-
-- If Python says it can't open `check.py`, you're not in the `project` folder. Run `cd ~/project`.
-
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
-- If Python says it can't open `check.py`, you're not in the `project` folder. Run `cd environments/project` from the folder above it.
-- If Python says `ModuleNotFoundError`, the exercise's environment isn't active. Turn conda on and run `conda activate` with the environment from the table.
-
-+++
-
-## Your exercises
-
-+++ {"tags": ["track-binder"]}
-
-- [1a. conda and uv locks](exercises/01-environments/environments.ipynb)
-- [2a. Snakemake](exercises/02-workflows/workflows.ipynb)
-- [3. Versioning data](exercises/03-dataops/dataops.ipynb)
-- [4. Model registry](exercises/04-registry/registry.ipynb)
-- 1b and 2b run on your own machine: see Your Mac, Your Linux machine, Windows (WSL2) or Shared Linux or HPC.
-- 1c needs an NVIDIA GPU: see Your Linux machine, Windows (WSL2) or Shared Linux or HPC.
-
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
-- 1. Software environments: [1a. conda and uv locks](exercises/01-environments/environments.ipynb) and [1b. Environments in containers](exercises/01-environments/containers.md)
-
-+++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
-
-- [1c. PyTorch with a GPU](gpu/gpu.md), with an NVIDIA GPU
-
-+++ {"tags": ["track-mac"]}
-
-- 1c needs an NVIDIA GPU: see Your Linux machine, Windows (WSL2) or Shared Linux or HPC.
-
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
-- 2. Workflows: [2a. Snakemake](exercises/02-workflows/workflows.ipynb) and [2b. Nextflow](exercises/02-workflows/nextflow.md)
-- [3. Versioning data](exercises/03-dataops/dataops.ipynb)
-- [4. Model registry](exercises/04-registry/registry.ipynb)
-
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
-
-## When you're done
-
-- Everything an exercise makes is in its folder or its environment.
-
-To remove it all, go to the folder above `environments` and paste this:
-
-```bash
-conda deactivate
-conda env remove --yes --name repro-environments
-rm -rf environments
-```
-
-- The environment is cattle, and you can rebuild it from the file in the repository.
+Next: [Exercise 1a](exercises/01-environments/environments.ipynb)
