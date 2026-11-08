@@ -170,7 +170,24 @@ ls: cannot access 'figures': No such file or directory
 
 **Steps**
 
-1. In `main.nf`, add a process `PLOT` in the same form as `REPORT`. It reads `results/validated.csv` and `plot.py`, writes `figures/body_mass.svg`, and runs `python plot.py`.
+1. In `main.nf`, add a process `PLOT` in the same form as `REPORT`. It reads `results/validated.csv` and `plot.py`, writes `figures/body_mass.svg`, and runs `python plot.py`:
+
+```text
+process PLOT {
+    publishDir '.', mode: 'copy', overwrite: true
+
+    input:
+    path 'results/validated.csv'
+    path 'plot.py'
+
+    output:
+    path 'figures/body_mass.svg'
+
+    script:
+    "python plot.py"
+}
+```
+
 2. In the `workflow` block, call it after `REPORT`:
 
 ```text
