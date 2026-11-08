@@ -27,9 +27,11 @@ title: Environments in containers
 (what-to-run-where)=
 ## What to run where
 
+- We cover Linux containers. They need a Linux kernel, so a Mac or Windows PC runs them in a VM.
+
 | Where you are | What to use | Why | What we ran |
 |---|---|---|---|
-| Your Mac | Docker Desktop, Podman Desktop, OrbStack, Colima, or Apple's `container` (macOS 26) | Each runs a small Linux VM, and the containers run in it | Not run |
+| Your Mac | Docker Desktop, Podman Desktop, OrbStack, Colima, or Apple's `container` (macOS 26) | Each runs a small Linux VM. (Darwin containers such as [rund](https://github.com/darwin-containers/rund) run macOS software natively; not covered here) | Not run |
 | Your Windows PC | Docker Desktop or Podman Desktop, or Podman and Apptainer inside WSL2 | WSL2 provides the Linux kernel | Apptainer 1.4.5 in WSL2, x86_64 |
 | Your own Linux machine | Docker, Podman or Apptainer | You have root, so any of them works | Docker 29.6.2, Podman 4.9.3 and Apptainer 1.5.5, aarch64 |
 | A shared Linux machine, without root | Podman (rootless) or Apptainer | Neither needs root or a daemon | Rootless Podman and Apptainer, without sudo, on the aarch64 machine. It isn't shared |
