@@ -11,7 +11,7 @@ import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[1]
-LEARNER_FOLDERS = {"project", "remote", "envs", "osn-bucket", ".git", ".ipynb_checkpoints", "_build"}
+LEARNER_FOLDERS = {"project", "remote", "envs", ".venv", "osn-bucket", ".git", ".ipynb_checkpoints", "_build"}
 
 scratch = Path(tempfile.mkdtemp())
 atexit.register(shutil.rmtree, scratch, ignore_errors=True)

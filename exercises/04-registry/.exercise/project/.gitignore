@@ -1,2 +1,6 @@
+results/
+.snakemake/
+work/
+envs/
+.venv/
 __pycache__/
-.pytest_cache/

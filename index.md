@@ -57,12 +57,12 @@ subject: Hands-on exercises
 :::
 
 :::{card} 4. Model registry
-**Which digit classifier should we promote?**
+**Which penguin model is live?**
 
-- **Problem:** a candidate scores 1.000 and asks for promotion.
-- **You'll learn:** register versions with DVC and GTO, refuse a bad candidate, and restore an old release from an empty folder.
-- **Data:** scikit-learn's digits.
-- 15 minutes for the short path, 40 for all of it.
+- **Problem:** a trained penguin model has no registered version or live stage.
+- **You'll learn:** register two versions with GTO, promote the better validation score and restore every model with DVC.
+- **Data:** Palmer penguins.
+- 15 to 20 minutes.
 
 {button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise>` [Read the page](exercises/04-registry/registry.ipynb)
 :::

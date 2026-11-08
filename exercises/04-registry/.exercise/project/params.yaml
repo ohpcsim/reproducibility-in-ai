@@ -1,5 +1,7 @@
-split:
-  seed: 2026
+clean:
+  convert_kg: false        # repairs stay off until a person turns one on
+  map_sex_labels: false
+report:
+  statistic: mean          # or median
 train:
-  # Hidden units in the network's one hidden layer.
-  hidden: 32
+  C: 0.01

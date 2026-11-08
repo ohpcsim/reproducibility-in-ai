@@ -1,16 +1,42 @@
 stages:
+  clean:
+    cmd: python clean.py
+    deps:
+      - data/penguins.csv
+      - clean.py
+    params:
+      - clean
+    outs:
+      - results/clean.csv
+  validate:
+    cmd: python validate.py
+    deps:
+      - results/clean.csv
+      - validate.py
+    outs:
+      - results/validated.csv
+  report:
+    cmd: python report.py
+    deps:
+      - results/validated.csv
+      - report.py
+    params:
+      - report
+    metrics:
+      - metrics.json:
+          cache: false
   split:
     cmd: python split.py
     deps:
+      - results/validated.csv
       - split.py
-    params:
-      - split
     outs:
       - splits.json:
           cache: false
   train:
     cmd: python train.py
     deps:
+      - results/validated.csv
       - splits.json
       - train.py
     params:
@@ -18,5 +44,5 @@ stages:
     outs:
       - model.pkl
     metrics:
-      - metrics.json:
+      - model_metrics.json:
           cache: false

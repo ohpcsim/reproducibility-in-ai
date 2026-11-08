@@ -4,8 +4,8 @@ channels:
 dependencies:
   - python=3.12
   - scikit-learn
+  - pandas
   - pyyaml
-  - pytest
   - dvc=3
   - gto
   - git
