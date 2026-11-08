@@ -1,0 +1,6 @@
+/project/
+/osn-bucket/
+__pycache__/
+.ipynb_checkpoints/
+_build/
+.venv/

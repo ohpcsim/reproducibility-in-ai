@@ -1,0 +1,11 @@
+name: repro-registry
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - scikit-learn
+  - pyyaml
+  - pytest
+  - dvc=3
+  - gto
+  - git
