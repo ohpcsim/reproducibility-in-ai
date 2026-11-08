@@ -1,9 +1,9 @@
-"""Stop the pipeline if the cleaned data isn't fit to analyze."""
+"""Stop the pipeline if the cleaned data isn't fit to use."""
 import sys
 
 import pandas as pd
 
-REQUIRED = ["species", "flipper_length_mm", "body_mass_g"]
+REQUIRED = ["species", "body_mass_g", "sex"]
 
 df = pd.read_csv("results/clean.csv")
 

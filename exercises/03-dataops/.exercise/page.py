@@ -30,3 +30,8 @@ def run(*commands):
                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         text.append(f"$ {command}\n{done.stdout}")
     print("\n".join(text).replace(str(root), "~"), end="")
+
+
+def reset():
+    """Start the scratch project over, so the next output is a fresh starter's."""
+    subprocess.run([sys.executable, "scripts/setup_project.py", "--reset"], cwd=root, env=environment, check=True, capture_output=True)

@@ -1,9 +1,9 @@
-# Palmer penguins: body mass against flipper length
+# Palmer penguins: how much heavier are the males?
 
-We report how much heavier a penguin is per mm of flipper, within a species.
+`metrics.json` holds male mean body mass minus female mean body mass, per species, in grams.
 
-- `clean.py` applies the cleaning policy in `params.yaml`.
-- `validate.py` stops the pipeline if the cleaned data isn't fit to analyze.
-- `report.py` writes `metrics.json` and `results/report.md`.
+- `clean.py` drops rows with no body mass or no sex.
+- `validate.py` stops the pipeline if the cleaned data is missing a column or has no rows.
+- `report.py` writes `metrics.json`.
 
-Data: `data/penguins.csv`, tracked by DVC.
+The pipeline runs `clean`, `validate` and `report` in that order. Data: `data/penguins.csv`.

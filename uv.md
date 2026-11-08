@@ -60,7 +60,7 @@ cd project
 
 - Continue at step 1 on the [Workflows page](exercises/02-workflows/workflows.ipynb).
 
-### Exercise 3: DataOps
+### Exercise 3: Data
 
 ```bash
 git clone --branch binder-03-dataops --single-branch https://github.com/ohpcsim/reproducibility-in-ai.git dataops
@@ -71,7 +71,7 @@ uv run python scripts/setup_project.py
 cd project
 ```
 
-- Continue at step 1 on the [DataOps page](exercises/03-dataops/dataops.ipynb).
+- Continue at step 1 on the [Data page](exercises/03-dataops/dataops.ipynb).
 
 ### Exercise 4: model registry
 
