@@ -36,14 +36,14 @@ subject: Hands-on exercises
 
 - The exercises from the Reproducibility in AI workshop at Rice Research Computing Day.
 - You do them on your own time, with these pages and a terminal.
-- Each one gives you a broken project. You fix it, and a script checks your work.
+- Each one starts from a project that's missing something: a package nobody declared, a figure nothing builds, data that isn't versioned, a model nobody registered. You add it, and a script checks your work.
 - You don't need a GPU, a cluster or an account.
 
 ## The idea: literate science
 
 - In 1984 Donald Knuth proposed writing a program as one document, for people and for the machine. Literate science puts the claims, the code, the environment and the data in one project, and every published result comes from running it.
 - The document and the data are the pets. Everything that runs them is cattle, so you can delete it and build it again from what's in the project.
-- This site works the same way. Each exercise page is a notebook that reruns when the site is published, and the failures on it are real output.
+- This site works the same way. Exercises 1a, 2a, 3 and 4 are notebooks that rerun when the site is published, so the output on them, failures included, is real.
 - [The premise](premise.md) has the full argument.
 - [Literate Science Results: sexual dimorphism in Palmer penguins](results/results.ipynb) is one such document. The build runs the finished project's code, and the page shows what it printed and drew.
 - [How this site is built](build.md) shows its configuration, the command that builds it and the automation that reruns every notebook.
