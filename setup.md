@@ -109,13 +109,17 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 
 - Disk use is about 3 GB for all four exercises, with conda's package cache.
 
-+++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
++++ {"tags": ["track-mac", "track-hpc"]}
 
 - You don't need administrator access.
 
++++ {"tags": ["track-linux"]}
+
+- You don't need administrator access, except to install Docker or Podman for the optional Exercises 1b and 1c.
+
 +++ {"tags": ["track-wsl2"]}
 
-- You don't need administrator access, except to turn on WSL2.
+- You don't need administrator access, except to turn on WSL2 and to install Apptainer for the optional Exercises 1b and 1c. Apptainer's Ubuntu packages install with `sudo`.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
@@ -226,11 +230,11 @@ cd project
 
 +++ {"tags": ["track-linux"]}
 
-- Install Docker Engine or Podman from your distribution's packages. [Docker's install page](https://docs.docker.com/engine/install/) and [Podman's](https://podman.io/docs/installation) list the steps for each distribution.
+- Install Docker Engine or Podman from your distribution's packages, with `sudo`. [Docker's install page](https://docs.docker.com/engine/install/) and [Podman's](https://podman.io/docs/installation) list the steps for each distribution.
 
 +++ {"tags": ["track-wsl2"]}
 
-- Install Apptainer inside WSL2, in the Ubuntu window. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html#install-ubuntu-packages) has the Ubuntu steps. Check with `apptainer --version`.
+- Install Apptainer inside WSL2, in the Ubuntu window, with `sudo`. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html#install-ubuntu-packages) has the Ubuntu steps. Check with `apptainer --version`.
 
 +++ {"tags": ["track-hpc"]}
 
@@ -247,6 +251,14 @@ cd project
 - `pyproject.toml` declares the packages. `uv.lock` records their versions and hashes in one cross-platform file.
 - conda also handles non-Python packages, including R, C/C++ libraries, CUDA, MPI and GDAL. That's why the exercises lead with conda.
 - Exercises 2, 3 and 4 have a "With uv instead of conda" option. Exercise 1 uses uv as part of the lesson.
++++ {"tags": ["track-mac"]}
+
+- Exercise 1a's conda environment includes uv. Install uv yourself only for the uv option in Exercises 2 to 4.
++++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
+
+- Exercise 1a's conda environment includes uv. Install uv yourself only for the uv option in Exercises 2 to 4 and for step 2 of 1c.
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
 - Run the [official uv installer](https://docs.astral.sh/uv/getting-started/installation/):
 
 ```bash
@@ -282,6 +294,9 @@ uv --version
 - `conda env create` may print `WARNING conda.conda_pypi...` with current Miniforge. It's harmless.
 - It may also print a "Did you know? ... conda-pypi" tip. It's harmless.
 - In exercises 3 and 4, DVC may print "Waiting to acquire lock. If DVC froze, see hardlink_lock" several times. It's harmless, and the command finishes.
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
+- In Exercise 1b, the uv image's build may print `warning: Failed to hardlink files; falling back to full copy`. It's harmless. uv copies the files instead.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 

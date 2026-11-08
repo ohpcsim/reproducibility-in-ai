@@ -45,8 +45,8 @@ title: PyTorch with a GPU
 Get the files:
 
 ```bash
-git clone --depth 1 https://github.com/ohpcsim/reproducibility-in-ai.git
-cd reproducibility-in-ai/gpu
+git clone --depth 1 https://github.com/ohpcsim/reproducibility-in-ai.git repro-gpu
+cd repro-gpu/gpu
 ```
 
 ## The check
@@ -154,6 +154,7 @@ conda run -n repro-gpu python verify_gpu.py
 
 - `uv lock` keeps the versions in the committed `uv.lock` unless you changed `pyproject.toml`.
 - `uv sync --locked` builds `.venv` from the lock, and stops if the lock doesn't match `pyproject.toml`.
+- `python-preference = "only-managed"` and `.python-version` make uv download Python 3.12.12 itself, as in Exercises 2 to 4, rather than use a Python on your system.
 
 ```bash
 uv lock
@@ -162,7 +163,7 @@ uv run --locked python verify_gpu.py
 ```
 
 - With an empty uv cache, the sync downloaded 3.2 GB on aarch64 and 3.0 GB on x86_64, in about 30 seconds on each machine. Your network sets the time.
-- `.venv` is about 5 GB, and uv's cache keeps another copy of the downloads, about 5 GB.
+- `.venv` is about 5 GB, and uv's cache holds the same files. When the cache and the project are on the same file system, uv hardlinks the files, and the two took 5.3 GB together on WSL2's ext4. On different file systems, uv copies the files, and the two take about 10 GB.
 - On aarch64, every `uv sync` and `uv run` prints `Uninstalled 1 package` and `Installed 1 package`. That's `nvidia-cusparselt-cu13`, whose wheel has a platform tag, `manylinux2014_sbsa`, that uv doesn't match to the installed copy. It takes a few milliseconds, and the check still passes.
 
 Recorded November 8, 2026, with uv 0.12.11, Python 3.12, and the `uv.lock` in this folder:
@@ -203,8 +204,12 @@ If the check fails:
 ## Step 3: containers
 
 - A container carries the whole stack, apart from the driver, to the next system.
++++ {"tags": ["track-linux", "track-hpc"]}
+
 - [The container page](container.md) builds an image from your conda lock with Docker or Podman, converts it to an Apptainer SIF for a cluster, and runs the same check inside.
 +++ {"tags": ["track-wsl2"]}
+
+- [The container page](container.md) builds an Apptainer SIF from your conda lock with a `.def` file, and runs the same check inside.
 
 - On WSL2, Apptainer's `--nv` doesn't reach the GPU. [The WSL2 section](container.md#on-wsl2) has the fix, `--bind /usr/lib/wsl`.
 +++ {"tags": ["track-linux"]}

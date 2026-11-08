@@ -252,4 +252,9 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 - We expect it to work on x86_64 too, because the Dockerfile picks its installer with `uname -m` and the base image's digest covers both architectures, but we haven't run it there.
 
 - When you're done, remove what you made.
-- `docker rmi repro-gpu:v1` or `podman rmi repro-gpu:v1` removes the image, and `rm repro-gpu.tar repro-gpu.sif` removes the files.
++++ {"tags": ["track-linux", "track-hpc"]}
+
+- `docker rmi repro-gpu:v1` or `podman rmi repro-gpu:v1` removes the image, and `rm -f repro-gpu.tar repro-gpu.sif` removes the files.
++++ {"tags": ["track-wsl2"]}
+
+- `rm repro-gpu.sif` removes the SIF.
