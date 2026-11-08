@@ -1,4 +1,4 @@
-digits-clf:
+penguin-sex-clf:
   type: model
   path: model.pkl
-  description: Classifies 8x8 images of handwritten digits.
+  description: Predicts a penguin's sex from its measurements and species

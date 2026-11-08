@@ -1,9 +1,13 @@
-# Digit classifier
+# Palmer penguin sex classifier
 
-We serve one model: a small neural network that reads handwritten digits.
+The workshop's exercises use one project, a study of Palmer penguins, and add a capability in each exercise.
 
-- `split.py` writes `splits.json`, the lists of training, validation and test rows.
-- `train.py` trains on the training rows and writes `model.pkl` and `metrics.json`.
-- `score.py` serves whatever the registry marks as prod, and scores it on the test rows.
+- `dvc repro` runs clean, validate, report, split and train.
+- `metrics.json` records male mean body mass minus female mean body mass, per species.
+- `split.py` records 216 training rows from 2007 and 2008 and 117 validation rows from 2009.
+- `train.py` standardizes four measurements and one-hot species columns, then fits logistic regression.
+- `params.yaml` sets `train.C`. `model_metrics.json` records validation accuracy.
+- `model.pkl` is stored by DVC in `../osn-bucket`, a local stand-in for object storage.
+- `gto show` lists registered versions and stages. Nothing is registered yet.
 
-The registry is `gto`. Try `gto show`.
+Data: palmerpenguins (Horst, Hill and Gorman 2020, doi:10.5281/zenodo.3960218), CC0, from Gorman, Williams and Fraser (2014), PLOS ONE 9(3): e90081. Collected by Palmer Station LTER with NSF support.
