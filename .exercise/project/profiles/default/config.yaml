@@ -1,1 +1,3 @@
 scheduler: greedy
+# Leave out the banner with the host name, user and paths, and the details of each job. --quiet host on the command line shows the details.
+quiet: [host, rules]
