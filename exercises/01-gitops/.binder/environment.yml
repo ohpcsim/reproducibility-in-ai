@@ -1,9 +1,0 @@
-name: repro-gitops
-channels:
-  - conda-forge
-dependencies:
-  - python=3.12
-  - numpy
-  - pyyaml
-  - pytest
-  - git

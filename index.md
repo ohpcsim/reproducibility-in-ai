@@ -18,20 +18,20 @@ subject: Hands-on exercises
 ## The exercises
 
 - Each exercise stands on its own.
-- The short path is step 1 and its check, about 15 minutes. The rest is optional.
+- Exercise 1 takes about 20 minutes. In exercises 2 to 5, the short path is step 1 and its check, about 15 minutes, and the rest is optional.
 - Only reading? Each page shows the failure and how to approach the fix.
 
 ::::{grid} 1 1 2 2
 
-:::{card} 1. GitOps
-**How fast is CO2 rising?**
+:::{card} 1. Software environments
+**Managing software environments**
 
-- **Problem:** a published number doesn't rerun.
-- **You'll learn:** declare and lock an environment, find the breaking commit with `git bisect`, and rebuild from scratch.
-- **Data:** NOAA's Mauna Loa CO2 record.
-- 15 minutes for the short path, 30 for all of it.
+- **Problem:** a script imports a package that the project's dependency files don't declare.
+- **You'll learn:** declare and lock an environment with conda, then with uv, and why a conda lock is per platform and a uv lock isn't.
+- **Data:** Palmer penguins, the 2007 field season.
+- About 20 minutes.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-gitops?urlpath=lab/workspaces/exercise>` [Read the page](exercises/01-gitops/gitops.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-environments?urlpath=lab/workspaces/exercise>` [Read the page](exercises/01-environments/environments.ipynb)
 :::
 
 :::{card} 2. Workflows

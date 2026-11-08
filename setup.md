@@ -38,7 +38,7 @@ title: Set up your environment
 
 Each exercise branch has three files in `.binder/`:
 
-- `environment.yml` lists the conda packages. repo2docker installs them into its own base environment, not into one named `repro-gitops`, so you don't run `conda activate` in Binder. ([environment.yml](https://repo2docker.readthedocs.io/en/latest/configuration/research.html))
+- `environment.yml` lists the conda packages. repo2docker installs them into its own base environment, not into one named `repro-environments`, so you don't run `conda activate` in Binder. ([environment.yml](https://repo2docker.readthedocs.io/en/latest/configuration/research.html))
 - `postBuild` runs once, at build time, after the packages are installed. Ours builds the `project` folder, loads the JupyterLab layout and makes new terminals start in `project`. ([postBuild](https://repo2docker.readthedocs.io/en/latest/configuration/actions.html))
 - `workspace.json` is the JupyterLab layout: a terminal on the left and the exercise page on the right. ([JupyterLab on Binder](https://jupyterlab.readthedocs.io/en/stable/user/binder.html#customize-the-layout))
 - The branches have no `start` file, the script repo2docker would run each time a session starts. ([start](https://repo2docker.readthedocs.io/en/latest/configuration/actions.html))
@@ -48,11 +48,11 @@ Each exercise branch has three files in `.binder/`:
 Exercise 1's link is:
 
 ```text
-https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-gitops?urlpath=lab/workspaces/exercise
+https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-environments?urlpath=lab/workspaces/exercise
 ```
 
 - `gh/ohpcsim/reproducibility-in-ai` is the GitHub repository.
-- `binder-01-gitops` is the branch. Each exercise has its own branch, so each has its own image.
+- `binder-01-environments` is the branch. Each exercise has its own branch, so each has its own image.
 - `?urlpath=lab/workspaces/exercise` opens JupyterLab with the workspace named `exercise`, the terminal and the page side by side. ([Configure the user interface](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html), [JupyterLab URLs](https://jupyterlab.readthedocs.io/en/stable/user/urls.html))
 
 When you open it, BinderHub does this ([what happens when a user clicks a Binder link](https://binderhub.readthedocs.io/en/latest/overview.html#what-happens-when-a-user-clicks-a-binder-link), [what affects start time](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#performance-and-speed)):
@@ -132,7 +132,7 @@ wsl --install -d Ubuntu
 - Run everything below in that Ubuntu window.
 
 - Keep your work in your Linux home folder, not under `/mnt/c`.
-- Git hooks and DVC need a Linux file system.
+- DVC needs a Linux file system.
 :::
 
 :::{tab-item} Linux
@@ -177,7 +177,7 @@ conda install --yes git
 
 | Exercise | Branch | Environment |
 |---|---|---|
-| 1. GitOps | `binder-01-gitops` | `repro-gitops` |
+| 1. Software environments | `binder-01-environments` | `repro-environments` |
 | 2. Workflows | `binder-02-workflows` | `repro-workflows` |
 | 3. DataOps | `binder-03-dataops` | `repro-dataops` |
 | 4. Model registry | `binder-04-registry` | `repro-registry` |
@@ -186,16 +186,16 @@ conda install --yes git
 For exercise 1, that looks like this:
 
 ```bash
-git clone --branch binder-01-gitops --single-branch https://github.com/ohpcsim/reproducibility-in-ai.git gitops
-cd gitops
+git clone --branch binder-01-environments --single-branch https://github.com/ohpcsim/reproducibility-in-ai.git environments
+cd environments
 conda env create --quiet --file .binder/environment.yml
-conda activate repro-gitops
+conda activate repro-environments
 python scripts/setup_project.py
 cd project
 ```
 
-- You're now in the `project` folder, ready for the [exercise's first step](exercises/01-gitops/gitops.ipynb).
-- If you close the window, open a new one and turn conda on, then run `conda activate repro-gitops` and `cd gitops/project`.
+- You're now in the `project` folder, ready for the [exercise's first step](exercises/01-environments/environments.ipynb).
+- If you close the window, open a new one and turn conda on, then run `conda activate repro-environments` and `cd environments/project`.
 
 (messages-you-can-ignore)=
 ### Messages you can ignore
@@ -214,12 +214,12 @@ cd project
 
 - Everything an exercise makes is in its folder or its environment.
 
-To remove it all, go to the folder above `gitops` and paste this:
+To remove it all, go to the folder above `environments` and paste this:
 
 ```bash
 conda deactivate
-conda env remove --yes --name repro-gitops
-rm -rf gitops
+conda env remove --yes --name repro-environments
+rm -rf environments
 ```
 
 - The environment is cattle, and you can rebuild it from the file in the repository.
@@ -235,6 +235,6 @@ python ../check.py --short
 
 - It prints one line per part, each starting with PASS or FAIL, and a count at the end.
 - On a fresh project, most parts fail. That's expected, because the failures are the exercise.
-- For exercise 1 on a fresh project, it prints three FAIL lines and `0 of 3 parts pass.`
-- If Python says it can't open `check.py`, you're not in the `project` folder. Run `cd ~/project` in Binder, or `cd gitops/project` on your own machine.
+- For exercise 1 on a fresh project, it prints six FAIL lines and `0 of 6 parts pass.`
+- If Python says it can't open `check.py`, you're not in the `project` folder. Run `cd ~/project` in Binder, or `cd environments/project` on your own machine.
 - If Python says `ModuleNotFoundError`, the exercise's environment isn't active. On your own machine, turn conda on and run `conda activate` with the environment from the table.

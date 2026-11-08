@@ -10,9 +10,9 @@ title: Tools and documentation
 
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
-| Git | Version control. It records each change to a project as a commit. | Every exercise. [Exercise 1](exercises/01-gitops/gitops.ipynb) uses `git bisect` to find a breaking commit. | [Reference](https://git-scm.com/docs) | [About version control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control), from the Pro Git book |
+| Git | Version control. It records each change to a project as a commit. | Every exercise. | [Reference](https://git-scm.com/docs) | [About version control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control), from the Pro Git book |
 | GitHub | A service that hosts Git repositories. | This site's repository. Binder builds each exercise from its branch there. | [GitHub Docs](https://docs.github.com/en) | [Hello World](https://docs.github.com/en/get-started/using-github/hello-world) |
-| pytest | Runs Python tests. | Exercises [1](exercises/01-gitops/gitops.ipynb), [4](exercises/04-registry/registry.ipynb) and [5](exercises/05-llm/llm.ipynb). | [pytest documentation](https://docs.pytest.org/en/stable/) | [Get started](https://docs.pytest.org/en/stable/getting-started.html) |
+| pytest | Runs Python tests. | Exercises [4](exercises/04-registry/registry.ipynb) and [5](exercises/05-llm/llm.ipynb). | [pytest documentation](https://docs.pytest.org/en/stable/) | [Get started](https://docs.pytest.org/en/stable/getting-started.html) |
 
 ## Environments
 
@@ -21,7 +21,7 @@ title: Tools and documentation
 | conda | A package and environment manager. It builds an environment from `environment.yml`, with Python and non-Python packages. | Every exercise, [the GPU page](gpu/gpu.md) and [the container page](gpu/container.md). | [Conda documentation](https://docs.conda.io/projects/conda/en/latest/) | [Getting started with conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) |
 | Miniforge | A small conda installer that gets its packages from conda-forge. | [Set up your environment](setup.md), step 2. | [README](https://github.com/conda-forge/miniforge) | The README has the install steps. |
 | conda-forge | A community channel of conda packages. | Every environment file in the workshop lists it as the only channel. | [conda-forge documentation](https://conda-forge.org/docs/) | [A brief introduction](https://conda-forge.org/docs/user/introduction/) |
-| uv | A Python package and project manager, written in Rust. | [The uv route](uv.md). | [uv documentation](https://docs.astral.sh/uv/) | [Getting started](https://docs.astral.sh/uv/getting-started/) |
+| uv | A Python package and project manager, written in Rust. | [Exercise 1](exercises/01-environments/environments.ipynb) and [the uv route](uv.md). | [uv documentation](https://docs.astral.sh/uv/) | [Getting started](https://docs.astral.sh/uv/getting-started/) |
 
 ## conda and uv
 
@@ -47,10 +47,10 @@ The workshop uses conda. [The uv route](uv.md) shows the same exercises with uv.
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
 | DVC | Data Version Control. Git keeps small pointer files, and the data goes to a separate store. | Exercises [3](exercises/03-dataops/dataops.ipynb) and [4](exercises/04-registry/registry.ipynb). | [DVC documentation](https://doc.dvc.org/) | [Get started](https://doc.dvc.org/start) |
-| Git LFS | A Git extension that keeps large files on a separate server and leaves pointers in the repository. | [Exercise 1](exercises/01-gitops/gitops.ipynb) explains why its CSV isn't in Git LFS. | [Documentation](https://github.com/git-lfs/git-lfs/tree/main/docs) | [Getting started](https://git-lfs.com/), on the home page |
+| Git LFS | A Git extension that keeps large files on a separate server and leaves pointers in the repository. | Not used. Git LFS needs a server. DVC, in [exercise 3](exercises/03-dataops/dataops.ipynb), doesn't. | [Documentation](https://github.com/git-lfs/git-lfs/tree/main/docs) | [Getting started](https://git-lfs.com/), on the home page |
 | GTO | Git Tag Ops. It records model versions and stages as Git tags, so the registry lives in the repository. | [Exercise 4](exercises/04-registry/registry.ipynb). | [GTO documentation](https://mlem.ai/doc/gto) | [Get started](https://mlem.ai/doc/gto/get-started) |
 | OSN | The Open Storage Network, object storage for research data that you reach from laptops, clusters and cloud platforms. | Exercises [3](exercises/03-dataops/dataops.ipynb) and [4](exercises/04-registry/registry.ipynb) use a local folder that stands in for an OSN bucket. | [OSN user documentation](https://openstoragenetwork.github.io/docs/) | [Why use OSN?](https://openstoragenetwork.github.io/docs/why-osn/) |
-| pandas | Data tables for Python. | [Exercise 3](exercises/03-dataops/dataops.ipynb). In [exercise 1](exercises/01-gitops/gitops.ipynb), the broken project imports it without declaring it. | [pandas documentation](https://pandas.pydata.org/docs/) | [Getting started](https://pandas.pydata.org/docs/getting_started/index.html) |
+| pandas | Data tables for Python. | [Exercise 3](exercises/03-dataops/dataops.ipynb). In [exercise 1](exercises/01-environments/environments.ipynb), the project imports it without declaring it, and you declare it. | [pandas documentation](https://pandas.pydata.org/docs/) | [Getting started](https://pandas.pydata.org/docs/getting_started/index.html) |
 | scikit-learn | Machine learning for Python. | [Exercise 4](exercises/04-registry/registry.ipynb) trains its digit classifiers with it. | [scikit-learn documentation](https://scikit-learn.org/stable/) | [Getting started](https://scikit-learn.org/stable/getting_started.html) |
 | PyTorch | Deep learning for Python, with GPU support. | [The GPU page](gpu/gpu.md) and [the container page](gpu/container.md). | [PyTorch documentation](https://docs.pytorch.org/docs/stable/) | [Learn the basics](https://docs.pytorch.org/tutorials/beginner/basics/intro.html) |
 

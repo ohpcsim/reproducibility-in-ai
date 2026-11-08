@@ -21,7 +21,7 @@
        "type": "tab-area",
        "currentIndex": 0,
        "widgets": [
-        "notebook:gitops.ipynb"
+        "notebook:environments.ipynb"
        ]
       }
      ]
@@ -49,9 +49,9 @@
     0
    ]
   },
-  "notebook:gitops.ipynb": {
+  "notebook:environments.ipynb": {
    "data": {
-    "path": "gitops.ipynb",
+    "path": "environments.ipynb",
     "factory": "Notebook"
    }
   },

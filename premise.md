@@ -63,7 +63,7 @@ An AI result depends on:
 - DevOps treats operations as a software development project.
 - DataOps: data has versions, and pipelines are declared steps. [Exercise 3](exercises/03-dataops/dataops.ipynb).
 - Workflows: each analysis step declares what it reads and writes, so a tool reruns only what changed. [Exercise 2](exercises/02-workflows/workflows.ipynb).
-- GitOps: the declared state lives in Git, and automation makes the system match it. [Exercise 1](exercises/01-gitops/gitops.ipynb).
+- GitOps: the declared state lives in Git, and automation makes the system match it. [Exercise 1](exercises/01-environments/environments.ipynb) puts the declared environment in Git.
 - MLOps and LLMOps: models and prompts are versioned, tested and released like software. [Exercises 4](exercises/04-registry/registry.ipynb) [and 5](exercises/05-llm/llm.ipynb).
 
 Timeline:
@@ -127,7 +127,7 @@ The goal:
 
 ## From the ideas to the exercises
 
-- An environment file and its lock: [exercise 1, GitOps](exercises/01-gitops/gitops.ipynb).
+- An environment file and its lock: [exercise 1, Software environments](exercises/01-environments/environments.ipynb).
 - Declared steps: [exercise 2, Workflows](exercises/02-workflows/workflows.ipynb).
 - Pointers to the data in Git, and the data in object storage: [exercise 3, DataOps](exercises/03-dataops/dataops.ipynb).
 - A model registry: [exercise 4, model registry](exercises/04-registry/registry.ipynb).

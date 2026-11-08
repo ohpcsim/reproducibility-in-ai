@@ -6,7 +6,7 @@ Hands-on exercises from the Reproducibility in AI workshop at Rice Research Comp
 
 | Exercise | Question | Open in Binder |
 |---|---|---|
-| 1. GitOps | How fast is CO2 rising? | [Launch](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-gitops?urlpath=lab/workspaces/exercise) |
+| 1. Software environments | How do you declare and lock what the penguin project needs, with conda and with uv? | [Launch](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-environments?urlpath=lab/workspaces/exercise) |
 | 2. Workflows | How many magnitude 5 earthquakes for each magnitude 6? | [Launch](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise) |
 | 3. DataOps | Does a new field season change how body mass tracks flipper length in penguins? | [Launch](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise) |
 | 4. Model registry | Which digit classifier should we promote? | [Launch](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise) |
