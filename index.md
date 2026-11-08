@@ -12,6 +12,7 @@ subject: Hands-on exercises
 
 - In 1984 Donald Knuth proposed writing a program as one document, for people and for the machine. Literate science puts the claims, the code, the environment and the data in one project, and every published result comes from running it.
 - The document and the data are the pets. Everything that runs them is cattle, so you can delete it and build it again from what's in the project.
+- This site works the same way. Each exercise page is a notebook that reruns when the site is published, and the failures on it are real output.
 - [The premise](premise.md) has the full argument.
 
 ## The exercises

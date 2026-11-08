@@ -50,7 +50,7 @@ In academia we usually run AI workloads on batch HPC systems. We probably need a
 - Treating every system as stateless makes it portable in its software, OS and libraries, and in its data.
 - Managing software interactively, with conda or pip, probably isn't enough. Use declarative, reproducible definitions.
 - Leaving data on a POSIX file system probably isn't enough for AI workloads. Use GitOps and DataOps.
-- Leaving your method in a chat session probably isn't enough. Keep it in the project, where any tool and any model can use it.
+- Leaving your method in a chat session probably isn't enough. Keep it in the project, harness and model agnostic.
 
 ## Cloud-native and the history of \*Ops
 
