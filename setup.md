@@ -297,6 +297,7 @@ uv --version
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 - In Exercise 1b, the uv image's build may print `warning: Failed to hardlink files; falling back to full copy`. It's harmless. uv copies the files instead.
+- The Miniforge installer may print `warning  libmamba Security Warning: This transaction includes executing package scripts (pre/post-link/unlink) if present.` It's harmless. The installer may run setup scripts that come with conda-forge's packages, and the warning says so.
 - The uv installer may print `WARN: The following commands are shadowed by other commands in your PATH: uv uvx` when an exercise's conda environment is active. That environment's own uv comes first in `PATH`. Either uv works.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
