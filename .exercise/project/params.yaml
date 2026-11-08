@@ -1,0 +1,6 @@
+clean:
+  # Drop penguins with no recorded sex.
+  drop_missing_sex: false
+  # Repairs for a bad delivery. They stay off until a person decides to turn one on.
+  convert_inches: false
+  drop_duplicates: false

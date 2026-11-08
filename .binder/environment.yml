@@ -1,0 +1,9 @@
+name: repro-dataops
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pandas
+  - pyyaml
+  - dvc=3
+  - git
