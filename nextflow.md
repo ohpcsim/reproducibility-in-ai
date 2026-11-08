@@ -60,7 +60,8 @@ python scripts/setup_project.py --nextflow
 cd project
 ```
 
-- If `conda env create` says the prefix already exists, an environment with that name is left from an earlier run: `conda env remove -n repro-nextflow` and create it again.
+- If `conda env create` says the prefix already exists, an environment with that name is left from an earlier run. The rest of the block then uses that old environment and leaves a half-built `workflows-nextflow` folder. Remove both, then paste the block again: `conda deactivate; conda env remove -n repro-nextflow -y; cd ../..; rm -rf workflows-nextflow`
+- The block leaves you in `workflows-nextflow/project`, so `cd ../..` goes to the folder above `workflows-nextflow`. If `cd project` failed too, use `cd ..` instead.
 - `conda activate` matters here. The Java runtime lives inside the environment, and `nextflow` finds it only after activation.
 - `NXF_ANSI_LOG=false` makes Nextflow print one plain line per task, `Submitted process` or `Cached process`, as recorded on this page. Without it, Nextflow redraws a live table in your terminal, with the same information.
 - `nextflow -version` is the first run. It printed `version 26.10.5 build 14654` for us, and it also confirms that Nextflow found Java.
