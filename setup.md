@@ -297,6 +297,7 @@ uv --version
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 - In Exercise 1b, the uv image's build may print `warning: Failed to hardlink files; falling back to full copy`. It's harmless. uv copies the files instead.
+- The uv installer may print `WARN: The following commands are shadowed by other commands in your PATH: uv uvx` when an exercise's conda environment is active. That environment's own uv comes first in `PATH`. Either uv works.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
@@ -305,20 +306,6 @@ uv --version
 - Use any text editor.
 - If you're not sure, `nano environment.yml` works in the terminal.
 - Press Control-O to save and Control-X to leave.
-
-### When you're done
-
-- Everything an exercise makes is in its folder or its environment.
-
-To remove it all, go to the folder above `environments` and paste this:
-
-```bash
-conda deactivate
-conda env remove --yes --name repro-environments
-rm -rf environments
-```
-
-- The environment is cattle, and you can rebuild it from the file in the repository.
 
 +++
 
@@ -373,3 +360,19 @@ python ../check.py --short
 - 2. Workflows: [2a. Snakemake](exercises/02-workflows/workflows.ipynb) and [2b. Nextflow](exercises/02-workflows/nextflow.md)
 - [3. Versioning data](exercises/03-dataops/dataops.ipynb)
 - [4. Model registry](exercises/04-registry/registry.ipynb)
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
+## When you're done
+
+- Everything an exercise makes is in its folder or its environment.
+
+To remove it all, go to the folder above `environments` and paste this:
+
+```bash
+conda deactivate
+conda env remove --yes --name repro-environments
+rm -rf environments
+```
+
+- The environment is cattle, and you can rebuild it from the file in the repository.

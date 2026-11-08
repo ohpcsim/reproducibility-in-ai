@@ -116,7 +116,7 @@ cp metrics.json ../metrics-ex1.json
 
 - On Linux, `docker` needs root or membership in the `docker` group. Podman runs rootless, with no daemon.
 
-+++ {"tags": ["track-mac", "track-hpc"]}
++++ {"tags": ["track-mac"]}
 
 **A Mac needs a Linux lock first.** Your conda lock is `explicit-osx-arm64.txt`, and it doesn't install in a Linux container. Skip the conda image, or write a Linux lock inside the Miniforge container and commit it:
 
@@ -200,7 +200,7 @@ sha256sum ../penguins-*.sif
 ## From A to B: build where you have root, run on the cluster
 
 - Converting an image to a SIF doesn't need `--fakeroot`.
-- The image has to match the cluster's architecture, usually x86_64. On an Apple-silicon Mac, or any ARM machine, add `--platform linux/amd64` to each `docker build`. The conda image then needs `explicit-linux-64.txt`, which the Mac command in Route A writes when you add `--platform linux/amd64` to its `docker run`. We haven't run either on a Mac.
+- The image has to match the cluster's architecture, usually x86_64. On an Apple-silicon Mac, or any ARM machine, add `--platform linux/amd64` to each `docker build`. The conda image then needs `explicit-linux-64.txt`, the conda lock for x86_64 Linux. Write it with Exercise 1's steps on an x86_64 Linux machine. We haven't run `--platform linux/amd64` on a Mac.
 
 **On your machine**, build the images as in Route A, then save each one to a file:
 
@@ -215,10 +215,11 @@ docker save -o ../penguins-uv.tar penguins-uv:v1
 **On the cluster**, convert each file to a SIF:
 
 ```bash
-apptainer build ../penguins-conda.sif docker-archive://../penguins-conda.tar
-apptainer build ../penguins-uv.sif docker-archive://../penguins-uv.tar
+apptainer build --force ../penguins-conda.sif docker-archive://../penguins-conda.tar
+apptainer build --force ../penguins-uv.sif docker-archive://../penguins-uv.tar
 ```
 
+- `--force` writes over the SIF files from Route B, if you made them.
 - Then run and compare as in [Route B](#route-b).
 - Every build stamps a new ID and build time into the SIF, so the hash changes each time.
 - With Apptainer 1.5 or newer, `apptainer build --reproducible` gives the same hash every time.
@@ -310,7 +311,7 @@ rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json .
 +++ {"tags": ["track-hpc"]}
 
 - `--fakeroot`. Building a SIF from a `.def` file needs it, and some centers don't allow it. Converting an image doesn't, so use From A to B.
-+++ {"tags": ["track-mac", "track-hpc"]}
++++ {"tags": ["track-mac"]}
 
 - The Mac lock. `explicit-osx-arm64.txt` doesn't install in a Linux container. Write a Linux lock first, as in Route A.
 +++ {"tags": ["track-mac"]}

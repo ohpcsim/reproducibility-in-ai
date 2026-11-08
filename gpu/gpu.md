@@ -166,7 +166,7 @@ uv run --locked python verify_gpu.py
 - `.venv` is about 5 GB, and uv's cache holds the same files. When the cache and the project are on the same file system, uv hardlinks the files, and the two took 5.3 GB together on WSL2's ext4. On different file systems, uv copies the files, and the two take about 10 GB.
 - On aarch64, every `uv sync` and `uv run` prints `Uninstalled 1 package` and `Installed 1 package`. That's `nvidia-cusparselt-cu13`, whose wheel has a platform tag, `manylinux2014_sbsa`, that uv doesn't match to the installed copy. It takes a few milliseconds, and the check still passes.
 
-Recorded November 8, 2026, with uv 0.12.11, Python 3.12, and the `uv.lock` in this folder:
+Recorded November 8, 2026, with uv 0.12.11, Python 3.12, and the `uv.lock` in this folder. Your uv version may be newer:
 
 **NVIDIA DGX Spark: aarch64, NVIDIA GB10, driver 580.178.04, Ubuntu 24.04:**
 
@@ -204,9 +204,12 @@ If the check fails:
 ## Step 3: containers
 
 - A container carries the whole stack, apart from the driver, to the next system.
-+++ {"tags": ["track-linux", "track-hpc"]}
++++ {"tags": ["track-linux"]}
 
 - [The container page](container.md) builds an image from your conda lock with Docker or Podman, converts it to an Apptainer SIF for a cluster, and runs the same check inside.
++++ {"tags": ["track-hpc"]}
+
+- [The container page](container.md) builds an image from your conda lock with Docker and converts it to an Apptainer SIF for the cluster, or builds the SIF with Apptainer alone, and runs the same check inside.
 +++ {"tags": ["track-wsl2"]}
 
 - [The container page](container.md) builds an Apptainer SIF from your conda lock with a `.def` file, and runs the same check inside.
