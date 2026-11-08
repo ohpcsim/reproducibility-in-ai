@@ -1,5 +1,5 @@
 ---
-title: "The project: Palmer penguins"
+title: "The project: the Palmer penguins dataset"
 ---
 
 - The workshop's exercises use one project, a study of Palmer penguins, and add a capability in each exercise.
@@ -39,8 +39,8 @@ title: "The project: Palmer penguins"
 ## What each exercise adds
 
 - [Exercise 1, Software environments](exercises/01-environments/environments.ipynb): one script computes the 2007 table, and you declare and lock its environment with conda and with uv.
-- [Exercise 2, Workflows](exercises/02-workflows/workflows.ipynb): the same table from three declared steps, `clean`, `validate` and `report`, in Snakemake or Nextflow. One command rebuilds it from the raw data.
-- [Exercise 3, Versioning data](exercises/03-dataops/dataops.ipynb): the data moves to DVC and a bucket, the 2008 and 2009 seasons arrive as a new version, and you get the 2007 version and its table back.
+- [Exercise 2, Workflows](exercises/02-workflows/workflows.ipynb): the same table from a working workflow, in Snakemake or Nextflow, and you add a step that draws the README's figure. Git holds the code, and one command builds the numbers and the figure from the raw data.
+- [Exercise 3, Versioning data](exercises/03-dataops/dataops.ipynb): the data moves to DVC and a bucket, the 2008 and 2009 seasons arrive as a new version, and you get the 2007 version, its table and its figure back from DVC.
 - [Exercise 4, Model registry](exercises/04-registry/registry.ipynb): you train the sex classifier at two values of `C`, register both versions with GTO, promote the better one and restore every version from the bucket.
 
 ## Why this example

@@ -1,7 +1,7 @@
 configfile: "params.yaml"
 
 rule all:
-    input: "metrics.json"
+    input: "metrics.json", "figures/body_mass.svg"
 
 rule clean:
     input: "data/penguins.csv", "clean.py"
@@ -18,3 +18,8 @@ rule report:
     output: "metrics.json"
     params: config["report"]
     shell: "python report.py"
+
+rule plot:
+    input: "results/validated.csv", "plot.py"
+    output: "figures/body_mass.svg"
+    shell: "python plot.py"

@@ -38,8 +38,8 @@ The workshop uses conda. Exercises 2, 3 and 4 also give the same steps with uv.
 
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
-| Snakemake | A workflow manager. You declare rules with inputs and outputs, and it runs the steps whose outputs are missing or out of date. | [2a. Snakemake](exercises/02-workflows/workflows.ipynb). | [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/) | [Tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html) |
-| Nextflow | Another workflow manager. | [2b. Nextflow](exercises/02-workflows/nextflow.md), on your own machine. It's an alternative to Snakemake. | [Nextflow documentation](https://docs.seqera.io/nextflow/) | [Nextflow training](https://training.nextflow.io/latest/) |
+| Snakemake | A workflow manager. You declare rules with inputs and outputs, and it runs the steps whose outputs are missing or out of date. | [2a. Snakemake](exercises/02-workflows/workflows.ipynb): you add a step to a working Snakefile. | [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/) | [Tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html) |
+| Nextflow | Another workflow manager. | [2b. Nextflow](exercises/02-workflows/nextflow.md), on your own machine: you add a process to a working `main.nf`. It's an alternative to Snakemake. | [Nextflow documentation](https://docs.seqera.io/nextflow/) | [Nextflow training](https://training.nextflow.io/latest/) |
 
 ## Data and models
 
