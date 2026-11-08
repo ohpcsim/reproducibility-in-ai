@@ -36,7 +36,7 @@ curl -fsSL https://opencode.ai/install | bash
 
 ## The same task
 
-Get the folder by doing [exercise 4](../exercises/04-llm/llm.ipynb)'s setup, then copy the frozen files somewhere empty, along with the prompt:
+Get the folder by doing [exercise 5](../exercises/05-llm/llm.ipynb)'s setup, then copy the frozen files somewhere empty, along with the prompt:
 
 ```bash
 mkdir ~/model-card
@@ -47,7 +47,7 @@ cp ~/llm/project/runs/recorded-prompt.md prompt.md
 
 ## The exact command
 
-- We ran this once on November 7, 2026, in an empty folder holding only the frozen exercise 3 files and the prompt, with a fresh home folder, so no settings, memory or instructions from our machine could load.
+- We ran this once on November 7, 2026, in an empty folder holding only the frozen exercise 4 files and the prompt, with a fresh home folder, so no settings, memory or instructions from our machine could load.
 - Your own settings, rules and memory may change what you get.
 - Run it in an empty folder if you want a comparable result.
 
@@ -65,20 +65,20 @@ opencode run --standalone --auto --model opencode/deepseek-v4.1-flash-free --for
 - This is the file as the tool wrote it, not edited.
 
 :::{dropdown} card.md
-```{literalinclude} ../exercises/04-llm/.exercise/project/runs/opencode-free/card.md
+```{literalinclude} ../exercises/05-llm/.exercise/project/runs/opencode-free/card.md
 :language: markdown
 ```
 :::
 
 :::{dropdown} The transcript, trimmed to the task
-```{literalinclude} ../exercises/04-llm/.exercise/project/runs/opencode-free/transcript.md
+```{literalinclude} ../exercises/05-llm/.exercise/project/runs/opencode-free/transcript.md
 :language: text
 ```
 :::
 
 ## Test it
 
-- Back in your exercise 4 project, run your tests on the card.
+- Back in your exercise 5 project, run your tests on the card.
 - Our verdict below comes from our copy of the same rules.
 - We don't publish that copy, because writing the tests is the exercise.
 
@@ -88,10 +88,10 @@ CARD=~/model-card/card.md python -m pytest -q tests
 
 Here's what our tests decided about this recording:
 
-```{literalinclude} ../exercises/04-llm/.exercise/project/runs/opencode-free/verdict.txt
+```{literalinclude} ../exercises/05-llm/.exercise/project/runs/opencode-free/verdict.txt
 ```
 
-- This card is Model B's first recording in exercise 4's step 3.
+- This card is Model B's first recording in exercise 5's step 3.
 - It can't state the decisions, because they weren't in the folder.
 - `runs/model-b-opencode-second` is the same command with `decisions.yaml` added, and that card passes.
 
@@ -102,7 +102,7 @@ Here's what our tests decided about this recording:
 
 Here's the one for this run:
 
-```{literalinclude} ../exercises/04-llm/.exercise/project/runs/opencode-free/manifest.yaml
+```{literalinclude} ../exercises/05-llm/.exercise/project/runs/opencode-free/manifest.yaml
 :language: yaml
 ```
 

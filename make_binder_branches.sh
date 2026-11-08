@@ -4,7 +4,7 @@
 # It only touches local branches. Push them yourself. Usage: ./make_binder_branches.sh [source-ref]
 set -eu
 source_ref=${1:-site}
-for exercise in 01-gitops 02-dataops 03-registry 04-llm; do
+for exercise in 01-gitops 02-workflows 03-dataops 04-registry 05-llm; do
     branch="binder-$exercise"
     tree=$(git rev-parse "$source_ref:exercises/$exercise")
     parent=$(git rev-parse --quiet --verify "refs/heads/$branch" || true)

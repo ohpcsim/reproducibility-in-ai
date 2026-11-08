@@ -2,13 +2,13 @@
 title: The same task in five tools
 ---
 
-- Exercise 4 uses recordings, so you don't need any of these to do it.
+- Exercise 5 uses recordings, so you don't need any of these to do it.
 - These pages show the same task in each tool: write a model card for the frozen classifier, from the files alone.
 - Each page has how to install and sign in, the exact command we ran, what the tool wrote, how to fill the manifest, and what the tests decided.
 
 - All five were recorded on November 7, 2026, with the same files and the same prompt.
 - Each ran once.
-- Codex and OpenCode each ran one more time, for exercise 4's step 3.
+- Codex and OpenCode each ran one more time, for exercise 5's step 3.
 
 | Tool | Model | Rules from step 1 | With the step 3 decisions |
 |---|---|---|---|

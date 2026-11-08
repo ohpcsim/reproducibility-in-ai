@@ -61,9 +61,9 @@ An AI result depends on:
 
 - \*Ops, or "splat ops", applies ideas from DevOps to everything else.
 - DevOps treats operations as a software development project.
-- DataOps: data has versions, and pipelines are declared steps. [Exercise 2](exercises/02-dataops/dataops.ipynb).
+- DataOps: data has versions, and pipelines are declared steps. [Exercise 3](exercises/03-dataops/dataops.ipynb).
 - GitOps: the declared state lives in Git, and automation makes the system match it. [Exercise 1](exercises/01-gitops/gitops.ipynb).
-- Towards MLOps and LLMOps, when coupled with automation (CI/CD): models and prompts are versioned, tested and released like software. [Exercises 3](exercises/03-registry/registry.ipynb) [and 4](exercises/04-llm/llm.ipynb).
+- Towards MLOps and LLMOps, when coupled with automation (CI/CD): models and prompts are versioned, tested and released like software. [Exercises 4](exercises/04-registry/registry.ipynb) [and 5](exercises/05-llm/llm.ipynb).
 
 Timeline:
 
@@ -133,9 +133,10 @@ The goal:
 ## From the ideas to the exercises
 
 - An environment file and its lock: [exercise 1, GitOps](exercises/01-gitops/gitops.ipynb).
-- Pointers to the data in Git, and the data in object storage: [exercise 2, DataOps](exercises/02-dataops/dataops.ipynb).
-- A model registry: [exercise 3, model registry](exercises/03-registry/registry.ipynb).
-- The method stays in the project, not in the chat: [exercise 4, LLM documentation](exercises/04-llm/llm.ipynb).
+- Declared steps: [exercise 2, Workflows](exercises/02-workflows/workflows.ipynb).
+- Pointers to the data in Git, and the data in object storage: [exercise 3, DataOps](exercises/03-dataops/dataops.ipynb).
+- A model registry: [exercise 4, model registry](exercises/04-registry/registry.ipynb).
+- The method stays in the project, not in the chat: [exercise 5, LLM documentation](exercises/05-llm/llm.ipynb).
 
 ## Further reading
 

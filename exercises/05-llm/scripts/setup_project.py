@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build project/: the frozen exercise 3 files, the recorded runs, and starter tests.
+"""Build project/: the frozen exercise 4 files, the recorded runs, and starter tests.
 
 Run it again and it leaves your work alone. To start over, use --reset. That deletes your work.
 """

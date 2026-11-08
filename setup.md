@@ -15,7 +15,7 @@ title: Set up your environment
 | Where your work lives | A temporary session on mybinder.org | A folder in your home directory |
 | How long a session lasts | It shuts down after 10 minutes idle, and aims to last up to six hours | As long as you want |
 | Memory | At least 1 GB, at most 2 GB | Your machine's |
-| Disk | Nothing on your machine | About 3 GB for all four exercises |
+| Disk | Nothing on your machine | Varies by exercise; total for five not yet measured |
 | First start | A few minutes when the image isn't built or cached yet | A few minutes to build each environment |
 | Keeping your work | Only the files you download | Everything stays |
 
@@ -103,7 +103,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 
 ## Your own machine
 
-- You need about 3 GB of free disk for the four exercises.
+- Disk use varies by exercise. The total for all five has not yet been measured.
 - You don't need administrator access, except to turn on WSL2.
 
 ### Step 1: get a shell
@@ -175,9 +175,10 @@ conda install --yes git
 | Exercise | Branch | Environment |
 |---|---|---|
 | 1. GitOps | `binder-01-gitops` | `repro-gitops` |
-| 2. DataOps | `binder-02-dataops` | `repro-dataops` |
-| 3. Model registry | `binder-03-registry` | `repro-registry` |
-| 4. LLM documentation | `binder-04-llm` | `repro-llm` |
+| 2. Workflows | `binder-02-workflows` | `repro-workflows` |
+| 3. DataOps | `binder-03-dataops` | `repro-dataops` |
+| 4. Model registry | `binder-04-registry` | `repro-registry` |
+| 5. LLM documentation | `binder-05-llm` | `repro-llm` |
 
 For exercise 1, that looks like this:
 

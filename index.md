@@ -34,7 +34,13 @@ subject: Hands-on exercises
 {button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-gitops?urlpath=lab/workspaces/exercise>` [Read the page](exercises/01-gitops/gitops.ipynb)
 :::
 
-:::{card} 2. DataOps
+:::{card} 2. Workflows
+TODO-WORKFLOWS
+
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>` [Read the page](exercises/02-workflows/workflows.ipynb)
+:::
+
+:::{card} 3. DataOps
 **Does a new field season change how body mass tracks flipper length in penguins?**
 
 - **Problem:** a bad data delivery passes the pipeline.
@@ -42,10 +48,10 @@ subject: Hands-on exercises
 - **Data:** Palmer penguins.
 - 15 minutes for the short path, 35 for all of it.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-dataops?urlpath=lab/workspaces/exercise>` [Read the page](exercises/02-dataops/dataops.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise>` [Read the page](exercises/03-dataops/dataops.ipynb)
 :::
 
-:::{card} 3. Model registry
+:::{card} 4. Model registry
 **Which digit classifier should we promote?**
 
 - **Problem:** a candidate scores 1.000 and asks for promotion.
@@ -53,10 +59,10 @@ subject: Hands-on exercises
 - **Data:** scikit-learn's digits.
 - 15 minutes for the short path, 40 for all of it.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-registry?urlpath=lab/workspaces/exercise>` [Read the page](exercises/03-registry/registry.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise>` [Read the page](exercises/04-registry/registry.ipynb)
 :::
 
-:::{card} 4. LLM documentation
+:::{card} 5. LLM documentation
 **Can your tests catch a bad model card?**
 
 - **Problem:** an LLM-written model card can be wrong, and "it looks good" isn't a check.
@@ -64,7 +70,7 @@ subject: Hands-on exercises
 - **Data:** recordings, so no model runs and you don't need a key.
 - 15 minutes for the short path, 35 for all of it.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-llm?urlpath=lab/workspaces/exercise>` [Read the page](exercises/04-llm/llm.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-05-llm?urlpath=lab/workspaces/exercise>` [Read the page](exercises/05-llm/llm.ipynb)
 :::
 
 ::::
