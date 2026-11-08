@@ -29,8 +29,8 @@ git --version
 ```
 
 - If Git is missing, use `sudo apt install git` on Ubuntu or `xcode-select --install` on macOS.
-- Exercises 2 to 5 each pin Python 3.12.12 in `.python-version` and requires Python 3.12 in `pyproject.toml`.
-- Its uv configuration requires managed Python. `uv sync --locked` downloads that Python, builds `.venv` and installs the locked packages.
+- Exercises 2 to 4 each pin Python 3.12.12 in `.python-version` and require Python 3.12 in `pyproject.toml`.
+- Their uv configuration requires managed Python. `uv sync --locked` downloads that Python, builds `.venv` and installs the locked packages.
 - The lock chooses wheels for your platform. The target platforms are Linux x86_64 and aarch64, and macOS Intel and Apple silicon.
 
 - DVC requires ANTLR 4.9.3, which has no PyPI wheel. uv builds this pure Python dependency from its source archive. It needs no C/C++ compiler.
@@ -60,7 +60,7 @@ cd project
 
 - Continue at step 1 on the [Workflows page](exercises/02-workflows/workflows.ipynb).
 
-### Exercise 3: Data
+### Exercise 3: Versioning data
 
 ```bash
 git clone --branch binder-03-dataops --single-branch https://github.com/ohpcsim/reproducibility-in-ai.git dataops
@@ -71,7 +71,7 @@ uv run python scripts/setup_project.py
 cd project
 ```
 
-- Continue at step 1 on the [Data page](exercises/03-dataops/dataops.ipynb).
+- Continue at step 1 on the [Versioning data page](exercises/03-dataops/dataops.ipynb).
 
 ### Exercise 4: model registry
 
@@ -86,19 +86,7 @@ cd project
 
 - Continue at step 1 on the [model registry page](exercises/04-registry/registry.ipynb).
 
-### Exercise 5: LLM documentation
-
-```bash
-git clone --branch binder-05-llm --single-branch https://github.com/ohpcsim/reproducibility-in-ai.git llm
-cd llm
-uv sync --locked
-source .venv/bin/activate
-uv run python scripts/setup_project.py
-cd project
-```
-
-- Continue at step 1 on the [LLM documentation page](exercises/05-llm/llm.ipynb).
-- For exercises 2 to 5, activation puts Python, Snakemake, DVC and GTO on your path. The page's own commands then work as written.
+- For exercises 2 to 4, activation puts Python, Snakemake, DVC and GTO on your path. The page's own commands then work as written.
 - If you reopen a terminal, go to the exercise folder, run `source .venv/bin/activate`, then `cd project`.
 - Check your setup with `python ../check.py --short`. Failures on the starter project are expected.
 
@@ -106,4 +94,4 @@ cd project
 
 - Each exercise has a `.binder/` folder.
 - repo2docker reads configuration there and ignores configuration at the repository root when that folder exists. See [where to put configuration files](https://repo2docker.readthedocs.io/en/latest/use/repository.html#where-to-put-configuration-files-in-a-repository).
-- In exercises 2 to 5, the root `pyproject.toml`, `uv.lock` and `.python-version` do not change Binder's environment.
+- In exercises 2 to 4, the root `pyproject.toml`, `uv.lock` and `.python-version` do not change Binder's environment.

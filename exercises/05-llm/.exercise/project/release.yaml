@@ -1,8 +1,0 @@
-artifact: digits-clf
-registered_version: v1.1.0
-stage: prod
-previous_version: v1.0.0
-split_sizes:
-  train: 1078
-  val: 359
-  test: 360

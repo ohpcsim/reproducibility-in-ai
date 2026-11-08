@@ -15,7 +15,7 @@ title: Exercise 2 in Nextflow
 
 ## The problem
 
-- The workshop's exercises use one project, a study of Palmer penguins, and add a capability in each exercise.
+- The workshop's exercises use one project, [a study of Palmer penguins](../../project.md), and add a capability in each exercise.
 - `project` computes one table from the 2007 field season: how much heavier a male penguin is than a female of the same species, in grams, in three scripts, `clean.py`, `validate.py` and `report.py`.
 - The README says to run the three in order, and after a change to `params.yaml` to "rerun the steps that need it".
 - Nothing records which step reads what. A person has to know, every time.
@@ -86,7 +86,7 @@ The environment:
 **Facts**
 
 - A process is one step. `input:` lists the files it reads, `output:` the files it writes, and `script:` the command.
-- Nextflow runs each task in its own folder under `work/`, named by the task's hash, and stages the inputs into it as links. The script has to be an input, or the task's folder won't have it. So does `params.yaml`, for the two scripts that read it.
+- Nextflow runs each task in its own folder under `work/`, named by the task's hash, and stages the inputs into it as links. The script has to be an input, or the task's folder won't have it. So does `params.yaml`, for `report.py`, which reads it.
 - `path 'data/penguins.csv'` stages the file under that name, folder included, so the scripts run unchanged.
 - `publishDir '.', mode: 'copy', overwrite: true` copies the outputs back into the project, with their folders. Without it, `results/clean.csv` would exist only inside `work/`. Without `overwrite: true`, a resumed run leaves a published file alone when the task came from the cache, and step 2 would end with a stale `metrics.json`.
 - The `workflow` block connects the processes. `CLEAN(...)` returns a channel with `results/clean.csv`, and the next process takes it as input.
@@ -107,7 +107,7 @@ git status --short
 $ nextflow run main.nf
 [PIPELINE] main.nf | profile=standard
 [WORKDIR] ~/workflows/project/work
-[PROCESS 6a/73d19b] CLEAN
+[PROCESS a0/5ea51a] CLEAN
 
 [SUCCESS] completed=1 failed=0 cached=0
 $ git status --short
@@ -120,7 +120,7 @@ $ git status --short
 
 **Facts**
 
-- `6a/73d19b` is the start of the task's hash, and `work/6a/73d19b.../` is its folder. `ls -a` in there shows the staged inputs, `.command.sh` with the command, `.command.log` with what it printed and `.exitcode`.
+- `a0/5ea51a` is the start of the task's hash, and `work/a0/5ea51a.../` is its folder. `ls -a` in there shows the staged inputs, `.command.sh` with the command, `.command.log` with what it printed and `.exitcode`.
 - `work/`, `.nextflow/` and `.nextflow.log` are cattle. Nextflow rebuilds them, so they go in `.gitignore`.
 - `.nextflow/cache/` is where `-resume` looks up task hashes. Delete it and the next run starts from nothing, even with `work/` still there.
 
@@ -151,9 +151,9 @@ git diff metrics.json
 $ nextflow run main.nf
 [PIPELINE] main.nf | profile=standard
 [WORKDIR] ~/workflows/project/work
-[PROCESS f7/684374] CLEAN
-[PROCESS 2d/19da93] VALIDATE
-[PROCESS 23/843d99] REPORT
+[PROCESS d3/572e2e] CLEAN
+[PROCESS aa/a88622] VALIDATE
+[PROCESS 12/17a51a] REPORT
 
 [SUCCESS] completed=3 failed=0 cached=0
 $ git diff metrics.json
@@ -193,7 +193,7 @@ $ nextflow run main.nf -resume
 [SUCCESS] completed=0 failed=0 cached=3
 ```
 
-2. Open `params.yaml`, change `statistic: mean` to `statistic: median`, save, and run with `-resume`. `params.yaml` is an input of `CLEAN` and of `REPORT`, so both rerun. `VALIDATE` doesn't: the new `results/clean.csv` has the same content as the old one, and content is what the hash sees. Snakemake, declaring the parameter sections per rule, reran only `report` here.
+2. Open `params.yaml`, change `statistic: mean` to `statistic: median`, save, and run with `-resume`. `params.yaml` is an input of `REPORT` only, so `REPORT` reruns. `CLEAN` and `VALIDATE` come from the cache. Snakemake reran only `report` here too.
 
 ```bash
 nextflow run main.nf -resume
@@ -204,10 +204,9 @@ cat metrics.json
 $ nextflow run main.nf -resume
 [PIPELINE] main.nf | profile=standard
 [WORKDIR] ~/workflows/project/work
-[PROCESS 2a/b2ad97] CLEAN
-[PROCESS 2b/aefcb4] REPORT
+[PROCESS f0/69141c] REPORT
 
-[SUCCESS] completed=2 failed=0 cached=1
+[SUCCESS] completed=1 failed=0 cached=2
 $ cat metrics.json
 {
   "dimorphism_g_adelie": 625.0,
@@ -260,7 +259,7 @@ FAIL  No main.nf is committed. Write the processes in step 1, then git add main.
 | The workflow file | `Snakefile`, Python with a rule syntax. Rules name input and output files, and Snakemake connects them by file name. | `main.nf`, a language built on Groovy, on the Java virtual machine. Processes name inputs and outputs, and you connect them in the `workflow` block. |
 | Where a step runs | In the project folder. Outputs land where the rule says. | In its own folder under `work/`, with inputs staged as links. `publishDir` copies outputs back. |
 | What's stale | A rule reruns when an input is newer than its output, or when its code, parameters, inputs or software environment are recorded as changed. `--rerun-triggers mtime` keeps only the dates. ([Snakemake command line](https://snakemake.readthedocs.io/en/stable/executing/cli.html)) | A task reruns when its hash isn't in the cache. The hash covers the inputs and the script. By default a file hashes by name, size and date. With `cache = 'deep'` it hashes by content. Nothing is reused unless you pass `-resume`. ([Cache and resume](https://docs.seqera.io/nextflow/cache-and-resume)) |
-| A parameter | `configfile:` loads it, and a rule's `params:` names the part it reads. A change reruns that rule only. | `params.yaml` is a file input of every process that reads it. A change reruns them all, and content hashing spares the steps whose inputs came out the same. |
+| A parameter | `configfile:` loads it, and a rule's `params:` names the part it reads. A change reruns that rule only. | `params.yaml` is a file input of every process that reads it. A change to any part of the file reruns each of them. |
 | Dry run | `snakemake -n` lists what would run. | `nextflow run main.nf -preview` checks the script and the wiring without running tasks. Nothing says what `-resume` would reuse. |
 | One task at a time | `--cores 1` | Not needed here. The config can set `executor.cpus`. |
 | Where it's common | Research groups and bioinformatics, with Python-heavy code. Rules with wildcards run over many samples. | Bioinformatics and clinical pipelines, clusters and clouds. The [nf-core](https://nf-co.re/) community maintains pipelines in it, and a company, Seqera, maintains the tool. |
@@ -279,8 +278,9 @@ FAIL  No main.nf is committed. Write the processes in step 1, then git add main.
 
 | Machine | Starter fails | Solution passes | Whole page | Peak memory |
 |---|---|---|---|---|
-| aarch64, Linux, DGX Spark | Yes, 0 of 1 | Yes, 4 of 4 | 30 s | 0.44 GB |
+| aarch64, Linux, DGX Spark | Yes, 0 of 1 | Yes, 4 of 4 | 30 s | 0.46 GB |
 | x86_64, WSL2 on Windows, Ubuntu 24.04 | Yes, 0 of 1 | Yes, 4 of 4 | 36 s | 0.46 GB |
 | arm64, macOS 27.0.1 | Yes, 0 of 1 | Yes, 4 of 4 | 33 s | 0.41 GB |
 
+- The WSL2 and macOS rows ran an earlier version of this page, where `CLEAN` also took `params.yaml` as an input.
 - When you're done, `conda env remove --yes --name repro-nextflow` gets the disk back.

@@ -1,8 +1,10 @@
+configfile: "params.yaml"
+
 rule all:
     input: "metrics.json"
 
 rule clean:
-    input: "data/penguins.csv", "clean.py", "params.yaml"
+    input: "data/penguins.csv", "clean.py"
     output: "results/clean.csv"
     shell: "python clean.py"
 
@@ -12,6 +14,7 @@ rule validate:
     shell: "python validate.py"
 
 rule report:
-    input: "results/validated.csv", "report.py", "params.yaml"
+    input: "results/validated.csv", "report.py"
     output: "metrics.json"
+    params: config["report"]
     shell: "python report.py"

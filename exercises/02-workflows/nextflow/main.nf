@@ -6,7 +6,6 @@ process CLEAN {
 
     input:
     path 'data/penguins.csv'
-    path 'params.yaml'
     path 'clean.py'
 
     output:
@@ -17,5 +16,5 @@ process CLEAN {
 }
 
 workflow {
-    clean = CLEAN(file('data/penguins.csv'), file('params.yaml'), file('clean.py'))
+    clean = CLEAN(file('data/penguins.csv'), file('clean.py'))
 }

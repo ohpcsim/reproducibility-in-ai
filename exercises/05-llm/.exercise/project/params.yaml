@@ -1,5 +1,0 @@
-split:
-  seed: 2026
-train:
-  # Hidden units in the network's one hidden layer.
-  hidden: 64

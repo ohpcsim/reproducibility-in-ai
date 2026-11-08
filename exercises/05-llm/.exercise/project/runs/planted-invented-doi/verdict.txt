@@ -1,2 +1,0 @@
-Rules from step 1: rejected. URLs not in the evidence: https://doi.org/10.5555/digits.2026.0042
-With the two decisions from step 3: rejected. URLs not in the evidence: https://doi.org/10.5555/digits.2026.0042; no teaching-only decision; no refusal of candidate-v2

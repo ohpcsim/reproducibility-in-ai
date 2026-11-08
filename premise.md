@@ -64,7 +64,7 @@ An AI result depends on:
 - DataOps: data has versions, and pipelines are declared steps. [Exercise 3](exercises/03-dataops/dataops.ipynb).
 - Workflows: each analysis step declares what it reads and writes, so a tool reruns only what changed. [Exercise 2](exercises/02-workflows/workflows.ipynb).
 - GitOps: the declared state lives in Git, and automation makes the system match it. [Exercise 1](exercises/01-environments/environments.ipynb) puts the declared environment in Git.
-- MLOps and LLMOps: models and prompts are versioned, tested and released like software. [Exercises 4](exercises/04-registry/registry.ipynb) [and 5](exercises/05-llm/llm.ipynb).
+- MLOps and LLMOps: models and prompts are versioned, tested and released like software. [Exercise 4](exercises/04-registry/registry.ipynb) does it for a model.
 
 Timeline:
 
@@ -123,15 +123,14 @@ The goal:
 - Stateless systems make software, OS, libraries and data portable.
 - Interactive conda or pip installs aren't reproducible. Declare and lock them.
 - Data left on a POSIX file system doesn't capture its history or provenance. Version it, with GitOps and DataOps.
-- A method left in a chat session isn't reproducible. Put it in the project, harness and model agnostic.
+- Work done in an LLM chat isn't reproducible. Keep the prompts and decisions in the project.
 
 ## From the ideas to the exercises
 
 - An environment file and its lock: [exercise 1, Software environments](exercises/01-environments/environments.ipynb).
 - Declared steps: [exercise 2, Workflows](exercises/02-workflows/workflows.ipynb).
-- Pointers to the data in Git, and the data in object storage: [exercise 3, Data](exercises/03-dataops/dataops.ipynb).
+- Pointers to the data in Git, and the data in object storage: [exercise 3, Versioning data](exercises/03-dataops/dataops.ipynb).
 - A model registry: [exercise 4, model registry](exercises/04-registry/registry.ipynb).
-- The method stays in the project, not in the chat: [exercise 5, LLM documentation](exercises/05-llm/llm.ipynb).
 
 ## Further reading
 

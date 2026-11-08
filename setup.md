@@ -17,7 +17,7 @@ title: Set up your environment
 | Where your work lives | A temporary session on mybinder.org | A folder in your home directory |
 | How long a session lasts | It shuts down after 10 minutes idle, and aims to last up to six hours | As long as you want |
 | Memory | At least 1 GB, at most 2 GB | Your machine's |
-| Disk | Nothing on your machine | About 3 GB for all five exercises |
+| Disk | Nothing on your machine | About 3 GB for all four exercises |
 | First start | A few minutes when the image isn't built or cached yet | A few minutes to build each environment |
 | Keeping your work | Only the files you download | Everything stays |
 
@@ -106,7 +106,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 
 ## Your own machine
 
-- Disk use is about 3 GB for all five exercises.
+- Disk use is about 3 GB for all four exercises, with conda's package cache.
 - You don't need administrator access, except to turn on WSL2.
 
 ### Step 1: get a shell
@@ -179,9 +179,8 @@ conda install --yes git
 |---|---|---|
 | 1. Software environments | `binder-01-environments` | `repro-environments` |
 | 2. Workflows | `binder-02-workflows` | `repro-workflows` |
-| 3. Data | `binder-03-dataops` | `repro-dataops` |
+| 3. Versioning data | `binder-03-dataops` | `repro-dataops` |
 | 4. Model registry | `binder-04-registry` | `repro-registry` |
-| 5. LLM documentation | `binder-05-llm` | `repro-llm` |
 
 For exercise 1, that looks like this:
 

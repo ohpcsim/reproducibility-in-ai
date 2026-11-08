@@ -4,8 +4,6 @@ stages:
     deps:
       - data/penguins.csv
       - clean.py
-    params:
-      - clean
     outs:
       - results/clean.csv
   validate:

@@ -30,10 +30,12 @@ jobs:
           auto-activate-base: true
       - name: Build each exercise's own environment
         run: |
-          for exercise in 01-environments 02-workflows 03-dataops 04-registry 05-llm; do
+          for exercise in 01-environments 02-workflows 03-dataops 04-registry; do
             conda env create --quiet --prefix "$RUNNER_TEMP/envs/$exercise" --file "exercises/$exercise/.binder/environment.yml"
             conda install --quiet --yes --prefix "$RUNNER_TEMP/envs/$exercise" ipykernel jupyter_server
           done
+          conda env create --quiet --prefix "$RUNNER_TEMP/envs/results" --file results/environment.yml
+          conda install --quiet --yes --prefix "$RUNNER_TEMP/envs/results" jupyter_server
       - name: Install Jupyter Book
         run: |
           python -m venv "$RUNNER_TEMP/jb"
@@ -42,7 +44,7 @@ jobs:
         env:
           BASE_URL: /${{ github.event.repository.name }}
           JUPYTER_BOOK: ${{ runner.temp }}/jb/bin/jupyter-book
-        run: ./build_site.sh "$RUNNER_TEMP/envs/01-environments" "$RUNNER_TEMP/envs/02-workflows" "$RUNNER_TEMP/envs/03-dataops" "$RUNNER_TEMP/envs/04-registry" "$RUNNER_TEMP/envs/05-llm"
+        run: ./build_site.sh "$RUNNER_TEMP/envs/01-environments" "$RUNNER_TEMP/envs/02-workflows" "$RUNNER_TEMP/envs/03-dataops" "$RUNNER_TEMP/envs/04-registry" "$RUNNER_TEMP/envs/results"
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _build/html

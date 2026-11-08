@@ -1,4 +1,0 @@
-digits-clf:
-  type: model
-  path: model.pkl
-  description: Classifies 8x8 images of handwritten digits.

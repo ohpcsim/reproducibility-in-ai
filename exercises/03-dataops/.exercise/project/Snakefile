@@ -1,3 +1,5 @@
+configfile: "params.yaml"
+
 rule all:
     input: "metrics.json"
 
@@ -12,6 +14,7 @@ rule validate:
     shell: "python validate.py"
 
 rule report:
-    input: "results/validated.csv", "report.py", "params.yaml"
+    input: "results/validated.csv", "report.py"
     output: "metrics.json"
+    params: config["report"]
     shell: "python report.py"

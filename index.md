@@ -14,17 +14,19 @@ subject: Hands-on exercises
 - The document and the data are the pets. Everything that runs them is cattle, so you can delete it and build it again from what's in the project.
 - This site works the same way. Each exercise page is a notebook that reruns when the site is published, and the failures on it are real output.
 - [The premise](premise.md) has the full argument.
+- [Results: sexual dimorphism in Palmer penguins](results/results.ipynb) is one such document. The build runs the finished project's code, and the page shows what it printed and drew.
+- [How this site is built](build.md) shows its configuration, the command that builds it and the automation that reruns every notebook.
 
 ## The exercises
 
-- Each exercise stands on its own.
-- Exercise 1 takes about 20 minutes. In exercises 2 to 5, the short path is step 1 and its check, about 15 minutes, and the rest is optional.
+- The four exercises use one project, [a study of Palmer penguins](project.md), and add a capability in each exercise.
+- Each exercise stands on its own, and takes 15 to 20 minutes.
 - Only reading? Each page shows the failure and how to approach the fix.
 
 ::::{grid} 1 1 2 2
 
 :::{card} 1. Software environments
-**Managing software environments**
+**How do you declare and lock what the penguin project needs, with conda and with uv?**
 
 - **Problem:** a script imports a package that the project's dependency files don't declare.
 - **You'll learn:** declare and lock an environment with conda, then with uv, and why a conda lock is per platform and a uv lock isn't.
@@ -35,7 +37,7 @@ subject: Hands-on exercises
 :::
 
 :::{card} 2. Workflows
-**One command rebuilds the result**
+**How do you declare the penguin project's steps so one command rebuilds the result, with Snakemake or Nextflow?**
 
 - **Problem:** a README says "run these in this order", and nothing records which step reads what.
 - **You'll learn:** declare each step's inputs, outputs and parameters with Snakemake, rebuild from the raw data with one command, and watch a changed parameter rerun only the step that reads it. The same exercise in Nextflow, for your own machine.
@@ -45,7 +47,7 @@ subject: Hands-on exercises
 {button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>` [Read the page](exercises/02-workflows/workflows.ipynb)
 :::
 
-:::{card} 3. Data
+:::{card} 3. Versioning data
 **Do the 2008 and 2009 seasons change how much heavier male penguins are?**
 
 - **Problem:** the data is in Git, and a new field season is coming.
@@ -61,24 +63,15 @@ subject: Hands-on exercises
 
 - **Problem:** a trained penguin model has no registered version or live stage.
 - **You'll learn:** register two versions with GTO, promote the better validation score and restore every model with DVC.
-- **Data:** Palmer penguins.
-- 15 to 20 minutes.
+- **Data:** Palmer penguins, 2007 to 2009.
+- About 15 to 20 minutes.
 
 {button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise>` [Read the page](exercises/04-registry/registry.ipynb)
 :::
 
-:::{card} 5. LLM documentation
-**Can your tests catch a bad model card?**
-
-- **Problem:** an LLM-written model card can be wrong, and "it looks good" isn't a check.
-- **You'll learn:** write the tests first, run them over cards five tools wrote, and use a second model to find what's missing from the project.
-- **Data:** recordings, so no model runs and you don't need a key.
-- 15 minutes for the short path, 35 for all of it.
-
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-05-llm?urlpath=lab/workspaces/exercise>` [Read the page](exercises/05-llm/llm.ipynb)
-:::
-
 ::::
+
+- Exercise 1 has two optional parts you run on your own machine: [1b, Environments in containers](exercises/01-environments/containers.md), and [1c, PyTorch with a GPU](gpu/gpu.md) on Linux or WSL2 with an NVIDIA GPU.
 
 ## How to start
 
@@ -87,11 +80,7 @@ It works the same way everywhere: read the page, and paste the commands into a t
 1. Pick an exercise. If you're not sure, start with the first.
 2. Select **Open in Binder**. Your browser opens a free temporary session with a terminal on the left and the instructions on the right, with everything installed. The first start can take a few minutes. A session has 2 GB of memory and ends when it sits idle, so download anything you want to keep.
 3. Or [set up your environment](setup.md) on your own machine and use your own terminal with these pages. You don't need Jupyter, and your work stays with you.
-4. Do step 1, then run its check, `python ../check.py --short`.
+4. Do the steps on the page, then run its check, `python ../check.py`.
 5. To learn a tool, [Tools and documentation](tools.md) links to its documentation and its introduction.
-
-Want to try the task yourself? [The same task in five tools](tools/five-tools.md) shows how to sign in, the exact command, what each tool wrote, and whether the tests accepted it: Claude Code, Codex, Cursor, a local model and free models.
-
-Exercise 1 has an optional part you run yourself, on Linux or WSL2 with an NVIDIA GPU: [1c, PyTorch with a GPU](gpu/gpu.md), with conda, uv and containers.
 
 The code here is MIT licensed. Each exercise names its data, its license and how to cite it.
