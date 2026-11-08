@@ -217,7 +217,9 @@ cd project
 
 - You're now in the `project` folder, ready for the [exercise's first step](exercises/01-environments/environments.ipynb).
 - If you close the window, open a new one and turn conda on, then run `conda activate repro-environments` and `cd environments/project`.
-- If `conda env create` says the prefix already exists, an environment with that name is left from an earlier run: `conda env remove -n repro-<name>` and create it again.
+- If `conda env create` says the prefix already exists, an environment with that name is left from an earlier run. The rest of the block then uses that old environment and leaves a half-built `environments` folder. Remove both, then paste the block again: `conda deactivate; conda env remove -n repro-environments -y; cd ../..; rm -rf environments`
+- The block leaves you in `environments/project`, so `cd ../..` goes to the folder above `environments`. If `cd project` failed too, use `cd ..` instead.
+- For another exercise, use its environment from the table and its folder name.
 
 (container-tool)=
 ### Optional: a container tool (Exercises 1b and 1c only)
