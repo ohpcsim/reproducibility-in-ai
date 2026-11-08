@@ -35,7 +35,7 @@ An AI result depends on:
 - Literate science applies the same idea to the whole result, and not only to the program.
 - The claims, the code, the environment and the data live in one project.
 - Published results come from running the project, not from pasted output.
-- If the code breaks, the document breaks.
+- If the code breaks, the build breaks.
 - Earlier work: Claerbout and Karrenbach (1992) on reproducible electronic documents, and Buckheit and Donoho (1995) on WaveLab.
 - The step this workshop adds is doing it with cloud-native tools, which are stateless and declarative.
 
@@ -110,7 +110,7 @@ The goal:
 - Computational infrastructure is cattle. You can throw it away and replace it.
 - Your data and results are pets. Preserve them carefully.
 - Software environments are declarative definitions under version control.
-- The document and the data are the pets. Everything that runs them is cattle.
+- Your research products (papers, code, data) are the pets. Everything that runs them is cattle.
 
 ## Thesis
 
