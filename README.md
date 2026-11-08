@@ -13,4 +13,4 @@ cd project
 
 Run `python ../check.py` from `project` to check your work. `--short` runs the same check.
 
-For uv setup, see [the uv route](../../uv.md#exercise-4-model-registry).
+For uv instead of conda, see "With uv instead of conda" on [the exercise page](https://ohpcsim.github.io/reproducibility-in-ai/registry).
