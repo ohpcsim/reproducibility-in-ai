@@ -195,6 +195,7 @@ $ ls figures
 body_mass.svg
 ```
 
+- `PLOT` and `REPORT` both wait only for `VALIDATE`, so here and in step 3 the order of their lines can differ on your machine.
 - Open `figures/body_mass.svg` in a web browser, or `README.md` in a Markdown viewer.
 
 4. Commit `main.nf`. The figure is built, not committed, so `git status --short` prints nothing after the commit.

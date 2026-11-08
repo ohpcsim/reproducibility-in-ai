@@ -61,10 +61,13 @@ def nextflow(clone, *args):
     return run("nextflow", "run", "main.nf", "-ansi-log", "false", *args, cwd=clone)
 
 
-def last_line(done):
-    lines = [line for line in (done.stdout + done.stderr).splitlines() if line.strip()]
-    errors = [line for line in lines if re.search(r"Error|ERROR", line)]
-    return (errors or lines)[0 if errors else -1] if lines else "no output"
+def error_lines(done):
+    """The first line that names an error and the two lines after it, which hold the reason, or else the last line."""
+    lines = [line.strip()[:200] for line in (done.stdout + done.stderr).splitlines() if line.strip()]
+    first = next((i for i, line in enumerate(lines) if re.search(r"Error|ERROR|Exception", line)), None)
+    if first is None:
+        return lines[-1] if lines else "no output"
+    return "\n      ".join(lines[first:first + 3])
 
 
 def tasks(clone):
@@ -108,7 +111,7 @@ def check_workflow_file(clone):
     if NEXTFLOW:
         dry = nextflow(clone, "-preview")
         if dry.returncode != 0:
-            report(False, f"nextflow run main.nf -preview fails on your last commit: {last_line(dry)}")
+            report(False, f"nextflow run main.nf -preview fails on your last commit: {error_lines(dry)}")
             return False
         text = (clone / "main.nf").read_text()
         ok = bool(re.search(r"(?m)^\s*process\s+PLOT\s*\{", text) and re.search(r"(?m)^\s*PLOT\s*\(", text))
@@ -117,7 +120,7 @@ def check_workflow_file(clone):
         return True
     dry = snakemake(clone, "-n", "--forceall", "--quiet", "host")  # with each job's inputs and outputs
     if dry.returncode != 0:
-        report(False, f"snakemake -n fails on your last commit: {last_line(dry)}")
+        report(False, f"snakemake -n fails on your last commit: {error_lines(dry)}")
         return False
     rule = re.search(r"(?m)^rule plot:\n\s+input: (.*)\n\s+output: (.*)", dry.stdout)
     inputs = set(rule.group(1).split(", ")) if rule else set()
@@ -139,7 +142,7 @@ def check_build(clone):
         shutil.rmtree(clone / name, ignore_errors=True) if (clone / name).is_dir() else (clone / name).unlink(missing_ok=True)
     built = nextflow(clone) if NEXTFLOW else snakemake(clone, "--forceall")
     if built.returncode != 0:
-        return report(False, f"In a clean clone, {COMMAND} failed: {last_line(built)}")
+        return report(False, f"In a clean clone, {COMMAND} failed: {error_lines(built)}")
     found = metrics(clone)
     if found is None:
         return report(False, f"In a clean clone, {COMMAND} finished without writing metrics.json. Put the starter's report step back.")
