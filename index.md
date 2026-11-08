@@ -35,12 +35,12 @@ subject: Hands-on exercises
 :::
 
 :::{card} 2. Workflows
-**How many magnitude 5 earthquakes for each magnitude 6?**
+**One command rebuilds the result**
 
-- **Problem:** a README says "run these in this order", and the committed number is stale.
-- **You'll learn:** declare each step's inputs and outputs with Snakemake, rebuild from the raw data, declare parameters and code so only the right steps rerun, and record a decision.
-- **Data:** the USGS 2024 earthquake catalog.
-- 15 minutes for the short path, 35 for all of it.
+- **Problem:** a README says "run these in this order", and nothing records which step reads what.
+- **You'll learn:** declare each step's inputs, outputs and parameters with Snakemake, rebuild from the raw data with one command, and watch a changed parameter rerun only the step that reads it. The same exercise in Nextflow, for your own machine.
+- **Data:** Palmer penguins, the 2007 field season.
+- About 15 to 20 minutes.
 
 {button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>` [Read the page](exercises/02-workflows/workflows.ipynb)
 :::
