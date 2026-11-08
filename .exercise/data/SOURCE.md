@@ -1,0 +1,9 @@
+# About this data
+
+`penguins.csv` is the 2007 field season of the Palmer penguins table, from Palmer Station, Antarctica: the header and every row whose year is 2007, unchanged from the `palmerpenguins` package. Exercise 3 starts from the same rows.
+
+- Source: <https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv>
+- Downloaded: November 7, 2026.
+- License: CC0 1.0, as stated in the package's LICENSE.md and README. <https://creativecommons.org/publicdomain/zero/1.0/>
+- Please cite: Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer Archipelago (Antarctica) penguin data. R package version 0.1.0. doi:10.5281/zenodo.3960218.
+- Original publication: Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. doi:10.1371/journal.pone.0090081.

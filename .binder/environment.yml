@@ -1,0 +1,7 @@
+name: repro-environments
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - git
+  - uv
