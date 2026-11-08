@@ -20,8 +20,6 @@ An AI result depends on:
 - LLMs you use.
 - Conclusions you draw from all of the above.
 
-In academia we usually run AI workloads on batch HPC systems. We probably need alternatives.
-
 ## Literate programming to literate science
 
 **Literate programming**
