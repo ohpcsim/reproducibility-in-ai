@@ -8,6 +8,7 @@ project:
     - file: index.md
     - file: premise.md
     - file: setup.md
+    - file: tools.md
     - title: Exercises
       children:
         - file: exercises/01-gitops/gitops.ipynb

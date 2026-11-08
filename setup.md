@@ -21,6 +21,7 @@ title: Set up your environment
 
 - To try an exercise, use Binder.
 - To keep your work, use your own machine.
+- [Tools and documentation](tools.md) lists each tool, with links to its documentation.
 - The Binder numbers are from the [mybinder.org usage guidelines](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#resources-available).
 
 ## Binder and BinderHub: how it works
