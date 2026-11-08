@@ -1,8 +1,8 @@
 ---
-title: Exercise 2 in Nextflow
+title: Workflows in Nextflow
 ---
 
-- This page is optional. It redoes [Exercise 2, Workflows](workflows.ipynb) in Nextflow instead of Snakemake, with the same data, the same scripts and the same result.
+- This page is optional. It redoes [2a. Snakemake](workflows.ipynb) in Nextflow, with the same data, the same scripts and the same result.
 - You run it on your own machine. There's no Binder for it, and the next section says why.
 - If you did the Snakemake exercise, the problem is the one you know, and step 2 shows where the two tools differ.
 

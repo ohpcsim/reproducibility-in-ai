@@ -1,4 +1,4 @@
-# Exercise 2 in Nextflow
+# 2b. Workflows in Nextflow
 
 The same workflow as `../workflows.ipynb`, written for Nextflow instead of Snakemake. The instructions are in `../nextflow.md`, or on the site. There is no Binder for this route; it runs on your own Linux, macOS or Windows (WSL2) machine.
 
