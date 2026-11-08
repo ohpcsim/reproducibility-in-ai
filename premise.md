@@ -126,9 +126,9 @@ The goal:
 - Cloud-native tools declare the full computational environment.
 - Declarative beats procedural: more portable, less fragile.
 - Stateless systems make software, OS, libraries and data portable.
-- Interactive conda or pip installs don't reproduce. Declare and lock them.
-- Data left on a POSIX file system doesn't reproduce. Version it, with GitOps and DataOps.
-- A method left in a chat session doesn't reproduce. Put it in the project, harness and model agnostic.
+- Interactive conda or pip installs aren't reproducible. Declare and lock them.
+- Data left on a POSIX file system doesn't capture its history or provenance. Version it, with GitOps and DataOps.
+- A method left in a chat session isn't reproducible. Put it in the project, harness and model agnostic.
 
 ## From the ideas to the exercises
 
