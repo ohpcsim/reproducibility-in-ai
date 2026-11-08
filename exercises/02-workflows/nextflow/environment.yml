@@ -1,0 +1,11 @@
+name: repro-nextflow
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - pandas
+  - pyyaml
+  - nextflow=26
+  - openjdk
+  - git
