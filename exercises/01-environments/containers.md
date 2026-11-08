@@ -38,6 +38,9 @@ Pick one route. Each one is complete on its own and ends with the same check.
 +++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
 
 - **Route A: your own Mac, Windows or Linux machine, with Docker or Podman.** You build two images and run them.
++++ {"tags": ["track-linux"]}
+
+- **Or Route B, with Apptainer.** You build two SIF files from `.def` files instead, and run them. The build uses Apptainer's `--fakeroot`.
 +++ {"tags": ["track-wsl2"]}
 
 - **Route B: Apptainer inside WSL2.** You build two SIF files from `.def` files and run them. The build uses Apptainer's `--fakeroot`.
@@ -90,7 +93,7 @@ cp metrics.json ../metrics-ex1.json
 :language: dockerfile
 ```
 
-+++ {"tags": ["track-wsl2", "track-hpc"]}
++++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
 ```{literalinclude} containers/penguins-conda.def
 ```
@@ -150,17 +153,20 @@ diff ../metrics-ex1.json ../metrics-image-uv.json
 
 - Rootless, Podman's conda build printed warnings such as `can't raise ambient capability CAP_CHOWN`. The build still succeeded.
 
-+++ {"tags": ["track-wsl2", "track-hpc"]}
++++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
 (route-b)=
 ## Route B: Apptainer
 
 - Apptainer runs as you, in your current folder, with no daemon.
++++ {"tags": ["track-linux"]}
+
+- Or use Apptainer instead of Docker or Podman. It's the same check, with SIF files instead of images.
 +++ {"tags": ["track-hpc"]}
 
 - If your site has it as a module, load it first, for example `module load apptainer`. Your center's documentation names it.
 
-+++ {"tags": ["track-wsl2", "track-hpc"]}
++++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
 **Build the SIF files** from the `.def` files:
 
@@ -175,7 +181,7 @@ apptainer build --fakeroot ../penguins-uv.sif ../containers/penguins-uv.def
 
 - If the build stops because `--fakeroot` isn't allowed, use [From A to B](#from-a-to-b).
 
-+++ {"tags": ["track-wsl2", "track-hpc"]}
++++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
 **Run and compare:**
 
@@ -262,7 +268,7 @@ apptainer build --force ../penguins-uv.sif docker-archive://../penguins-uv.tar
 ## Clean up
 
 - When you're done, remove what you made.
-+++ {"tags": ["track-mac", "track-linux"]}
++++ {"tags": ["track-mac"]}
 
 ```bash
 docker rmi penguins-conda:v1 penguins-uv:v1
@@ -278,6 +284,16 @@ rm -f ../penguins-conda.sif ../penguins-uv.sif ../metrics-ex1.json ../metrics-si
 ```
 
 - Apptainer keeps the base images it pulled in its cache. `apptainer cache list` shows it, and `apptainer cache clean` empties it.
++++ {"tags": ["track-linux"]}
+
+```bash
+rm -f ../penguins-conda.sif ../penguins-uv.sif
+rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json ../metrics-sif-conda.json ../metrics-sif-uv.json
+```
+
+- `rm -f` skips the files your route didn't make.
+- If you used Route A, also run `docker rmi penguins-conda:v1 penguins-uv:v1`, or `podman rmi` with the same names.
+- The base images stay. `docker image ls` or `podman image ls` lists them, and `apptainer cache clean` empties Apptainer's cache.
 +++ {"tags": ["track-hpc"]}
 
 ```bash
@@ -293,9 +309,12 @@ rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json .
 
 ## Things that trip people up
 
-+++ {"tags": ["track-mac", "track-linux"]}
++++ {"tags": ["track-mac"]}
 
 - Disk space. The two images took 1.3 GB. The conda image is almost four times the uv image, because the Miniforge base image alone is about 600 MB.
++++ {"tags": ["track-linux"]}
+
+- Disk space. The two images took 1.3 GB, and the two SIF files 0.4 GB. The conda image is almost four times the uv image, because the Miniforge base image alone is about 600 MB.
 +++ {"tags": ["track-wsl2"]}
 
 - Disk space. The two SIF files took 0.4 GB. The conda SIF is almost four times the uv SIF, because it holds the Miniforge base image.
@@ -305,7 +324,7 @@ rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json .
 +++ {"tags": ["track-linux", "track-hpc"]}
 
 - Rootless Podman keeps images in your home folder, under `~/.local/share/containers`, so check your quota.
-+++ {"tags": ["track-wsl2"]}
++++ {"tags": ["track-linux", "track-wsl2"]}
 
 - `--fakeroot`. Building a SIF from a `.def` file needs it.
 +++ {"tags": ["track-hpc"]}

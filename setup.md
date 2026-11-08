@@ -115,7 +115,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 
 +++ {"tags": ["track-linux"]}
 
-- You don't need administrator access, except to install Docker or Podman for the optional Exercises 1b and 1c.
+- You don't need administrator access, except to install Docker, Podman or Apptainer for the optional Exercises 1b and 1c.
 
 +++ {"tags": ["track-wsl2"]}
 
@@ -233,6 +233,7 @@ cd project
 +++ {"tags": ["track-linux"]}
 
 - Install Docker Engine or Podman from your distribution's packages, with `sudo`. [Docker's install page](https://docs.docker.com/engine/install/) and [Podman's](https://podman.io/docs/installation) list the steps for each distribution.
+- Or install Apptainer, for 1b's Route B and 1c. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html) has the steps. Check with `apptainer --version`.
 
 +++ {"tags": ["track-wsl2"]}
 

@@ -10,7 +10,7 @@ subject: Hands-on exercises
 
 | Track | Who it's for | Exercises |
 |---|---|---|
-| [Binder](setup.md), the workshop default | Anyone. Nothing to install, you need a browser. | 1, 2a, 3, 4 |
+| [Binder](setup.md), the workshop default | Anyone. Nothing to install, you need a browser. | 1a, 2a, 3, 4 |
 | [Your Mac](setup-mac.md) | A Mac you own, with Apple silicon | 1a, 1b, 2a, 2b, 3, 4 |
 | [Your Linux machine](setup-linux.md) | Linux you own, with root | 1a, 1b, 1c with an NVIDIA GPU, 2a, 2b, 3, 4 |
 | [Windows (WSL2)](setup-wsl2.md) | A Windows PC you own | 1a, 1b, 1c with an NVIDIA GPU, 2a, 2b, 3, 4 |
