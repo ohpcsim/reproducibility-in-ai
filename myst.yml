@@ -13,7 +13,7 @@ project:
         - file: project.md
           children:
             - file: results/results.ipynb
-              title: "Results: sexual dimorphism in Palmer penguins"
+              title: "Results: a literate science example"
     - title: Exercises
       children:
         - title: "Binder (workshop default)"
