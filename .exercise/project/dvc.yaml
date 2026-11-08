@@ -21,16 +21,14 @@ stages:
     params:
       - report
     metrics:
-      - metrics.json:
-          cache: false
+      - metrics.json
   split:
     cmd: python split.py
     deps:
       - results/validated.csv
       - split.py
     outs:
-      - splits.json:
-          cache: false
+      - splits.json
   train:
     cmd: python train.py
     deps:
@@ -42,5 +40,4 @@ stages:
     outs:
       - model.pkl
     metrics:
-      - model_metrics.json:
-          cache: false
+      - model_metrics.json
