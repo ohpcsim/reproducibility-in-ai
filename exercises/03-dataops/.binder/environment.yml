@@ -5,6 +5,7 @@ dependencies:
   - python=3.12
   - pandas
   - pyyaml
+  - matplotlib-base
   - dvc=3
   - git
   - nano

@@ -6,6 +6,7 @@ dependencies:
   - python=3.12
   - pandas
   - pyyaml
+  - matplotlib-base
   - nextflow=26
   - openjdk
   - git

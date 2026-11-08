@@ -1,3 +1,5 @@
 results/
+figures/
+metrics.json
 __pycache__/
 .snakemake/

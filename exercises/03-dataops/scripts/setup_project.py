@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Build the starting repository in project/: Exercise 2's pipeline on the 2007 field season, declared as DVC stages.
+"""Build the starting repository in project/: Exercise 2's finished workflow on the 2007 field season, declared as DVC stages.
+
+Built outputs are not in Git. DVC keeps them in its cache, and dvc.lock records their hashes.
 
 Run it again and it leaves your work alone. To start over, use --reset. That deletes your work.
 """
@@ -38,16 +40,14 @@ def build():
     season = [lines[0]] + [line for line in lines[1:] if line.strip().endswith(",2007")]
     (PROJECT / "data").mkdir()
     (PROJECT / "data" / "penguins.csv").write_text("".join(season))
-    for script in ("clean.py", "validate.py", "report.py"):
-        run(sys.executable, script)
 
-    # Exercise 2's end state: the scripts, the Snakefile, the data and the result, all in Git.
+    # Exercise 2's end state: the data, the scripts, params.yaml, the README and the Snakefile with the plot rule, in Git.
     git("init", "--quiet", "--initial-branch=main")
     git("config", "core.autocrlf", "false")
     git("config", "user.name", "Workshop Learner")
     git("config", "user.email", "learner@example.org")
     git("add", "-A")
-    git("commit", "--quiet", "--no-verify", "--message", "Declare the steps in a Snakefile")
+    git("commit", "--quiet", "--no-verify", "--message", "Build the numbers and the figure with a Snakefile")
 
     # Declare the same steps as DVC stages. The data stays in Git, for step 1 to move.
     BUCKET.mkdir()
@@ -58,7 +58,8 @@ def build():
     run("dvc", "remote", "modify", "--local", "storage", "url", str(BUCKET))
     stage("clean", ["data/penguins.csv", "clean.py"], ["-o", "results/clean.csv"], "clean.py")
     stage("validate", ["results/clean.csv", "validate.py"], ["-o", "results/validated.csv"], "validate.py")
-    stage("report", ["results/validated.csv", "report.py"], ["-p", "report", "-M", "metrics.json"], "report.py")
+    stage("report", ["results/validated.csv", "report.py"], ["-p", "report", "-m", "metrics.json"], "report.py")
+    stage("plot", ["results/validated.csv", "plot.py"], ["-o", "figures/body_mass.svg"], "plot.py")
     run("dvc", "repro", "--quiet")
     git("add", ".")
     git("commit", "--quiet", "--no-verify", "--message", "Declare the same steps as DVC stages")

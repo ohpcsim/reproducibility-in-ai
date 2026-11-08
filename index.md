@@ -68,10 +68,10 @@ subject: Hands-on exercises
 :::
 
 :::{card} 2. Workflows
-**How do you declare the penguin project's steps so one command rebuilds the result, with Snakemake or Nextflow?**
+**How do you add a step to the penguin project's working workflow, so one command builds the numbers and the figure, with Snakemake or Nextflow?**
 
-- **Problem:** a README says "run these in this order", and nothing records which step reads what.
-- **You'll learn:** declare each step's inputs, outputs and parameters with Snakemake, rebuild from the raw data with one command, and watch a changed parameter rerun only the step that reads it. The same exercise in Nextflow, [2b](exercises/02-workflows/nextflow.md), for your own machine.
+- **Problem:** the project's workflow builds its numbers, and its README shows a figure that nothing builds.
+- **You'll learn:** run a workflow you were given, add a step in the same form with Snakemake, and watch the tool run only what's new or stale, and a changed parameter rerun only the step that reads it. The same exercise in Nextflow, [2b](exercises/02-workflows/nextflow.md), for your own machine.
 - **Data:** Palmer penguins, the 2007 field season.
 - About 15 to 20 minutes.
 
@@ -82,7 +82,7 @@ subject: Hands-on exercises
 **Do the 2008 and 2009 seasons change how much heavier male penguins are?**
 
 - **Problem:** the data is in Git, and a new field season is coming.
-- **You'll learn:** version data with DVC and a bucket, rerun the declared steps on a new version, and bring back an old version and its result.
+- **You'll learn:** version data with DVC and a bucket, rerun the declared steps on a new version, and bring back an old version with its numbers and its figure.
 - **Data:** Palmer penguins, the 2007 season, then 2007 to 2009.
 - About 15 minutes.
 
