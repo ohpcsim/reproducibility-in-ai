@@ -4,7 +4,7 @@ title: "The project: Palmer penguins"
 
 - The workshop's exercises use one project, a study of Palmer penguins, and add a capability in each exercise.
 - This page says what the data is, what the project computes, what each exercise adds and why we chose it.
-- [Results: sexual dimorphism in Palmer penguins](results/results.ipynb) runs the finished project and shows its table, a figure and the classifier's accuracy.
+- [Literate Science Results: sexual dimorphism in Palmer penguins](results/results.ipynb) runs the finished project and shows its table, a figure and the classifier's accuracy.
 
 ## The data
 

@@ -13,7 +13,7 @@ project:
         - file: project.md
           children:
             - file: results/results.ipynb
-              title: "Results: a literate science example"
+              title: "Literate Science Results"
     - title: Exercises
       children:
         - title: "Binder (workshop default)"

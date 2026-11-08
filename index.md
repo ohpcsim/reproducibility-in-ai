@@ -45,7 +45,7 @@ subject: Hands-on exercises
 - The document and the data are the pets. Everything that runs them is cattle, so you can delete it and build it again from what's in the project.
 - This site works the same way. Each exercise page is a notebook that reruns when the site is published, and the failures on it are real output.
 - [The premise](premise.md) has the full argument.
-- [Results: sexual dimorphism in Palmer penguins](results/results.ipynb) is one such document. The build runs the finished project's code, and the page shows what it printed and drew.
+- [Literate Science Results: sexual dimorphism in Palmer penguins](results/results.ipynb) is one such document. The build runs the finished project's code, and the page shows what it printed and drew.
 - [How this site is built](build.md) shows its configuration, the command that builds it and the automation that reruns every notebook.
 
 ## The exercises
