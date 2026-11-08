@@ -40,7 +40,7 @@ subject: Hands-on exercises
 **How do you declare the penguin project's steps so one command rebuilds the result, with Snakemake or Nextflow?**
 
 - **Problem:** a README says "run these in this order", and nothing records which step reads what.
-- **You'll learn:** declare each step's inputs, outputs and parameters with Snakemake, rebuild from the raw data with one command, and watch a changed parameter rerun only the step that reads it. The same exercise in Nextflow, for your own machine.
+- **You'll learn:** declare each step's inputs, outputs and parameters with Snakemake, rebuild from the raw data with one command, and watch a changed parameter rerun only the step that reads it. The same exercise in Nextflow, [2b](exercises/02-workflows/nextflow.md), for your own machine.
 - **Data:** Palmer penguins, the 2007 field season.
 - About 15 to 20 minutes.
 

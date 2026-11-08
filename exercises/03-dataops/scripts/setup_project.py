@@ -14,14 +14,16 @@ FILES = HERE / ".exercise" / "project"
 PROJECT = HERE / "project"
 BUCKET = HERE / "osn-bucket"
 ENV = {**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"}
+# A fixed date, so every learner gets the commit IDs on the page.
+STAMP = "2025-04-03T10:00:00+0000"
 
 
-def run(*args):
-    subprocess.run(args, cwd=PROJECT, env=ENV, check=True, capture_output=True)
+def run(*args, env=ENV):
+    subprocess.run(args, cwd=PROJECT, env=env, check=True, capture_output=True)
 
 
 def git(*args):
-    run("git", *args)
+    run("git", *args, env={**ENV, "GIT_AUTHOR_DATE": STAMP, "GIT_COMMITTER_DATE": STAMP})
 
 
 def stage(name, inputs, outputs, script):

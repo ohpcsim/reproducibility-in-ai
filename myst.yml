@@ -15,19 +15,23 @@ project:
     - file: build.md
     - title: Exercises
       children:
-        - file: exercises/01-environments/environments.ipynb
-          title: "1. Software environments"
-        - file: exercises/01-environments/containers.md
-          title: "1b. Environments in containers"
-        - file: gpu/gpu.md
-          title: "1c. PyTorch with a GPU"
+        - title: "1. Software environments"
           children:
-            - file: gpu/container.md
-              title: "1c. Containers"
-        - file: exercises/02-workflows/workflows.ipynb
-          title: "2. Workflows"
-        - file: exercises/02-workflows/nextflow.md
-          title: "2b. Workflows in Nextflow"
+            - file: exercises/01-environments/environments.ipynb
+              title: "1a. conda and uv locks"
+            - file: exercises/01-environments/containers.md
+              title: "1b. Environments in containers"
+            - file: gpu/gpu.md
+              title: "1c. PyTorch with a GPU"
+              children:
+                - file: gpu/container.md
+                  title: "1c. Containers"
+        - title: "2. Workflows"
+          children:
+            - file: exercises/02-workflows/workflows.ipynb
+              title: "2a. Snakemake"
+            - file: exercises/02-workflows/nextflow.md
+              title: "2b. Nextflow"
         - file: exercises/03-dataops/dataops.ipynb
           title: "3. Versioning data"
         - file: exercises/04-registry/registry.ipynb

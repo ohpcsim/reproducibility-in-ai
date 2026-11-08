@@ -196,13 +196,21 @@ cd project
 
 - You're now in the `project` folder, ready for the [exercise's first step](exercises/01-environments/environments.ipynb).
 - If you close the window, open a new one and turn conda on, then run `conda activate repro-environments` and `cd environments/project`.
+- If `conda env create` says the prefix already exists, an environment with that name is left from an earlier run: `conda env remove -n repro-<name>` and create it again.
+
+### Optional: a container tool (Exercises 1b and 1c only)
+
+- Binder and Exercises 1, 2, 3 and 4 don't need one.
+- Mac or Windows: install [Docker Desktop](https://docs.docker.com/desktop/) or [Podman Desktop](https://podman-desktop.io/). Each runs a small Linux VM.
+- Linux: install Docker Engine or Podman from your distribution's packages. [Docker's install page](https://docs.docker.com/engine/install/) and [Podman's](https://podman.io/docs/installation) list the steps for each distribution.
+- A shared cluster: Apptainer is usually installed by your admins; check with `apptainer --version`. ([Apptainer](https://apptainer.org/docs/user/main/))
 
 (messages-you-can-ignore)=
 ### Messages you can ignore
 
 - `conda env create` may print `WARNING conda.conda_pypi...` with current Miniforge. It's harmless.
 - It may also print a "Did you know? ... conda-pypi" tip. It's harmless.
-- In exercise 3, DVC may print "Waiting to acquire lock. If DVC froze, see hardlink_lock" several times. It's harmless, and the command finishes.
+- In exercises 3 and 4, DVC may print "Waiting to acquire lock. If DVC froze, see hardlink_lock" several times. It's harmless, and the command finishes.
 
 ### Edit files
 
