@@ -1,11 +1,9 @@
 # About this data
 
-`earthquakes.csv` is every earthquake of magnitude 4.0 and above in 2024, worldwide, from the USGS ANSS Comprehensive Earthquake Catalog (ComCat). It is unchanged from the catalog's CSV output: 14,175 rows, 2.7 MB.
+`penguins.csv` is the 2007 field season of the Palmer penguins table, from Palmer Station, Antarctica: the header and every row whose year is 2007, unchanged from the `palmerpenguins` package. Exercise 1 uses the same file.
 
-- Source: <https://earthquake.usgs.gov/fdsnws/event/1/query?format=csv&starttime=2024-01-01&endtime=2025-01-01&minmagnitude=4.0&orderby=time-asc>
-- Catalog: <https://earthquake.usgs.gov/data/comcat/>. Column meanings: <https://earthquake.usgs.gov/data/comcat/data-eventterms.php>
-- Downloaded: November 8, 2026.
-- License: a work of the United States Government, in the public domain. USGS: "USGS-authored or produced data and information are considered to be in the U.S. Public Domain." <https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits>
-- Please cite: U.S. Geological Survey, Earthquake Hazards Program, 2017, Advanced National Seismic System (ANSS) Comprehensive Catalog of Earthquake Events and Products: Various, <https://doi.org/10.5066/F7MS3QZH>.
-
-The catalog mixes magnitude types, mostly `mb`, with `mww` for the largest events. The exercise fits one b-value to them as they are.
+- Source: <https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv>
+- Downloaded: November 7, 2026.
+- License: CC0 1.0, as stated in the package's LICENSE.md and README. <https://creativecommons.org/publicdomain/zero/1.0/>
+- Please cite: Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer Archipelago (Antarctica) penguin data. R package version 0.1.0. doi:10.5281/zenodo.3960218.
+- Original publication: Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. doi:10.1371/journal.pone.0090081.

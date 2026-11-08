@@ -1,3 +1,5 @@
-# Which earthquakes subset.py keeps.
-min_magnitude: 4.0
-max_depth_km: 700
+clean:
+  convert_kg: false        # repairs stay off until a person turns one on
+  map_sex_labels: false
+report:
+  statistic: mean          # or median

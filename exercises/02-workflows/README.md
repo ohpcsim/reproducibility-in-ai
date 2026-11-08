@@ -1,6 +1,6 @@
-# Workflows: how many magnitude 5 earthquakes for each magnitude 6?
+# Workflows: one command rebuilds the result
 
-Short path, about 15 minutes: step 1 and its check. The full exercise takes about 35 minutes. The instructions are in `workflows.ipynb`, or on the site.
+About 15 to 20 minutes: declare the penguin project's three steps as a Snakefile, rebuild from the raw data, and watch a changed parameter rerun one step. The instructions are in `workflows.ipynb`, or on the site. `nextflow.md` is the same exercise in Nextflow, for your own machine.
 
 [Open in Binder](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise) for a terminal and the instructions side by side. Or use your own terminal on Linux, macOS, or Windows through WSL2:
 

@@ -1,21 +1,21 @@
 // The README's procedure as a Nextflow workflow. Each process names the files it reads, the files it writes and the command.
-// Step 1: add a process COUNT and a process FIT in the same form, and call them in the workflow block.
+// Step 1: add a process VALIDATE and a process REPORT in the same form, and call them in the workflow block.
 
-process SUBSET {
-    publishDir '.', mode: 'copy'
+process CLEAN {
+    publishDir '.', mode: 'copy', overwrite: true
 
     input:
-    path 'data/earthquakes.csv'
+    path 'data/penguins.csv'
     path 'params.yaml'
-    path 'subset.py'
+    path 'clean.py'
 
     output:
-    path 'results/subset.csv'
+    path 'results/clean.csv'
 
     script:
-    "python subset.py"
+    "python clean.py"
 }
 
 workflow {
-    subset = SUBSET(file('data/earthquakes.csv'), file('params.yaml'), file('subset.py'))
+    clean = CLEAN(file('data/penguins.csv'), file('params.yaml'), file('clean.py'))
 }
