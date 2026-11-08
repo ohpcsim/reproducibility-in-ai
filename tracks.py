@@ -182,11 +182,43 @@ def build():
         print(f"{src}: {', '.join(page_path(src, t) for t in PAGES[src])}")
 
 
+ANSI = re.compile(r"\x1b\[[0-9;]*m")
+STEP = re.compile(r"^(## Step |[2-9]\. |1[0-9]\. )")
+
+
+def panel_markdown(text):
+    """Label each command block and put a rule before each step, so steps don't run together in the Markdown Preview."""
+    out, fence, prev = [], False, ""
+    for line in text.split("\n"):
+        if not fence and line.lstrip().startswith("```bash"):
+            out += [line[:len(line) - len(line.lstrip())] + "**Run:**", ""]
+        elif not fence and STEP.match(line) and not re.match(r"\d+\. ", prev):
+            out += ["---", ""]  # after a blank line, so it can't turn the line above into a heading
+        if line.lstrip().startswith("```"):
+            fence = not fence
+        out.append(line)
+        if line.strip():
+            prev = line
+    return "\n".join(out)
+
+
+def recorded(cell):
+    """A recorded output, as a labelled text block in a markdown cell, without the code that printed it."""
+    text = ANSI.sub("", "".join("".join(o.get("text", "")) for o in cell.get("outputs", []))).rstrip()
+    ticks = "````" if "```" in text else "```"
+    return {"cell_type": "markdown", "id": cell.get("id"), "metadata": {}, "tags": [],
+            "source": f"**Recorded output:**\n\n{ticks}text\n{text}\n{ticks}"}
+
+
 def panel(name):
     src = f"exercises/{name}.ipynb"
     PAGES[src] = ALL
     nb, cells = read(src, sys.stdin.read())
     cells = with_line(select(cells, src, "binder", panel=True), f"This is the Binder copy of [the full page]({name}.ipynb).", [])
+    # Every code cell on these pages is a recorded output. The panel shows it as text; the site keeps its output area.
+    for c in cells:
+        assert c["cell_type"] == "markdown" or "Recorded output" in c["source"], f"{src}: a code cell that isn't a recorded output"
+    cells = [recorded(c) if c["cell_type"] == "code" else {**c, "source": panel_markdown(c["source"])} for c in cells]
     sys.stdout.write(dump_nb(nb, cells))
 
 
