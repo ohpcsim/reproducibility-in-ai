@@ -1,0 +1,9 @@
+# uv 0.13.7 and Python 3.12 on Debian, pinned by digest. The digest covers x86_64 and ARM.
+FROM ghcr.io/astral-sh/uv:0.13.7-python3.12-trixie-slim@sha256:d4a752dd52f42e0c508bb0b6a912f15922bb32e42f66af30671c3fdc0d759f21
+WORKDIR /app
+COPY pyproject.toml uv.lock ./
+RUN uv sync --locked --no-cache
+COPY analyze.py ./
+COPY data data
+ENV PATH=/app/.venv/bin:$PATH
+CMD ["python", "analyze.py"]

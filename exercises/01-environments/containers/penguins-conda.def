@@ -1,0 +1,19 @@
+# The same steps as Dockerfile.conda, for a machine with Apptainer and no Docker.
+Bootstrap: docker
+From: docker.io/condaforge/miniforge3@sha256:dfb274710eee2bb062c87b15c10fde6ea91f71b763796b5de489df87b08cf678
+
+%files
+    explicit-linux-*.txt /app/
+    analyze.py /app/
+    data /app/
+
+%post
+    cd /app
+    conda create --yes --quiet --prefix /opt/env --file explicit-$(conda config --show subdir | cut -d' ' -f2).txt
+    conda clean --all --yes
+
+%environment
+    export PATH=/opt/env/bin:$PATH
+
+%runscript
+    exec python analyze.py

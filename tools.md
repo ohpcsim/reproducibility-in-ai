@@ -72,13 +72,17 @@ The workshop uses conda. [The uv route](uv.md) shows the same exercises with uv.
 - Apptainer is the original Singularity project, renamed when it joined the Linux Foundation, and it still provides a `singularity` command. Sylabs' separate fork, SingularityCE, reached end of life on October 25, 2026, and [its repository](https://github.com/sylabs/singularity) is archived. If your site still says Singularity, use Apptainer. ([CIQ's announcement](https://ciq.com/blog/singularityce-end-of-life-apptainer))
 - A container that needs the GPU gets it through NVIDIA's tools: `--gpus all` in Docker, a CDI spec in Podman, and `--nv` in Apptainer. ([NVIDIA's CDI guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html))
 
-| Where you are | What to use |
-|---|---|
-| Your own machine | Docker or Podman |
-| A shared Linux machine without root | Podman, if it's installed, or Apptainer |
-| An HPC cluster | Apptainer |
+| Where you are | What to use | Why | What we ran |
+|---|---|---|---|
+| Your Mac | Docker Desktop, Podman Desktop, OrbStack, Colima, or Apple's `container` (macOS 26) | Each runs a small Linux VM, and the containers run in it | Not run |
+| Your Windows PC | Docker Desktop or Podman Desktop, or Podman and Apptainer inside WSL2 | WSL2 provides the Linux kernel | Apptainer 1.4.5 in WSL2, x86_64 |
+| Your own Linux machine | Docker, Podman or Apptainer | You have root, so any of them works | Docker 29.6.2, Podman 4.9.3 and Apptainer 1.5.5, aarch64 |
+| A shared Linux machine, without root | Podman (rootless) or Apptainer | Neither needs root or a daemon | Rootless Podman and Apptainer, without sudo, on the aarch64 machine. It isn't shared |
+| An HPC cluster | Apptainer | It runs as you, with no daemon. The image is one SIF file, with no registry needed. It works with the scheduler, MPI and GPUs | Not run |
+| Binder | None | The session is already a container | Nothing to run |
 
-[The container page](gpu/container.md) has each route, with recorded output.
+- [1b. Environments in containers](exercises/01-environments/containers.md) builds Exercise 1's conda and uv environments with each tool, with recorded output. "What we ran" is from there.
+- [The GPU container page](gpu/container.md) does the same for PyTorch with CUDA.
 
 ## Documentation and Binder
 

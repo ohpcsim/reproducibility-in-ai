@@ -13,6 +13,8 @@ project:
       children:
         - file: exercises/01-environments/environments.ipynb
           title: "1. Software environments"
+        - file: exercises/01-environments/containers.md
+          title: "1b. Environments in containers"
         - file: exercises/02-workflows/workflows.ipynb
           title: "2. Workflows"
         - file: exercises/02-workflows/nextflow.md

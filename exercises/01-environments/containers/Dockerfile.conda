@@ -1,0 +1,11 @@
+# Miniforge 26.9.4-2 on Ubuntu 24.04, pinned by digest. The digest covers x86_64 and ARM.
+FROM docker.io/condaforge/miniforge3:26.9.4-2@sha256:dfb274710eee2bb062c87b15c10fde6ea91f71b763796b5de489df87b08cf678
+WORKDIR /app
+COPY explicit-linux-*.txt ./
+# The lock for this machine's platform, linux-64 or linux-aarch64, with the same command as Exercise 1.
+RUN conda create --yes --quiet --prefix /opt/env --file explicit-$(conda config --show subdir | cut -d' ' -f2).txt \
+    && conda clean --all --yes
+COPY analyze.py ./
+COPY data data
+ENV PATH=/opt/env/bin:$PATH
+CMD ["python", "analyze.py"]

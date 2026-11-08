@@ -1,0 +1,19 @@
+# The same steps as Dockerfile.uv, for a machine with Apptainer and no Docker.
+Bootstrap: docker
+From: ghcr.io/astral-sh/uv@sha256:d4a752dd52f42e0c508bb0b6a912f15922bb32e42f66af30671c3fdc0d759f21
+
+%files
+    pyproject.toml /app/
+    uv.lock /app/
+    analyze.py /app/
+    data /app/
+
+%post
+    cd /app
+    uv sync --locked --no-cache
+
+%environment
+    export PATH=/app/.venv/bin:$PATH
+
+%runscript
+    exec python analyze.py
