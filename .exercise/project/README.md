@@ -4,7 +4,7 @@ How much heavier is a male penguin than a female of the same species? We report 
 
 Run clean.py, validate.py, report.py in this order:
 
-1. `python clean.py` drops penguins with no body mass or no sex, applies the repairs `params.yaml` turns on, and writes `results/clean.csv`.
+1. `python clean.py` drops penguins with no body mass or no sex and writes `results/clean.csv`.
 2. `python validate.py` checks that the columns and rows are there, and writes `results/validated.csv`.
 3. `python report.py` computes the difference per species with the statistic `params.yaml` names, and writes `metrics.json`.
 

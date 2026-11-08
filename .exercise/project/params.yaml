@@ -1,5 +1,2 @@
-clean:
-  convert_kg: false        # repairs stay off until a person turns one on
-  map_sex_labels: false
 report:
   statistic: mean          # or median
