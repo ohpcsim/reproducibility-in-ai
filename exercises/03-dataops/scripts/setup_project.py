@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the group's starting repository in project/: the 2007 field season, tracked by DVC, with its pipeline.
+"""Build the starting repository in project/: Exercise 2's pipeline on the 2007 field season, declared as DVC stages.
 
 Run it again and it leaves your work alone. To start over, use --reset. That deletes your work.
 """
@@ -31,32 +31,35 @@ def stage(name, inputs, outputs, script):
 
 def build():
     shutil.copytree(FILES, PROJECT)
-    git("init", "--quiet", "--initial-branch=main")
-    git("config", "core.autocrlf", "false")
-    git("config", "user.name", "Workshop Learner")
-    git("config", "user.email", "learner@example.org")
-    git("add", "-A")
-    git("commit", "--quiet", "--no-verify", "--message", "Add the analysis scripts and cleaning policy")
-
     # The first season is the 2007 rows of the full table, byte for byte.
     lines = (HERE / ".exercise" / "data" / "penguins.csv").read_text().splitlines(keepends=True)
     season = [lines[0]] + [line for line in lines[1:] if line.strip().endswith(",2007")]
     (PROJECT / "data").mkdir()
     (PROJECT / "data" / "penguins.csv").write_text("".join(season))
-    (PROJECT / "results").mkdir()
-    BUCKET.mkdir()
+    for script in ("clean.py", "validate.py", "report.py"):
+        run(sys.executable, script)
 
+    # Exercise 2's end state: the scripts, the Snakefile, the data and the result, all in Git.
+    git("init", "--quiet", "--initial-branch=main")
+    git("config", "core.autocrlf", "false")
+    git("config", "user.name", "Workshop Learner")
+    git("config", "user.email", "learner@example.org")
+    git("add", "-A")
+    git("commit", "--quiet", "--no-verify", "--message", "Declare the steps in a Snakefile")
+
+    # Declare the same steps as DVC stages. The data stays in Git, for step 1 to move.
+    BUCKET.mkdir()
     run("dvc", "init", "--quiet")
     run("dvc", "config", "core.analytics", "false")
-    run("dvc", "remote", "add", "--default", "storage", str(BUCKET))
-    run("dvc", "add", "--quiet", "data/penguins.csv")
+    run("dvc", "remote", "add", "--default", "storage", "../osn-bucket")
+    # DVC reads a relative path from old commits as relative to /, so dvc push --all-commits needs the full path.
+    run("dvc", "remote", "modify", "--local", "storage", "url", str(BUCKET))
     stage("clean", ["data/penguins.csv", "clean.py"], ["-o", "results/clean.csv"], "clean.py")
     stage("validate", ["results/clean.csv", "validate.py"], ["-o", "results/validated.csv"], "validate.py")
-    stage("report", ["results/validated.csv", "report.py"], ["-M", "metrics.json", "-o", "results/report.md"], "report.py")
+    stage("report", ["results/validated.csv", "report.py"], ["-p", "report", "-M", "metrics.json"], "report.py")
     run("dvc", "repro", "--quiet")
     git("add", ".")
-    git("commit", "--quiet", "--no-verify", "--message", "Track the 2007 season and the pipeline")
-    run("dvc", "push", "--quiet")
+    git("commit", "--quiet", "--no-verify", "--message", "Declare the same steps as DVC stages")
 
 
 def main():
@@ -67,7 +70,7 @@ def main():
         print("project/ already exists, so I left your work alone. To start over: python scripts/setup_project.py --reset")
         return
     build()
-    print("Built project/ with the 2007 field season and its pipeline, and osn-bucket/ as a stand-in for object storage. Now run: cd project")
+    print("Built project/ with the 2007 field season and its DVC pipeline, and osn-bucket/ as a stand-in for object storage. Now run: cd project")
 
 
 main()

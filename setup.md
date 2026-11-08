@@ -179,7 +179,7 @@ conda install --yes git
 |---|---|---|
 | 1. Software environments | `binder-01-environments` | `repro-environments` |
 | 2. Workflows | `binder-02-workflows` | `repro-workflows` |
-| 3. DataOps | `binder-03-dataops` | `repro-dataops` |
+| 3. Data | `binder-03-dataops` | `repro-dataops` |
 | 4. Model registry | `binder-04-registry` | `repro-registry` |
 | 5. LLM documentation | `binder-05-llm` | `repro-llm` |
 

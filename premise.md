@@ -129,7 +129,7 @@ The goal:
 
 - An environment file and its lock: [exercise 1, Software environments](exercises/01-environments/environments.ipynb).
 - Declared steps: [exercise 2, Workflows](exercises/02-workflows/workflows.ipynb).
-- Pointers to the data in Git, and the data in object storage: [exercise 3, DataOps](exercises/03-dataops/dataops.ipynb).
+- Pointers to the data in Git, and the data in object storage: [exercise 3, Data](exercises/03-dataops/dataops.ipynb).
 - A model registry: [exercise 4, model registry](exercises/04-registry/registry.ipynb).
 - The method stays in the project, not in the chat: [exercise 5, LLM documentation](exercises/05-llm/llm.ipynb).
 

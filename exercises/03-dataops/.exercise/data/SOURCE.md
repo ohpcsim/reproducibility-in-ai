@@ -8,4 +8,4 @@
 - Please cite: Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer Archipelago (Antarctica) penguin data. R package version 0.1.0. doi:10.5281/zenodo.3960218.
 - Original publication: Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. doi:10.1371/journal.pone.0090081.
 
-The exercise starts from the 2007 rows. `scripts/new_season.py` adds the 2008 and 2009 rows and plants the errors. Those errors are not in the published data.
+The exercise starts from the 2007 rows. `scripts/new_season.py` replaces them with the full table, unchanged.

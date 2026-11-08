@@ -45,13 +45,13 @@ subject: Hands-on exercises
 {button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>` [Read the page](exercises/02-workflows/workflows.ipynb)
 :::
 
-:::{card} 3. DataOps
-**Does a new field season change how body mass tracks flipper length in penguins?**
+:::{card} 3. Data
+**Do the 2008 and 2009 seasons change how much heavier male penguins are?**
 
-- **Problem:** a bad data delivery passes the pipeline.
-- **You'll learn:** version data with DVC, stop a bad delivery, roll back, and record the repair.
-- **Data:** Palmer penguins.
-- 15 minutes for the short path, 35 for all of it.
+- **Problem:** the data is in Git, and a new field season is coming.
+- **You'll learn:** version data with DVC and a bucket, rerun the declared steps on a new version, and bring back an old version and its result.
+- **Data:** Palmer penguins, the 2007 season, then 2007 to 2009.
+- About 15 minutes.
 
 {button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise>` [Read the page](exercises/03-dataops/dataops.ipynb)
 :::
