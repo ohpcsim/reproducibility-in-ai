@@ -38,7 +38,13 @@ title: Workflows in Nextflow
 ## Get a terminal
 
 - You read this page and paste commands into a terminal. Nothing runs on the page.
-- Linux or macOS, on x86_64 or ARM, or Windows through WSL2. On Windows, keep the folder in your WSL2 home, not under `/mnt/c`.
+
++++ {"tags": ["track-wsl2"]}
+
+- On Windows, keep the folder in your WSL2 home, not under `/mnt/c`.
+
++++
+
 - You need [conda](../../setup.md). You don't need Jupyter or Java; the environment brings its own Java.
 - Paste this once:
 
