@@ -60,7 +60,7 @@ The workshop uses conda. [The uv route](uv.md) shows the same exercises with uv.
 |---|---|---|---|---|
 | Docker | Builds and runs containers through a daemon. | [The container page](gpu/container.md). | [Docker Docs](https://docs.docker.com/) | [Get started](https://docs.docker.com/get-started/) |
 | Podman | Builds and runs containers with no daemon, and without root. It takes the same commands and Dockerfiles as Docker. | [The container page](gpu/container.md), with Podman. | [Podman documentation](https://docs.podman.io/en/latest/) | [Get started](https://podman.io/get-started), and the [rootless tutorial](https://github.com/podman-container-tools/podman/blob/main/docs/tutorials/rootless_tutorial.md) |
-| Apptainer | Runs containers on HPC systems, from one SIF file, as your own user. | [The container page](gpu/container.md). | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
+| Apptainer | Runs containers on HPC systems, from one SIF file, as your own user. Formerly Singularity. | [The container page](gpu/container.md). | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
 | NVIDIA NGC | NVIDIA's catalog of GPU container images, including PyTorch. | [The container page](gpu/container.md), with a pre-built image. | [NGC documentation](https://docs.nvidia.com/ngc/) | [NGC catalog](https://catalog.ngc.nvidia.com) |
 
 ## Containers on shared machines
@@ -69,6 +69,7 @@ The workshop uses conda. [The uv route](uv.md) shows the same exercises with uv.
 - Shared HPC and lab machines don't give users either one.
 - Podman has no daemon and runs rootless. It accepts the same commands and Dockerfiles as Docker.
 - Apptainer is the HPC standard. A container is one SIF file, it runs as your user, and there's no daemon.
+- Apptainer is the original Singularity project, renamed when it joined the Linux Foundation, and it still provides a `singularity` command. Sylabs' separate fork, SingularityCE, reached end of life on October 25, 2026, and [its repository](https://github.com/sylabs/singularity) is archived. If your site still says Singularity, use Apptainer. ([CIQ's announcement](https://ciq.com/blog/singularityce-end-of-life-apptainer))
 - A container that needs the GPU gets it through NVIDIA's tools: `--gpus all` in Docker, a CDI spec in Podman, and `--nv` in Apptainer. ([NVIDIA's CDI guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html))
 
 | Where you are | What to use |
