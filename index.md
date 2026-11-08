@@ -92,6 +92,6 @@ It works the same way everywhere: read the page, and paste the commands into a t
 
 Want to try the task yourself? [The same task in five tools](tools/five-tools.md) shows how to sign in, the exact command, what each tool wrote, and whether the tests accepted it: Claude Code, Codex, Cursor, a local model and free models.
 
-Two more pages are optional, and you run them yourself: [if you need a GPU](gpu/gpu.md), and [if you need a container](gpu/container.md).
+Exercise 1 has an optional part you run yourself, on Linux or WSL2 with an NVIDIA GPU: [1c, PyTorch with a GPU](gpu/gpu.md), with conda, uv and containers.
 
 The code here is MIT licensed. Each exercise names its data, its license and how to cite it.

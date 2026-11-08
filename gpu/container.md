@@ -2,8 +2,8 @@
 title: If you need a container
 ---
 
-- This page is optional, and none of the exercises need it.
-- You run it yourself, after [the GPU page](gpu.md), on the machine where the check passed, because the container is built from the lock you made there.
+- This is step 3 of [1c, PyTorch with a GPU](gpu.md). It's optional, and none of the other exercises need it.
+- You run it yourself, after step 1 there, on the machine where the check passed, because the container is built from the conda lock you made there.
 - There's no Binder for it.
 
 - A container carries your software to the next system.
@@ -176,6 +176,7 @@ sha256sum ngc-pytorch.sif
 apptainer exec --nv ngc-pytorch.sif python verify_gpu.py
 ```
 
+(on-wsl2)=
 ## On WSL2
 
 - On WSL2, `--nv` alone doesn't reach the GPU.
@@ -210,6 +211,7 @@ matmul 4096^2   0.1312 s, checksum 3.7091e+04
 host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 ```
 
+(what-we-ran-where)=
 ## What we ran where
 
 | Step | aarch64, GB10, Linux | x86_64, RTX 3070, WSL2 |
