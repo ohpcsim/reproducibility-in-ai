@@ -1,0 +1,3 @@
+# Which earthquakes subset.py keeps.
+min_magnitude: 4.0
+max_depth_km: 700
