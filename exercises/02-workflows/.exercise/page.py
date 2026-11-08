@@ -30,3 +30,8 @@ def run(*commands):
                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         text.append(f"$ {command}\n{done.stdout}")
     print("\n".join(text).replace(str(root), "~"), end="")
+
+
+def reset():
+    """Put the scratch project back to its last commit, so a check records what it prints on a fresh starter."""
+    subprocess.run(["bash", "-c", "git checkout -- . && git clean -fdq"], cwd=root / "project", env=environment, check=True)
