@@ -78,19 +78,24 @@ print(json.dumps(metrics, indent=2))
 FIRST_README = "# Mauna Loa CO2 growth rate\n\nRun `python analyze.py`. It writes `metrics.json`.\n"
 
 
-def build():
+def build(uv=False):
     PROJECT.mkdir()
     git("init", "--quiet", "--initial-branch=main")
     git("config", "core.autocrlf", "false")
 
     shutil.copytree(HERE / ".exercise" / "data", PROJECT / "data", ignore=shutil.ignore_patterns("SOURCE.md"))
-    for name in ("trend.py", "check_fresh.py", "environment.yml", "hooks/pre-commit"):
+    for name in ("trend.py", "check_fresh.py", "hooks/pre-commit"):
         copy(name)
+    if uv:
+        write("pyproject.toml", (HERE / "pyproject.toml").read_text().replace('name = "repro-gitops"', 'name = "co2-growth"'))
+        write(".python-version", (HERE / ".python-version").read_text())
+    else:
+        copy("environment.yml")
     write("analyze.py", FIRST_ANALYZE)
     write("README.md", FIRST_README)
     write("params.yaml", params(1990, 2))
     write("metrics.json", metrics(2.712, 0.547, 6.63))
-    write(".gitignore", "__pycache__/\n.pytest_cache/\n")
+    write(".gitignore", "__pycache__/\n.pytest_cache/\n" + (".venv/\n" if uv else ""))
     commit(3, "Priya Rao", "priya@example.org", "Add the Mauna Loa data and a first trend fit")
 
     write("params.yaml", params(2000, 2))
@@ -126,7 +131,7 @@ def main():
     if REMOTE.exists():
         print("The repository already exists, so I left your work alone. To start over: python scripts/setup_project.py --reset")
         return
-    build()
+    build(uv="--uv" in sys.argv)
     print("Built project/ with six commits, and remote/co2.git as a stand-in for GitHub. Now run: cd project")
 
 

@@ -1,0 +1,16 @@
+[project]
+name = "repro-dataops"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "pandas",
+    "pyyaml",
+    "dvc>=3,<4",
+]
+
+[tool.uv]
+package = false
+python-preference = "only-managed"
+
+# cryptography 49 dropped Intel macOS wheels.
+constraint-dependencies = ["cryptography<49"]

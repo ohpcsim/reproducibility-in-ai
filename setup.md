@@ -7,6 +7,8 @@ title: Set up your environment
 - Either way, you read the exercise pages on this site and paste the commands into the terminal.
 - You don't need Jupyter or a GPU.
 
+- For an optional Python-only setup on your own machine, use [the uv route](uv.md).
+
 ## Your choices
 
 | | Binder | Your own machine |

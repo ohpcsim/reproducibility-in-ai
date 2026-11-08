@@ -14,6 +14,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -75,6 +76,41 @@ def imported_packages(tracked):
     return found
 
 
+def uses_uv():
+    return git("cat-file", "-e", "HEAD:pyproject.toml").returncode == 0
+
+
+def project_python():
+    return PROJECT / ".venv" / "bin" / "python" if uses_uv() else ENV / "bin" / "python"
+
+
+def uv_names(text):
+    return {re.split(r"[<>=!~\[; @]", name, maxsplit=1)[0].lower().replace("_", "-")
+            for name in tomllib.loads(text)["project"]["dependencies"]}
+
+
+def check_uv_declared(packages, tracked):
+    try:
+        declared = uv_names(git("show", "HEAD:pyproject.toml").stdout)
+    except (tomllib.TOMLDecodeError, KeyError):
+        report(False, "The committed pyproject.toml is invalid. Repair it and commit it.")
+        return
+    missing = set(packages) - declared
+    report(not missing, "pyproject.toml declares every import" if not missing else
+           f"The committed pyproject.toml does not declare {', '.join(sorted(missing))}. Run uv add in project/ and commit pyproject.toml and uv.lock.")
+    if "uv.lock" not in tracked:
+        report(False, "No uv.lock is committed. Run uv lock in project/ and commit it with pyproject.toml.")
+        return
+    try:
+        locked = {p["name"] for p in tomllib.loads(git("show", "HEAD:uv.lock").stdout)["package"]}
+    except (tomllib.TOMLDecodeError, KeyError):
+        report(False, "The committed uv.lock is invalid. Run uv lock and commit it.")
+        return
+    absent = set(packages) - locked
+    report(not absent, "uv.lock holds every import" if not absent else
+           f"uv.lock is missing {', '.join(sorted(absent))}. Run uv lock and commit it.")
+
+
 def explain_undeclared(package):
     """Say which easy mistake this is: the wrong file, an unsaved edit, or a missing commit."""
     edited = (PROJECT / "environment.yml").read_text()
@@ -91,6 +127,9 @@ def explain_undeclared(package):
 def check_declared():
     tracked = git("ls-tree", "-r", "--name-only", "HEAD").stdout.split()
     packages = imported_packages(tracked)
+    if uses_uv():
+        check_uv_declared(packages, tracked)
+        return
     declared = set(re.findall(r"^\s*-\s*([A-Za-z0-9_.-]+)", git("show", "HEAD:environment.yml").stdout, re.M))
     missing = {p: f for p, f in packages.items() if p not in declared}
     report(not missing, "environment.yml declares every import" if not missing else
@@ -179,6 +218,19 @@ def check_hook(clone):
 
 
 def check_env():
+    if uses_uv():
+        if not project_python().exists():
+            report(False, "No environment at project/.venv. Run uv sync --locked in project/.")
+            return False
+        # Check committed files so an uncommitted repair cannot pass.
+        with tempfile.TemporaryDirectory() as tmp:
+            clone = Path(tmp) / "clone"
+            git("clone", "--quiet", str(PROJECT), str(clone), cwd=tmp)
+            env = {**os.environ, "UV_PROJECT_ENVIRONMENT": str(PROJECT / ".venv")}
+            ok = run("uv", "sync", "--locked", "--check", cwd=clone, env=env).returncode == 0
+        report(ok, "project/.venv matches the committed uv.lock" if ok else
+               "project/.venv or the committed uv.lock is out of date. Run uv sync, commit pyproject.toml and uv.lock, then uv sync --locked.")
+        return ok
     python = ENV / "bin" / "python"
     if not python.exists():
         report(False, "No environment at envs/co2. Build it with the commands in step 1.")
@@ -200,13 +252,13 @@ def check_runs():
     with tempfile.TemporaryDirectory() as tmp:
         clone = Path(tmp) / "clone"
         git("clone", "--quiet", str(PROJECT), str(clone), cwd=tmp)
-        ok = run(str(ENV / "bin" / "python"), "analyze.py", cwd=clone).returncode == 0
+        ok = run(str(project_python()), "analyze.py", cwd=clone).returncode == 0
         report(ok, "analyze.py runs from a clean clone of your last commit" if ok else
-               "analyze.py failed from a clean clone of your last commit, using envs/co2. Run it there and read the error.")
+               f"analyze.py failed from a clean clone of your last commit, using {'project/.venv' if uses_uv() else 'envs/co2'}. Run it there and read the error.")
 
 
 def check_rebuild():
-    python = ENV / "bin" / "python"
+    python = project_python()
     check_env()
 
     tag_type = git("--git-dir", str(REMOTE), "cat-file", "-t", "v1.0", cwd=HERE).stdout.strip()
@@ -219,12 +271,18 @@ def check_rebuild():
     with tempfile.TemporaryDirectory() as tmp:
         clone = Path(tmp) / "fresh"
         git("clone", "--quiet", "--branch", "v1.0", str(REMOTE), str(clone), cwd=tmp)
+        if uses_uv():
+            synced = run("uv", "sync", "--locked", cwd=clone)
+            if synced.returncode != 0:
+                report(False, "A fresh clone of v1.0 could not rebuild with uv sync --locked. Read its pyproject.toml and uv.lock.")
+                return
+            python = clone / ".venv" / "bin" / "python"
         result = run(str(python), "analyze.py", cwd=clone)
         changed = git("status", "--porcelain", cwd=clone).stdout.strip()
         committed = json.loads((clone / "metrics.json").read_text()).get("growth_rate_ppm_per_year") if result.returncode == 0 else None
         ok = result.returncode == 0 and not changed and good_growth(committed)
         report(ok, "A fresh clone of v1.0 in the rebuilt environment gives the same number" if ok else
-               "A fresh clone of v1.0, run in envs/co2, did not reproduce the committed metrics.json with the accepted growth rate.")
+               f"A fresh clone of v1.0, run in {'project/.venv' if uses_uv() else 'envs/co2'}, did not reproduce the committed metrics.json with the accepted growth rate.")
 
 
 def main():

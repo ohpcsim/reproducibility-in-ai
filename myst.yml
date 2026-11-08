@@ -30,6 +30,7 @@ project:
         - file: tools/free-models.md
     - title: Optional, run it yourself
       children:
+        - file: uv.md
         - file: gpu/gpu.md
         - file: gpu/container.md
 site:
