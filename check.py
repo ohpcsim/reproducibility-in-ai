@@ -93,7 +93,10 @@ def main():
     except (subprocess.CalledProcessError, OSError, ValueError, KeyError, TypeError) as error:
         report(False, f"Cannot read the committed registry record. Check params.yaml and model_metrics.json at each version tag. {error}")
     print(f"\n{sum(results)} of {len(results)} parts pass.")
-    return 0 if all(results) else 1
+    if all(results):
+        print("You're done. Prod is the registered version with the best validation score, and every registered model comes back from the bucket.")
+        return 0
+    return 1
 
 
 if __name__ == "__main__":
