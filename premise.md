@@ -61,8 +61,16 @@ An AI result depends on:
 
 - \*Ops, or "splat ops", applies ideas from DevOps to everything else.
 - DevOps treats operations as a software development project.
-- GitOps and DataOps came next.
-- Combined with automation (CI/CD), they lead towards MLOps and LLMOps.
+- DataOps: data has versions, and pipelines are declared steps. [Exercise 2](exercises/02-dataops/dataops.ipynb).
+- GitOps: the declared state lives in Git, and automation makes the system match it. [Exercise 1](exercises/01-gitops/gitops.ipynb).
+- Towards MLOps and LLMOps, when coupled with automation (CI/CD): models and prompts are versioned, tested and released like software. [Exercises 3](exercises/03-registry/registry.ipynb) [and 4](exercises/04-llm/llm.ipynb).
+
+Timeline:
+
+1. 2009, DevOps: the first DevOpsDays, in Ghent, organized by Patrick Debois.
+2. 2014, DataOps: the term is credited to Lenny Liebmann, and Andy Palmer popularized it in 2015.
+3. 2017, GitOps: Weaveworks, "Operations by Pull Request".
+4. Today, MLOps and LLMOps: the same ideas for models and prompts. There's no single origin year. An early paper on the problem is Sculley et al., ["Hidden Technical Debt in Machine Learning Systems"](https://research.google/pubs/hidden-technical-debt-in-machine-learning-systems/), NeurIPS 2015.
 
 ## Pets vs cattle
 
