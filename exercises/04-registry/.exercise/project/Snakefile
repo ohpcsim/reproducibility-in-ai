@@ -1,0 +1,17 @@
+rule all:
+    input: "metrics.json"
+
+rule clean:
+    input: "data/penguins.csv", "clean.py", "params.yaml"
+    output: "results/clean.csv"
+    shell: "python clean.py"
+
+rule validate:
+    input: "results/clean.csv", "validate.py"
+    output: "results/validated.csv"
+    shell: "python validate.py"
+
+rule report:
+    input: "results/validated.csv", "report.py", "params.yaml"
+    output: "metrics.json"
+    shell: "python report.py"

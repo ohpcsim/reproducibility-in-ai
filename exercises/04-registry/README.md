@@ -1,6 +1,6 @@
-# Model registry: which digit classifier should we promote?
+# Model registry: which penguin model is live?
 
-Short path, about 15 minutes: step 1 and its check. The full exercise takes about 40 minutes. The instructions are in `registry.ipynb`, or on the site.
+Train two values of C, register both with GTO, promote the better validation score and restore every version with DVC. About 15 to 20 minutes. Instructions are in `registry.ipynb`, or on the site.
 
 [Open in Binder](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise) for a terminal and the instructions side by side. Or use your own terminal on Linux, macOS, or Windows through WSL2:
 
@@ -11,4 +11,6 @@ python scripts/setup_project.py
 cd project
 ```
 
-Run `python ../check.py` from `project` to check your work.
+Run `python ../check.py` from `project` to check your work. `--short` runs the same check.
+
+For uv setup, see [the uv route](../../uv.md#exercise-4-model-registry).
