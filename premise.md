@@ -2,12 +2,25 @@
 title: The premise
 ---
 
-## Premise
+## Problem statement
 
 - Reproducibility is a core tenet of science.
-- 99+% of papers that involve computation are by definition not reproducible, so they aren't really science.
+- 99+% of papers that involve computation are by definition not reproducible. Is that really science?
 - Reproducibility involves software, data and workflows.
 - LLMs add more reproducibility challenges.
+
+## AI workflows
+
+An AI result depends on:
+
+- Software you develop. It should be version controlled with Git.
+- Software you consume.
+- Workflows you develop.
+- Data you acquire, consume or both.
+- LLMs you use.
+- Conclusions you draw from all of the above.
+
+In academia we usually run AI workloads on batch HPC systems. We probably need alternatives.
 
 ## Literate programming to literate science
 
@@ -24,33 +37,8 @@ title: The premise
 - The claims, the code, the environment and the data live in one project.
 - Published results come from running the project, not from pasted output.
 - If the code breaks, the document breaks.
-- The document and the data are the pets. Everything that runs them is cattle.
 - Earlier work: Claerbout and Karrenbach (1992) on reproducible electronic documents, and Buckheit and Donoho (1995) on WaveLab.
 - The step this workshop adds is doing it with cloud-native tools, which are stateless and declarative.
-
-## AI workflows
-
-An AI result depends on:
-
-- Software you develop. It should be version controlled with Git.
-- Software you consume.
-- Workflows you develop.
-- Data you acquire, consume or both.
-- LLMs you use.
-- Conclusions you draw from all of the above.
-
-In academia we usually run AI workloads on batch HPC systems. We probably need alternatives.
-
-## Thesis
-
-- Interactive HPC workloads are inherently stateful.
-- Capturing the state of an HPC system is almost impossible.
-- Cloud-native methods help you express your full computational environment.
-- Declarative approaches are more portable and less fragile than procedural ones.
-- Treating every system as stateless makes it portable in its software, OS and libraries, and in its data.
-- Managing software interactively, with conda or pip, probably isn't enough. Use declarative, reproducible definitions.
-- Leaving data on a POSIX file system probably isn't enough for AI workloads. Use GitOps and DataOps.
-- Leaving your method in a chat session probably isn't enough. Keep it in the project, harness and model agnostic.
 
 ## Cloud-native and the history of \*Ops
 
@@ -121,6 +109,18 @@ The goal:
   3. Build and rebuild environments on demand.
   4. Test on more than one system.
 - The goal is to move from "this node is special" to "this definition is reproducible".
+- The document and the data are the pets. Everything that runs them is cattle.
+
+## Thesis
+
+- Interactive HPC workloads are inherently stateful.
+- Capturing the state of an HPC system is almost impossible.
+- Cloud-native methods help you express your full computational environment.
+- Declarative approaches are more portable and less fragile than procedural ones.
+- Treating every system as stateless makes it portable in its software, OS and libraries, and in its data.
+- Managing software interactively, with conda or pip, probably isn't enough. Use declarative, reproducible definitions.
+- Leaving data on a POSIX file system probably isn't enough for AI workloads. Use GitOps and DataOps.
+- Leaving your method in a chat session probably isn't enough. Keep it in the project, harness and model agnostic.
 
 ## From the ideas to the exercises
 
