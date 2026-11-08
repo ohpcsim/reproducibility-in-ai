@@ -34,13 +34,13 @@ git --version
 - The lock chooses wheels for your platform. The target platforms are Linux x86_64 and aarch64, and macOS Intel and Apple silicon.
 
 - DVC requires ANTLR 4.9.3, which has no PyPI wheel. uv builds this pure Python dependency from its source archive. It needs no C/C++ compiler.
+- Snakemake requires connection-pool 0.0.3, which also has no PyPI wheel. uv builds it from its pure Python source archive.
 - The DataOps and registry configurations constrain cryptography below 49 to keep Intel macOS wheels available.
 
 ## Get an exercise
 
 - Pick one block below. Each clones a separate exercise branch.
 - Run the block from the folder where you keep your work.
-- Exercise 2, Workflows with Snakemake, gets its uv setup when it lands.
 
 ### Exercise 1: GitOps
 
@@ -55,6 +55,19 @@ cd project
 - Follow the GitOps variant below. It replaces the conda steps on the [main exercise page](exercises/01-gitops/gitops.ipynb).
 - `gitops/.venv` holds the exercise tools. `gitops/project/.venv` will hold the CO2 project's environment.
 - To start over, from `gitops` run `uv run python scripts/setup_project.py --uv --reset`. This deletes your work and the local stand-in remote.
+
+### Exercise 2: Workflows
+
+```bash
+git clone --branch binder-02-workflows --single-branch https://github.com/ohpcsim/reproducibility-in-ai.git workflows
+cd workflows
+uv sync --locked
+source .venv/bin/activate
+uv run python scripts/setup_project.py
+cd project
+```
+
+- Continue at step 1 on the [Workflows page](exercises/02-workflows/workflows.ipynb).
 
 ### Exercise 3: DataOps
 
@@ -94,7 +107,7 @@ cd project
 ```
 
 - Continue at step 1 on the [LLM documentation page](exercises/05-llm/llm.ipynb).
-- For exercises 3 to 5, activation puts Python, DVC and GTO on your path. The page's own commands then work as written.
+- For exercises 2 to 5, activation puts Python, Snakemake, DVC and GTO on your path. The page's own commands then work as written.
 - If you reopen a terminal, go to the exercise folder, run `source .venv/bin/activate`, then `cd project`.
 - Check your setup with `python ../check.py --short`. Failures on the starter project are expected.
 

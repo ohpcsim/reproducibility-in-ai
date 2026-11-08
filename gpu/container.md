@@ -91,7 +91,7 @@ Error: setting up CDI devices: unresolvable CDI devices nvidia.com/gpu=all
 ```
 
 - `podman --log-level=debug run ...` shows the reason, `json: unknown field "additionalGids"`.
-- We didn't try a newer Podman, so we can't say which version reads this spec.
+- [The admin fix below](#podman-admin-fix) makes the toolkit write a spec Podman 4.9 reads.
 - Without `--device`, the container runs, and the check fails as it should when there's no GPU:
 
 ```text
@@ -113,8 +113,37 @@ matmul 4096^2   0.0914 s, checksum -4.8324e+05
 host            Linux-7.0.0-1024-nvidia-aarch64-with-glibc2.39
 ```
 
-- So on this machine, Podman built the image and Apptainer ran it on the GPU.
-- We haven't seen `podman run` reach a GPU.
+- So before the fix below, Podman built the image and Apptainer ran it on the GPU.
+
+(podman-admin-fix)=
+### The admin fix for Podman 4.9
+
+- On Ubuntu 24.04, Podman is 4.9.3.
+- NVIDIA Container Toolkit 1.20 writes a CDI spec in version 0.7.0, and Podman 4.9 can't read it.
+- An administrator can make the toolkit write an older spec instead. It takes one systemd drop-in for `nvidia-cdi-refresh.service`, then a restart of that service.
+- This needs root:
+
+```bash
+sudo mkdir -p /etc/systemd/system/nvidia-cdi-refresh.service.d
+printf '[Service]\nEnvironment=NVIDIA_CTK_CDI_GENERATE_FEATURE_FLAGS=no-additional-gids-for-device-nodes\n' | sudo tee /etc/systemd/system/nvidia-cdi-refresh.service.d/50-podman4-compat.conf
+sudo systemctl daemon-reload
+sudo systemctl restart nvidia-cdi-refresh.service
+```
+
+- The toolkit then writes a spec in version 0.5.0, which Podman 4.9 reads.
+- The side effect is that containers no longer get the `video` and `render` groups for the display devices. CUDA uses `/dev/nvidia*`, so it isn't affected.
+- Podman 5 reads the 0.7.0 spec directly, so it shouldn't need the drop-in. We didn't test Podman 5.
+
+- **Recorded November 8, 2026, on the same machine, after the fix, with rootless Podman 4.9.3.**
+- We ran only `nvidia-smi -L` this way, not the workshop's GPU check.
+
+```bash
+podman run --rm --device nvidia.com/gpu=all docker.io/library/ubuntu:24.04 nvidia-smi -L
+```
+
+```text
+GPU 0: NVIDIA GB10
+```
 
 ## With Apptainer and no Docker
 
@@ -188,7 +217,9 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 | `docker build`, `docker run --gpus all`, `docker save` | Ran, and passed | Not run, because this machine has no Docker |
 | `apptainer build` from `docker-archive://` | Ran, and passed | Not run, because it needs the Docker file |
 | `podman build`, `podman save`, rootless | Ran, and passed | Not run |
-| `podman run --device nvidia.com/gpu=all` | Failed, because Podman 4.9.3 couldn't read the CDI spec | Not run |
+| `podman run --device nvidia.com/gpu=all`, before the admin fix | Failed, because Podman 4.9.3 couldn't read the CDI spec | Not run |
+| `podman run --device nvidia.com/gpu=all ... nvidia-smi -L`, after the admin fix | Ran, and printed `GPU 0: NVIDIA GB10` | Not run |
+| The GPU check under `podman run --device nvidia.com/gpu=all` | Not run | Not run |
 | `podman run` without the GPU | Ran, and the check failed as expected | Not run |
 | `apptainer build` from Podman's `docker-archive://`, then `apptainer exec --nv` | Ran, and passed | Not run |
 | `apptainer build --fakeroot` from `repro-gpu.def` | Ran, and passed | Ran, and passed |

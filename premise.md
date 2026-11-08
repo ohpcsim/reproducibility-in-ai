@@ -5,7 +5,8 @@ title: The premise
 ## Problem statement
 
 - Reproducibility is a core tenet of science.
-- 99+% of papers that involve computation are by definition not reproducible. Is that really science?
+- Most published computational results can't be rerun from what's published. Is that really science?
+- Of 204 Science papers sampled, artifacts were obtained for 44% and results reproduced for 26% ([Stodden, Seiler and Ma, PNAS 2018](https://doi.org/10.1073/pnas.1708290115)).
 - Reproducibility involves software, data and workflows.
 - LLMs add more reproducibility challenges.
 
@@ -52,18 +53,18 @@ An AI result depends on:
 
 **Stateless**
 
-- Components don't keep data between requests.
-- State lives outside them, in databases or object storage.
-- Any instance can handle any request.
-- This makes scaling and recovery easy.
+- A job keeps nothing on the node between runs.
+- Inputs and results live in Git and object storage.
+- Any node can rerun any job.
 
 **The history of \*Ops**
 
 - \*Ops, or "splat ops", applies ideas from DevOps to everything else.
 - DevOps treats operations as a software development project.
 - DataOps: data has versions, and pipelines are declared steps. [Exercise 3](exercises/03-dataops/dataops.ipynb).
+- Workflows: each analysis step declares what it reads and writes, so a tool reruns only what changed. [Exercise 2](exercises/02-workflows/workflows.ipynb).
 - GitOps: the declared state lives in Git, and automation makes the system match it. [Exercise 1](exercises/01-gitops/gitops.ipynb).
-- Towards MLOps and LLMOps, when coupled with automation (CI/CD): models and prompts are versioned, tested and released like software. [Exercises 4](exercises/04-registry/registry.ipynb) [and 5](exercises/05-llm/llm.ipynb).
+- MLOps and LLMOps: models and prompts are versioned, tested and released like software. [Exercises 4](exercises/04-registry/registry.ipynb) [and 5](exercises/05-llm/llm.ipynb).
 
 Timeline:
 
@@ -74,19 +75,19 @@ Timeline:
 
 ## Pets vs cattle
 
-**Traditional HPC, the "pets" approach**
+**The "pets" approach: a hand-built environment**
 
-- Each server or node has its own identity and configuration.
-- People build each one by hand, maintain it carefully and give it a name.
+- Custom builds that "just work" on one system.
+- SSH into specific nodes and hand-tune environments.
+- Fear of losing a carefully curated environment.
 - When something breaks, you diagnose it, repair it and nurse it back to health.
-- You SSH into specific nodes and hand-tune environments.
 
 **Cloud-native, the "cattle" approach**
 
 - Servers have numbers, not names.
 - Automation configures them identically.
 - When something breaks, you terminate it and replace it.
-- Any node can run any workload.
+- Any compatible node can run the workload.
 
 **Why this matters for academic HPC**
 
@@ -109,12 +110,6 @@ The goal:
 - Computational infrastructure is cattle. You can throw it away and replace it.
 - Your data and results are pets. Preserve them carefully.
 - Software environments are declarative definitions under version control.
-- Practical steps:
-  1. Define environments declaratively, in `environment.yml` or a `Dockerfile`.
-  2. Store the definitions in Git.
-  3. Build and rebuild environments on demand.
-  4. Test on more than one system.
-- The goal is to move from "this node is special" to "this definition is reproducible".
 - The document and the data are the pets. Everything that runs them is cattle.
 
 ## Thesis

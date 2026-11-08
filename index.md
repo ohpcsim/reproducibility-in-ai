@@ -35,7 +35,12 @@ subject: Hands-on exercises
 :::
 
 :::{card} 2. Workflows
-TODO-WORKFLOWS
+**How many magnitude 5 earthquakes for each magnitude 6?**
+
+- **Problem:** a README says "run these in this order", and the committed number is stale.
+- **You'll learn:** declare each step's inputs and outputs with Snakemake, rebuild from the raw data, declare parameters and code so only the right steps rerun, and record a decision.
+- **Data:** the USGS 2024 earthquake catalog.
+- 15 minutes for the short path, 35 for all of it.
 
 {button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>` [Read the page](exercises/02-workflows/workflows.ipynb)
 :::

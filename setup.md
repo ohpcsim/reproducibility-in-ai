@@ -17,7 +17,7 @@ title: Set up your environment
 | Where your work lives | A temporary session on mybinder.org | A folder in your home directory |
 | How long a session lasts | It shuts down after 10 minutes idle, and aims to last up to six hours | As long as you want |
 | Memory | At least 1 GB, at most 2 GB | Your machine's |
-| Disk | Nothing on your machine | Varies by exercise; total for five not yet measured |
+| Disk | Nothing on your machine | About 3 GB for all five exercises |
 | First start | A few minutes when the image isn't built or cached yet | A few minutes to build each environment |
 | Keeping your work | Only the files you download | Everything stays |
 
@@ -106,7 +106,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 
 ## Your own machine
 
-- Disk use varies by exercise. The total for all five has not yet been measured.
+- Disk use is about 3 GB for all five exercises.
 - You don't need administrator access, except to turn on WSL2.
 
 ### Step 1: get a shell
@@ -196,6 +196,13 @@ cd project
 
 - You're now in the `project` folder, ready for the [exercise's first step](exercises/01-gitops/gitops.ipynb).
 - If you close the window, open a new one and turn conda on, then run `conda activate repro-gitops` and `cd gitops/project`.
+
+(messages-you-can-ignore)=
+### Messages you can ignore
+
+- `conda env create` may print `WARNING conda.conda_pypi...` with current Miniforge. It's harmless.
+- It may also print a "Did you know? ... conda-pypi" tip. It's harmless.
+- In exercise 3, DVC may print "Waiting to acquire lock. If DVC froze, see hardlink_lock" several times. It's harmless, and the command finishes.
 
 ### Edit files
 
