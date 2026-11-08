@@ -9,7 +9,7 @@ title: Environments in containers
 - You run it on your own machine, after Exercise 1, because the images are built from the locks you committed there.
 - There's no Binder for it. A Binder session is already a container, and it has no container tool.
 - We cover Linux containers. They need a Linux kernel, so a Mac or Windows PC runs them in a VM.
-- The site doesn't run this page. The output below was recorded from real runs, on the machines named in [What we ran where](#what-we-ran-where).
+- The site doesn't run this page. The output below was recorded from real runs, on the machines named in [What we ran where](#containers-what-we-ran-where).
 
 ## The problem
 
@@ -223,7 +223,7 @@ apptainer build ../penguins-uv.sif docker-archive://../penguins-uv.tar
 
 +++
 
-(what-we-ran-where)=
+(containers-what-we-ran-where)=
 ## What we ran where
 
 - **NVIDIA DGX Spark, aarch64, Ubuntu 24.04.5, Linux 7.0.0, with Docker 29.6.2, Podman 4.9.3 rootless and Apptainer 1.5.5.** Recorded November 8, 2026. The locks were `explicit-linux-aarch64.txt` and `uv.lock`, from Exercise 1 on that machine. We have root there, but ran Podman and Apptainer without sudo.
