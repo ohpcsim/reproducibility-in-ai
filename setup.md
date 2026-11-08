@@ -337,8 +337,8 @@ python ../check.py --short
 
 +++ {"tags": ["track-binder"]}
 
-- [1. Software environments](exercises/01-environments/environments.ipynb)
-- [2. Workflows](exercises/02-workflows/workflows.ipynb)
+- [1a. conda and uv locks](exercises/01-environments/environments.ipynb)
+- [2a. Snakemake](exercises/02-workflows/workflows.ipynb)
 - [3. Versioning data](exercises/03-dataops/dataops.ipynb)
 - [4. Model registry](exercises/04-registry/registry.ipynb)
 - 1b and 2b run on your own machine: see Your Mac, Your Linux machine, Windows (WSL2) or Shared Linux or HPC.

@@ -21,9 +21,9 @@ project:
             - file: setup.md
               title: Set up
             - file: exercises/01-environments/environments.ipynb
-              title: "1. Software environments"
+              title: "1a. conda and uv locks"
             - file: exercises/02-workflows/workflows.ipynb
-              title: "2. Workflows"
+              title: "2a. Snakemake"
             - file: exercises/03-dataops/dataops.ipynb
               title: "3. Versioning data"
             - file: exercises/04-registry/registry.ipynb
