@@ -10,12 +10,9 @@ subject: Hands-on exercises
 
 ## The idea: literate science
 
-- Literate programming: in 1984 Donald Knuth proposed writing a program as one document, for people and for the machine at once.
-- Literate science goes one step further. The claims, the code, the environment and the data live in one project, and every published result comes from running it.
-- If the code breaks, the document breaks.
-- The document and the data are the pets, so you look after them.
-- Everything that runs them is cattle, so you can delete it and build it again from what's in the project.
-- This site works the same way. Each exercise page is a notebook that reruns when the site is published, and the failures on it are real output.
+- In 1984 Donald Knuth proposed writing a program as one document, for people and for the machine. Literate science puts the claims, the code, the environment and the data in one project, and every published result comes from running it.
+- The document and the data are the pets. Everything that runs them is cattle, so you can delete it and build it again from what's in the project.
+- [The premise](premise.md) has the full argument.
 
 ## The exercises
 

@@ -6,6 +6,7 @@ project:
     code: MIT
   toc:
     - file: index.md
+    - file: premise.md
     - file: setup.md
     - title: Exercises
       children:
