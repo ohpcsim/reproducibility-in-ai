@@ -1,13 +1,13 @@
-# How many magnitude 5 earthquakes for each magnitude 6?
+# Sexual dimorphism in Palmer penguins
 
-We report the Gutenberg-Richter b-value of the 2024 catalog. Each step down in magnitude multiplies the number of earthquakes by 10^b.
+How much heavier is a male penguin than a female of the same species? We report the difference of the mean body masses, in grams, per species, for the 2007 field season.
 
-Run these in this order:
+Run clean.py, validate.py, report.py in this order:
 
-1. `python subset.py` keeps the earthquakes `params.yaml` asks for and writes `results/subset.csv`.
-2. `python count.py` counts them per 0.1 of magnitude and writes `results/counts.csv`.
-3. `python fit.py` fits the b-value and writes `metrics.json`.
+1. `python clean.py` drops penguins with no body mass or no sex, applies the repairs `params.yaml` turns on, and writes `results/clean.csv`.
+2. `python validate.py` checks that the columns and rows are there, and writes `results/validated.csv`.
+3. `python report.py` computes the difference per species with the statistic `params.yaml` names, and writes `metrics.json`.
 
 After a change to `params.yaml`, rerun the steps that need it.
 
-Data: `data/earthquakes.csv`, from the USGS ANSS Comprehensive Earthquake Catalog.
+Data: palmerpenguins (Horst, Hill and Gorman 2020, doi:10.5281/zenodo.3960218), CC0, from Gorman, Williams and Fraser (2014), PLOS ONE 9(3): e90081. Collected by Palmer Station LTER with NSF support.
