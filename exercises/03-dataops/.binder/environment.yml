@@ -9,3 +9,4 @@ dependencies:
   - git
   - nano
   - vim
+  - uv
