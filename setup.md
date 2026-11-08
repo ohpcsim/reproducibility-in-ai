@@ -3,28 +3,18 @@ title: Set up your environment
 ---
 
 - Each exercise needs a terminal, Git and the packages in its environment file.
-- You can get them in your browser with Binder, or on your own machine: a Mac, Windows through WSL2, or Linux.
-- Either way, you read the exercise pages on this site and paste the commands into the terminal.
+
++++ {"tags": ["track-binder"]}
+
+- You get them in your browser with Binder.
+
++++
+
+- You read the exercise pages on this site and paste the commands into the terminal.
 - You don't need Jupyter or a GPU.
-
-- For an optional Python-only setup on your own machine, use [the uv route](uv.md).
-
-## Your choices
-
-| | Binder | Your own machine |
-|---|---|---|
-| What you install | Nothing. You need a browser. | Miniforge and Git. On Windows, WSL2 too. |
-| Where your work lives | A temporary session on mybinder.org | A folder in your home directory |
-| How long a session lasts | It shuts down after 10 minutes idle, and aims to last up to six hours | As long as you want |
-| Memory | At least 1 GB, at most 2 GB | Your machine's |
-| Disk | Nothing on your machine | About 3 GB for all four exercises |
-| First start | A few minutes when the image isn't built or cached yet | A few minutes to build each environment |
-| Keeping your work | Only the files you download | Everything stays |
-
-- To try an exercise, use Binder.
-- To keep your work, use your own machine.
 - [Tools and documentation](tools.md) lists each tool, with links to its documentation.
-- The Binder numbers are from the [mybinder.org usage guidelines](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#resources-available).
+
++++ {"tags": ["track-binder"]}
 
 ## Binder and BinderHub: how it works
 
@@ -41,6 +31,7 @@ Each exercise branch has three files in `.binder/`:
 - `environment.yml` lists the conda packages. repo2docker installs them into its own base environment, not into one named `repro-environments`, so you don't run `conda activate` in Binder. ([environment.yml](https://repo2docker.readthedocs.io/en/latest/configuration/research.html))
 - `postBuild` runs once, at build time, after the packages are installed. Ours builds the `project` folder, loads the JupyterLab layout and makes new terminals start in `project`. ([postBuild](https://repo2docker.readthedocs.io/en/latest/configuration/actions.html))
 - `workspace.json` is the JupyterLab layout: a terminal on the left and the exercise page on the right. ([JupyterLab on Binder](https://jupyterlab.readthedocs.io/en/stable/user/binder.html#customize-the-layout))
+- In exercises 2 to 4, the root `pyproject.toml`, `uv.lock` and `.python-version` do not change Binder's environment. See [where to put configuration files](https://repo2docker.readthedocs.io/en/latest/use/repository.html#where-to-put-configuration-files-in-a-repository).
 - The branches have no `start` file, the script repo2docker would run each time a session starts. ([start](https://repo2docker.readthedocs.io/en/latest/configuration/actions.html))
 
 ### What happens when you open a link
@@ -92,6 +83,7 @@ When you open it, BinderHub does this ([what happens when a user clicks a Binder
 - Or edit it in the terminal with `nano <file>`, `vi <file>` or `vim <file>`. nano is the simplest. Ctrl+O, then Enter, saves. Ctrl+X quits.
 - The environment is active and `project` is built, so skip to [Check your setup](#check-your-setup).
 
+(download-your-work)=
 ### Download your work
 
 Pack the `project` folder into one file:
@@ -105,22 +97,38 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 - The file has your commits too, because `project` is a Git repository.
 - To unpack it on your own machine, run `tar -xzf my-work.tar.gz`.
 
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
+
 ## Your own machine
 
++++ {"tags": ["track-hpc"]}
+
+## Your account on a shared machine or cluster
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
 - Disk use is about 3 GB for all four exercises, with conda's package cache.
+
++++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
+
+- You don't need administrator access.
+
++++ {"tags": ["track-wsl2"]}
+
 - You don't need administrator access, except to turn on WSL2.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 ### Step 1: get a shell
 
-::::{tab-set}
++++ {"tags": ["track-mac"]}
 
-:::{tab-item} Mac
 - Open Terminal.
 - It's in Applications, under Utilities.
 - This works on Apple silicon and on Intel Macs.
-:::
 
-:::{tab-item} Windows through WSL2
++++ {"tags": ["track-wsl2"]}
+
 - The exercises run in Linux, and WSL2 gives you Linux on Windows.
 
 Open PowerShell as an administrator and run this, then restart if it asks you to:
@@ -134,20 +142,29 @@ wsl --install -d Ubuntu
 
 - Keep your work in your Linux home folder, not under `/mnt/c`.
 - DVC needs a Linux file system.
-:::
 
-:::{tab-item} Linux
++++ {"tags": ["track-linux", "track-hpc"]}
+
 - Open a terminal.
 - This works on x86_64 and on ARM.
-:::
 
-::::
++++ {"tags": ["track-hpc"]}
+
+- On a cluster, log in with `ssh`, as you do for any job.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 ### Step 2: install conda
 
 - The exercises use conda to build their environments.
 - [Miniforge](https://github.com/conda-forge/miniforge) is a small installer that gets its packages from conda-forge, and it installs in your home folder.
 - If you already have conda or mamba, skip this step.
+
++++ {"tags": ["track-hpc"]}
+
+- If your site has conda as a module, you can load that instead, for example `module load miniforge3`. Your center's documentation names it.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 ```bash
 curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
@@ -198,12 +215,66 @@ cd project
 - If you close the window, open a new one and turn conda on, then run `conda activate repro-environments` and `cd environments/project`.
 - If `conda env create` says the prefix already exists, an environment with that name is left from an earlier run: `conda env remove -n repro-<name>` and create it again.
 
+(container-tool)=
 ### Optional: a container tool (Exercises 1b and 1c only)
 
 - Binder and Exercises 1, 2, 3 and 4 don't need one.
-- Mac or Windows: install [Docker Desktop](https://docs.docker.com/desktop/) or [Podman Desktop](https://podman-desktop.io/). Each runs a small Linux VM.
-- Linux: install Docker Engine or Podman from your distribution's packages. [Docker's install page](https://docs.docker.com/engine/install/) and [Podman's](https://podman.io/docs/installation) list the steps for each distribution.
-- A shared cluster: Apptainer is usually installed by your admins; check with `apptainer --version`. ([Apptainer](https://apptainer.org/docs/user/main/))
+
++++ {"tags": ["track-mac"]}
+
+- Install [Docker Desktop](https://docs.docker.com/desktop/) or [Podman Desktop](https://podman-desktop.io/). Each runs a small Linux VM.
+
++++ {"tags": ["track-linux"]}
+
+- Install Docker Engine or Podman from your distribution's packages. [Docker's install page](https://docs.docker.com/engine/install/) and [Podman's](https://podman.io/docs/installation) list the steps for each distribution.
+
++++ {"tags": ["track-wsl2"]}
+
+- Install Apptainer inside WSL2, in the Ubuntu window. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html#install-ubuntu-packages) has the Ubuntu steps. Check with `apptainer --version`.
+
++++ {"tags": ["track-hpc"]}
+
+- Apptainer is usually installed by your admins; check with `apptainer --version`. ([Apptainer](https://apptainer.org/docs/user/main/))
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
+(install-uv)=
+### Optional: uv
+
+- uv manages Python, virtual environments and packages from PyPI.
+- It is very fast at resolving and installing Python packages. See [uv's benchmarks](https://docs.astral.sh/uv/#highlights).
+- It downloads Python itself, so this route needs neither conda nor a system Python.
+- `pyproject.toml` declares the packages. `uv.lock` records their versions and hashes in one cross-platform file.
+- conda also handles non-Python packages, including R, C/C++ libraries, CUDA, MPI and GDAL. That's why the exercises lead with conda.
+- Exercises 2, 3 and 4 have a "With uv instead of conda" option. Exercise 1 uses uv as part of the lesson.
+- Run the [official uv installer](https://docs.astral.sh/uv/getting-started/installation/):
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source "$HOME/.local/bin/env"
+uv --version
+```
+
+- Git comes from your system. uv does not install Git.
+
++++ {"tags": ["track-mac"]}
+
+- If Git is missing, use `xcode-select --install`.
+
++++ {"tags": ["track-linux", "track-wsl2"]}
+
+- If Git is missing, use `sudo apt install git` on Ubuntu.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
+- Exercises 2 to 4 each pin Python 3.12.12 in `.python-version` and require Python 3.12 in `pyproject.toml`.
+- Their uv configuration requires managed Python. `uv sync --locked` downloads that Python, builds `.venv` and installs the locked packages.
+- The lock chooses wheels for your platform. The target platforms are Linux x86_64 and aarch64, and macOS Intel and Apple silicon.
+- DVC requires ANTLR 4.9.3, which has no PyPI wheel. uv builds this pure Python dependency from its source archive. It needs no C/C++ compiler.
+- Snakemake requires connection-pool 0.0.3, which also has no PyPI wheel. uv builds it from its pure Python source archive.
+- The DataOps and registry configurations constrain cryptography below 49 to keep Intel macOS wheels available.
+
++++
 
 (messages-you-can-ignore)=
 ### Messages you can ignore
@@ -211,6 +282,8 @@ cd project
 - `conda env create` may print `WARNING conda.conda_pypi...` with current Miniforge. It's harmless.
 - It may also print a "Did you know? ... conda-pypi" tip. It's harmless.
 - In exercises 3 and 4, DVC may print "Waiting to acquire lock. If DVC froze, see hardlink_lock" several times. It's harmless, and the command finishes.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 ### Edit files
 
@@ -232,10 +305,12 @@ rm -rf environments
 
 - The environment is cattle, and you can rebuild it from the file in the repository.
 
++++
+
 (check-your-setup)=
 ## Check your setup
 
-Run the exercise's short check from the `project` folder, in Binder or on your own machine:
+Run the exercise's short check from the `project` folder:
 
 ```bash
 python ../check.py --short
@@ -244,5 +319,42 @@ python ../check.py --short
 - It prints one line per part, each starting with PASS or FAIL, and a count at the end.
 - On a fresh project, most parts fail. That's expected, because the failures are the exercise.
 - For exercise 1 on a fresh project, it prints six FAIL lines and `0 of 6 parts pass.`
-- If Python says it can't open `check.py`, you're not in the `project` folder. Run `cd ~/project` in Binder, or `cd environments/project` on your own machine.
-- If Python says `ModuleNotFoundError`, the exercise's environment isn't active. On your own machine, turn conda on and run `conda activate` with the environment from the table.
++++ {"tags": ["track-binder"]}
+
+- If Python says it can't open `check.py`, you're not in the `project` folder. Run `cd ~/project`.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
+- If Python says it can't open `check.py`, you're not in the `project` folder. Run `cd environments/project` from the folder above it.
+- If Python says `ModuleNotFoundError`, the exercise's environment isn't active. Turn conda on and run `conda activate` with the environment from the table.
+
++++
+
+## Your exercises
+
++++ {"tags": ["track-binder"]}
+
+- [1. Software environments](exercises/01-environments/environments.ipynb)
+- [2. Workflows](exercises/02-workflows/workflows.ipynb)
+- [3. Versioning data](exercises/03-dataops/dataops.ipynb)
+- [4. Model registry](exercises/04-registry/registry.ipynb)
+- 1b and 2b run on your own machine: see Your Mac, Your Linux machine, Windows (WSL2) or Shared Linux or HPC.
+- 1c needs an NVIDIA GPU: see Your Linux machine, Windows (WSL2) or Shared Linux or HPC.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
+- 1. Software environments: [1a. conda and uv locks](exercises/01-environments/environments.ipynb) and [1b. Environments in containers](exercises/01-environments/containers.md)
+
++++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
+
+- [1c. PyTorch with a GPU](gpu/gpu.md), with an NVIDIA GPU
+
++++ {"tags": ["track-mac"]}
+
+- 1c needs an NVIDIA GPU: see Your Linux machine, Windows (WSL2) or Shared Linux or HPC.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
+- 2. Workflows: [2a. Snakemake](exercises/02-workflows/workflows.ipynb) and [2b. Nextflow](exercises/02-workflows/nextflow.md)
+- [3. Versioning data](exercises/03-dataops/dataops.ipynb)
+- [4. Model registry](exercises/04-registry/registry.ipynb)

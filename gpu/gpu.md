@@ -35,8 +35,12 @@ title: PyTorch with a GPU
 
 - An NVIDIA GPU, and its driver, already installed. No route here installs the driver.
 - `nvidia-smi` prints your driver version, and the newest CUDA version it supports, at the top right.
-- [conda](../setup.md) for step 1, [uv](../uv.md) for step 2, and about 15 GB of free disk for both.
+- [conda](../setup.md) for step 1, [uv](../setup.md#install-uv) for step 2, and about 15 GB of free disk for both.
++++ {"tags": ["track-hpc"]}
+
 - On a cluster, do this on a GPU node, for example in a session from `srun --gpus=1 --pty bash`, because a login node has no GPU driver. The flags vary by site.
+
++++
 
 Get the files:
 
@@ -200,8 +204,14 @@ If the check fails:
 
 - A container carries the whole stack, apart from the driver, to the next system.
 - [The container page](container.md) builds an image from your conda lock with Docker or Podman, converts it to an Apptainer SIF for a cluster, and runs the same check inside.
++++ {"tags": ["track-wsl2"]}
+
 - On WSL2, Apptainer's `--nv` doesn't reach the GPU. [The WSL2 section](container.md#on-wsl2) has the fix, `--bind /usr/lib/wsl`.
++++ {"tags": ["track-linux"]}
+
 - Rootless Podman 4.9 can't read the GPU spec that NVIDIA's current toolkit writes. [The admin fix](container.md#podman-admin-fix) needs root once.
+
++++
 
 ## Which to use
 
@@ -213,7 +223,7 @@ If the check fails:
 |---|---|---|
 | conda | Passed | Passed |
 | uv | Passed | Passed |
-| Containers | See [what we ran where](container.md#what-we-ran-where) | See [what we ran where](container.md#what-we-ran-where) |
+| Containers | See [what we ran where](container.md#gpu-what-we-ran-where) | See [what we ran where](container.md#gpu-what-we-ran-where) |
 
 ## Clean up
 

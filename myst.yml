@@ -4,41 +4,129 @@ project:
   description: Hands-on exercises for researchers. Fix a broken project, and a script checks your work.
   license:
     code: MIT
+  # Each track's pages come from tracks.py, which build_site.sh runs first.
   toc:
     - file: index.md
-    - file: project.md
-    - file: results/results.ipynb
-      title: "Results: sexual dimorphism in Palmer penguins"
-    - file: premise.md
-    - file: setup.md
-    - file: tools.md
-    - file: build.md
+    - title: About the workshop
+      children:
+        - file: premise.md
+        - file: project.md
+          children:
+            - file: results/results.ipynb
+              title: "Results: sexual dimorphism in Palmer penguins"
     - title: Exercises
       children:
-        - title: "1. Software environments"
+        - title: "Binder (workshop default)"
           children:
+            - file: setup.md
+              title: Set up
             - file: exercises/01-environments/environments.ipynb
-              title: "1a. conda and uv locks"
-            - file: exercises/01-environments/containers.md
-              title: "1b. Environments in containers"
-            - file: gpu/gpu.md
-              title: "1c. PyTorch with a GPU"
-              children:
-                - file: gpu/container.md
-                  title: "1c. Containers"
-        - title: "2. Workflows"
-          children:
+              title: "1. Software environments"
             - file: exercises/02-workflows/workflows.ipynb
-              title: "2a. Snakemake"
-            - file: exercises/02-workflows/nextflow.md
-              title: "2b. Nextflow"
-        - file: exercises/03-dataops/dataops.ipynb
-          title: "3. Versioning data"
-        - file: exercises/04-registry/registry.ipynb
-          title: "4. Model registry"
-    - title: Optional, run it yourself
+              title: "2. Workflows"
+            - file: exercises/03-dataops/dataops.ipynb
+              title: "3. Versioning data"
+            - file: exercises/04-registry/registry.ipynb
+              title: "4. Model registry"
+        - title: "Your Mac"
+          children:
+            - file: setup-mac.md
+              title: Set up
+            - title: "1. Software environments"
+              children:
+                - file: exercises/01-environments/environments-mac.ipynb
+                  title: "1a. conda and uv locks"
+                - file: exercises/01-environments/containers-mac.md
+                  title: "1b. Environments in containers"
+            - title: "2. Workflows"
+              children:
+                - file: exercises/02-workflows/workflows-mac.ipynb
+                  title: "2a. Snakemake"
+                - file: exercises/02-workflows/nextflow-mac.md
+                  title: "2b. Nextflow"
+            - file: exercises/03-dataops/dataops-mac.ipynb
+              title: "3. Versioning data"
+            - file: exercises/04-registry/registry-mac.ipynb
+              title: "4. Model registry"
+        - title: "Your Linux machine"
+          children:
+            - file: setup-linux.md
+              title: Set up
+            - title: "1. Software environments"
+              children:
+                - file: exercises/01-environments/environments-linux.ipynb
+                  title: "1a. conda and uv locks"
+                - file: exercises/01-environments/containers.md
+                  title: "1b. Environments in containers"
+                - file: gpu/gpu.md
+                  title: "1c. PyTorch with a GPU"
+                  children:
+                    - file: gpu/container.md
+                      title: "1c. Containers"
+            - title: "2. Workflows"
+              children:
+                - file: exercises/02-workflows/workflows-linux.ipynb
+                  title: "2a. Snakemake"
+                - file: exercises/02-workflows/nextflow.md
+                  title: "2b. Nextflow"
+            - file: exercises/03-dataops/dataops-linux.ipynb
+              title: "3. Versioning data"
+            - file: exercises/04-registry/registry-linux.ipynb
+              title: "4. Model registry"
+        - title: "Windows (WSL2)"
+          children:
+            - file: setup-wsl2.md
+              title: Set up
+            - title: "1. Software environments"
+              children:
+                - file: exercises/01-environments/environments-wsl2.ipynb
+                  title: "1a. conda and uv locks"
+                - file: exercises/01-environments/containers-wsl2.md
+                  title: "1b. Environments in containers"
+                - file: gpu/gpu-wsl2.md
+                  title: "1c. PyTorch with a GPU"
+                  children:
+                    - file: gpu/container-wsl2.md
+                      title: "1c. Containers"
+            - title: "2. Workflows"
+              children:
+                - file: exercises/02-workflows/workflows-wsl2.ipynb
+                  title: "2a. Snakemake"
+                - file: exercises/02-workflows/nextflow-wsl2.md
+                  title: "2b. Nextflow"
+            - file: exercises/03-dataops/dataops-wsl2.ipynb
+              title: "3. Versioning data"
+            - file: exercises/04-registry/registry-wsl2.ipynb
+              title: "4. Model registry"
+        - title: "Shared Linux or HPC"
+          children:
+            - file: setup-hpc.md
+              title: Set up
+            - title: "1. Software environments"
+              children:
+                - file: exercises/01-environments/environments-hpc.ipynb
+                  title: "1a. conda and uv locks"
+                - file: exercises/01-environments/containers-hpc.md
+                  title: "1b. Environments in containers"
+                - file: gpu/gpu-hpc.md
+                  title: "1c. PyTorch with a GPU"
+                  children:
+                    - file: gpu/container-hpc.md
+                      title: "1c. Containers"
+            - title: "2. Workflows"
+              children:
+                - file: exercises/02-workflows/workflows-hpc.ipynb
+                  title: "2a. Snakemake"
+                - file: exercises/02-workflows/nextflow-hpc.md
+                  title: "2b. Nextflow"
+            - file: exercises/03-dataops/dataops-hpc.ipynb
+              title: "3. Versioning data"
+            - file: exercises/04-registry/registry-hpc.ipynb
+              title: "4. Model registry"
+    - title: Reference
       children:
-        - file: uv.md
+        - file: tools.md
+        - file: build.md
 site:
   template: book-theme
   options:

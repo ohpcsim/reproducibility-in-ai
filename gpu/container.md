@@ -7,17 +7,25 @@ title: If you need a container
 - There's no Binder for it.
 
 - A container carries your software to the next system.
++++ {"tags": ["track-linux", "track-hpc"]}
+
 - A tag such as `ubuntu:24.04` can move, and a sha256 digest can't, so this file pins the base image by digest and the installer by version.
 - The digest is for a multi-architecture image, and Docker or Podman pulls the right one for your machine.
 - `uname -m` picks the matching installer.
++++
+
 - The environment comes from your lock, so the container has exactly what you tested.
 - You need about 20 GB of free disk.
+
++++ {"tags": ["track-linux", "track-hpc"]}
 
 ```{literalinclude} Dockerfile
 :language: dockerfile
 ```
 
 - To get a digest for another image, run `docker pull`, then `docker inspect --format '{{index .RepoDigests 0}}' IMAGE`.
+
++++ {"tags": ["track-linux", "track-hpc"]}
 
 (with-docker-and-apptainer)=
 ## With Docker and Apptainer
@@ -45,9 +53,9 @@ sha256sum repro-gpu.sif
 apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py
 ```
 
-- Converting the same image twice gave SIFs with different hashes when we tried it.
-- So the hash identifies one file, not the recipe.
-- Keep the SIF you ran, or at least its hash.
+- Every build stamps a new ID and build time into the SIF, so the hash changes each time.
+- With Apptainer 1.5 or newer, `apptainer build --reproducible` gives the same hash every time.
+- Either way, record the hash of the SIF you run.
 
 - **Recorded November 7, 2026, on aarch64, NVIDIA GB10, driver 580.178.04, Linux, with Apptainer 1.5.5.** The conda route on this machine gave the same checksum.
 - That's the check, not the time.
@@ -61,6 +69,8 @@ capability      (12, 1)
 matmul 4096^2   0.0962 s, checksum -4.8324e+05
 host            Linux-7.0.0-1024-nvidia-aarch64-with-glibc2.39
 ```
+
++++ {"tags": ["track-linux"]}
 
 ## With Podman
 
@@ -145,6 +155,8 @@ podman run --rm --device nvidia.com/gpu=all docker.io/library/ubuntu:24.04 nvidi
 GPU 0: NVIDIA GB10
 ```
 
++++
+
 ## With Apptainer and no Docker
 
 - If you don't have Docker, this definition file does the same steps.
@@ -159,6 +171,10 @@ From the `gpu` folder, with your `lock.txt` in it:
 apptainer build --fakeroot --force repro-gpu.sif repro-gpu.def
 apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py
 ```
+
+- Optional: with Apptainer 1.5 or newer, add `--reproducible` to `apptainer build`. Apptainer 1.4 doesn't have it.
+
++++ {"tags": ["track-linux", "track-hpc"]}
 
 ## With a pre-built image
 
@@ -175,6 +191,8 @@ apptainer pull ngc-pytorch.sif docker://nvcr.io/nvidia/pytorch@sha256:THE_DIGEST
 sha256sum ngc-pytorch.sif
 apptainer exec --nv ngc-pytorch.sif python verify_gpu.py
 ```
+
++++ {"tags": ["track-wsl2"]}
 
 (on-wsl2)=
 ## On WSL2
@@ -211,7 +229,9 @@ matmul 4096^2   0.1312 s, checksum 3.7091e+04
 host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 ```
 
-(what-we-ran-where)=
++++
+
+(gpu-what-we-ran-where)=
 ## What we ran where
 
 | Step | aarch64, GB10, Linux | x86_64, RTX 3070, WSL2 |

@@ -3,7 +3,8 @@
 # Usage: ./build_site.sh <env of 01-environments> <env of 02-workflows> <env of 03-dataops> <env of 04-registry> <env of results>
 # Each exercise env is its .binder/environment.yml plus ipykernel and jupyter_server.
 # The results env is results/environment.yml plus jupyter_server.
-# Run it from a clean copy, because running the notebooks writes project/ folders.
+# Run it from a clean copy, because running the notebooks writes project/ folders,
+# and tracks.py writes each track's copy of a page over the page's source.
 #
 # Each notebook has to run in its own exercise environment: exercise 1's failure
 # needs pandas to be missing, and the results page needs matplotlib. So each one builds
@@ -14,6 +15,7 @@ set -eu
 JUPYTER_BOOK=${JUPYTER_BOOK:-jupyter-book}
 ROOT=$(pwd)
 mkdir -p _build/execute
+python3 tracks.py
 
 run_notebook() (
     cd "$2"

@@ -6,3 +6,12 @@ gpu/lock.txt
 *.tar
 *.sif
 gpu/.venv/
+# Each track's copy of a page, written by tracks.py at build time
+/setup-*.md
+/exercises/*/*-mac.*
+/exercises/*/*-linux.*
+/exercises/*/*-wsl2.*
+/exercises/*/*-hpc.*
+/gpu/*-linux.md
+/gpu/*-wsl2.md
+/gpu/*-hpc.md

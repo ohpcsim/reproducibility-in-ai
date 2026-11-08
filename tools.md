@@ -20,7 +20,7 @@ title: Tools and documentation
 | conda | A package and environment manager. It builds an environment from `environment.yml`, with Python and non-Python packages. | Every exercise, [1c](gpu/gpu.md) and [the container page](gpu/container.md). | [Conda documentation](https://docs.conda.io/projects/conda/en/latest/) | [Getting started with conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) |
 | Miniforge | A small conda installer that gets its packages from conda-forge. | [Set up your environment](setup.md), step 2. | [README](https://github.com/conda-forge/miniforge) | The README has the install steps. |
 | conda-forge | A community channel of conda packages. | Every environment file in the workshop lists it as the only channel. | [conda-forge documentation](https://conda-forge.org/docs/) | [A brief introduction](https://conda-forge.org/docs/user/introduction/) |
-| uv | A Python package and project manager, written in Rust. | [Exercise 1](exercises/01-environments/environments.ipynb), [1c](gpu/gpu.md) and [the uv route](uv.md). | [uv documentation](https://docs.astral.sh/uv/) | [Getting started](https://docs.astral.sh/uv/getting-started/) |
+| uv | A Python package and project manager, written in Rust. | [Exercise 1](exercises/01-environments/environments.ipynb), [1c](gpu/gpu.md), and the "With uv instead of conda" option in Exercises 2, 3 and 4. | [uv documentation](https://docs.astral.sh/uv/) | [Getting started](https://docs.astral.sh/uv/getting-started/) |
 
 ## conda and uv
 
@@ -32,7 +32,7 @@ title: Tools and documentation
 | conda | Any language: Python, R, C/C++ libraries, CUDA, MPI. conda-forge, a large community channel. Established on HPC systems. | Slower than uv. One lock file per platform. Large environments. |
 | uv | Very fast. One cross-platform lock file, `uv.lock`. Installs Python itself. Uses the standard `pyproject.toml`. | Python and PyPI packages only. Non-Python libraries come from the system or from wheels. Newer, and less familiar on HPC systems. |
 
-The workshop uses conda. [The uv route](uv.md) shows the same exercises with uv.
+The workshop uses conda. Exercises 2, 3 and 4 also give the same steps with uv.
 
 ## Workflows
 
