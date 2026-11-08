@@ -3,6 +3,37 @@ title: Reproducibility in AI
 subject: Hands-on exercises
 ---
 
+## Which machine are you on?
+
+- Pick one. Each track has its own setup page and its own copy of each exercise, with the commands for that machine only.
+- Not sure? Use Binder, the workshop default.
+
+| Track | Who it's for | Exercises |
+|---|---|---|
+| [Binder](setup.md), the workshop default | Anyone. Nothing to install, you need a browser. | 1, 2a, 3, 4 |
+| [Your Mac](setup-mac.md) | A Mac you own, with Apple silicon | 1a, 1b, 2a, 2b, 3, 4 |
+| [Your Linux machine](setup-linux.md) | Linux you own, with root | 1a, 1b, 1c with an NVIDIA GPU, 2a, 2b, 3, 4 |
+| [Windows (WSL2)](setup-wsl2.md) | A Windows PC you own | 1a, 1b, 1c with an NVIDIA GPU, 2a, 2b, 3, 4 |
+| [Shared Linux or HPC](setup-hpc.md) | An account with no root, such as a campus cluster | 1a, 1b with Apptainer, 1c on a GPU node, 2a, 2b, 3, 4 |
+
+### Binder or your own machine
+
+| | Binder | Your own machine |
+|---|---|---|
+| What you install | Nothing. You need a browser. | Miniforge and Git. On Windows, WSL2 too. |
+| Where your work lives | A temporary session on mybinder.org | A folder in your home directory |
+| How long a session lasts | It shuts down after 10 minutes idle, and aims to last up to six hours | As long as you want |
+| Memory | At least 1 GB, at most 2 GB | Your machine's |
+| Disk | Nothing on your machine | About 3 GB for all four exercises |
+| First start | A few minutes when the image isn't built or cached yet | A few minutes to build each environment |
+| Keeping your work | Only the files you download | Everything stays |
+
+- To try an exercise, use Binder.
+- To keep your work, use your own machine.
+- The Binder numbers are from the [mybinder.org usage guidelines](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#resources-available).
+
+## About the workshop
+
 - The exercises from the Reproducibility in AI workshop at Rice Research Computing Day.
 - You do them on your own time, with these pages and a terminal.
 - Each one gives you a broken project. You fix it, and a script checks your work.
@@ -77,9 +108,9 @@ subject: Hands-on exercises
 
 It works the same way everywhere: read the page, and paste the commands into a terminal.
 
-1. Pick an exercise. If you're not sure, start with the first.
-2. Select **Open in Binder**. Your browser opens a free temporary session with a terminal on the left and the instructions on the right, with everything installed. The first start can take a few minutes. A session has 2 GB of memory and ends when it sits idle, so download anything you want to keep.
-3. Or [set up your environment](setup.md) on your own machine and use your own terminal with these pages. You don't need Jupyter, and your work stays with you.
+1. Pick your machine at the top of this page, and follow its setup page.
+2. Pick an exercise in that track. If you're not sure, start with the first.
+3. On Binder, the first start can take a few minutes. A session has 2 GB of memory and ends when it sits idle, so download anything you want to keep.
 4. Do the steps on the page, then run its check, `python ../check.py`.
 5. To learn a tool, [Tools and documentation](tools.md) links to its documentation and its introduction.
 

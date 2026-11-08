@@ -3,14 +3,15 @@
 set -euo pipefail
 python scripts/setup_project.py
 # A read-only copy of the exercise page for the right panel, because selecting text in a notebook opens cells for editing.
-jupyter nbconvert --to markdown registry.ipynb --output exercise --TagRemovePreprocessor.remove_input_tags=remove-input --log-level=WARN
+# .binder/exercise.ipynb is the Binder track of the page, without the site-only lines. make_binder_branches.sh writes it with tracks.py.
+jupyter nbconvert --to markdown .binder/exercise.ipynb --output-dir . --output exercise --TagRemovePreprocessor.remove_input_tags=remove-input --log-level=WARN
 # Links to other site pages go to the published site.
 python - <<'EOF'
 import re
 from pathlib import Path
 page = Path("exercise.md")
 site = "https://ohpcsim.github.io/reproducibility-in-ai/"
-page.write_text(re.sub(r"\]\((?![a-z]+:)(?:[^)\s#]*/)?([^)\s/#]+)\.(?:md|ipynb)(#[^)\s]*)?\)", lambda m: f"]({site}{m[1]}{m[2] or ''})", page.read_text()))
+page.write_text(re.sub(r"\]\((?![a-z]+:)(?:[^)\s#]*/)?([^)\s/#]+)\.(?:md|ipynb)(#[^)\s]*)?\)", lambda m: f"]({site}{'' if m[1] == 'index' else m[1]}{m[2] or ''})", page.read_text()))
 EOF
 jupyter lab workspaces import .binder/workspace.json
 settings=~/.jupyter/lab/user-settings/@jupyterlab/apputils-extension

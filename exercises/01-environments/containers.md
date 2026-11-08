@@ -31,11 +31,21 @@ title: Environments in containers
 
 - [Tools and documentation](../../tools.md#containers-on-shared-machines) has the same table.
 
++++ {"tags": ["track-hpc"]}
+
 Pick one route. Each one is complete on its own and ends with the same check.
 
++++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
+
 - **Route A: your own Mac, Windows or Linux machine, with Docker or Podman.** You build two images and run them.
++++ {"tags": ["track-wsl2", "track-hpc"]}
+
 - **Route B: a shared Linux machine or an HPC cluster, without root, with Apptainer.** You build two SIF files from `.def` files and run them. The build needs Apptainer's `--fakeroot`, which your center may or may not allow.
++++ {"tags": ["track-hpc"]}
+
 - **From A to B: build where you have root, run on the cluster.** You build the images with Route A, copy them to the cluster as files, and convert them to SIF files there. Use this when the cluster doesn't allow `--fakeroot`.
+
++++
 
 ## Get ready, for every route
 
@@ -49,7 +59,11 @@ cp metrics.json ../metrics-ex1.json
 ```
 
 - If `metrics.json` is missing, run `uv run python analyze.py` first.
++++ {"tags": ["track-hpc"]}
+
 - On a cluster, clone your `project` and the `containers` folder next to each other, as on your machine.
+
++++
 
 ## The recipes
 
@@ -57,6 +71,8 @@ cp metrics.json ../metrics-ex1.json
 - Both kinds of recipe do the same steps. The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
 - A container is Linux, even on a Mac or Windows PC. So the conda image needs a Linux lock: `explicit-linux-64.txt` on x86_64 or `explicit-linux-aarch64.txt` on ARM. One `uv.lock` builds on both.
 - A tag such as `miniforge3:26.9.4-2` can move, and a sha256 digest can't. Every recipe pins its base image by digest. Each digest covers x86_64 and ARM, and the tool pulls the one for your machine.
++++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
+
 - To get a digest for another image, run `docker pull`, then `docker inspect --format '{{index .RepoDigests 0}}' IMAGE`.
 
 `containers/Dockerfile.conda`:
@@ -71,11 +87,15 @@ cp metrics.json ../metrics-ex1.json
 :language: dockerfile
 ```
 
++++ {"tags": ["track-wsl2", "track-hpc"]}
+
 ```{literalinclude} containers/penguins-conda.def
 ```
 
 ```{literalinclude} containers/penguins-uv.def
 ```
+
++++
 
 - They copy only the files they need, so your `.venv` and `.git` stay out of the image.
 - The conda recipes pick the lock with the same `conda config --show subdir` command as Exercise 1.
@@ -83,11 +103,17 @@ cp metrics.json ../metrics-ex1.json
 - They put the environment first on `PATH` and run `python analyze.py`.
 - The uv image doesn't start with `uv run`. Under Apptainer, which runs in your folder, `uv run` found the project's own `.venv` and used it instead of the container's environment.
 
++++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
+
 ## Route A: your own machine, Docker or Podman
 
-- Install one of the tools in the table for your machine. [Set up your environment](../../setup.md#optional-a-container-tool-exercises-1b-and-1c-only) links to each one.
+- Install one of the tools in the table for your machine. [Set up your environment](../../setup.md#container-tool) links to each one.
 - The commands are the same with `podman`: write `podman` where this says `docker`.
++++ {"tags": ["track-linux", "track-hpc"]}
+
 - On Linux, `docker` needs root or membership in the `docker` group. Podman runs rootless, with no daemon.
+
++++ {"tags": ["track-mac", "track-hpc"]}
 
 **A Mac needs a Linux lock first.** Your conda lock is `explicit-osx-arm64.txt`, and it doesn't install in a Linux container. Skip the conda image, or write a Linux lock inside the Miniforge container and commit it:
 
@@ -100,6 +126,8 @@ git commit -m "Lock the conda environment for Linux on ARM"
 
 - That's a new solve from `environment.yml`, so compare its versions with your Mac lock.
 - We ran this command with Podman on Linux on ARM, where it wrote the same 38 packages as the lock from Exercise 1. We haven't run it on a Mac.
+
++++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
 
 **Build, run and compare:**
 
@@ -115,13 +143,21 @@ diff ../metrics-ex1.json ../metrics-image-uv.json
 - `analyze.py` prints the same JSON it writes to `metrics.json`, so each run's file is the container's `metrics.json`.
 - `diff` prints nothing when the files match exactly. That's the check.
 - Podman needs the full image name, with the registry. The recipes have it: `docker.io/condaforge/miniforge3` and `ghcr.io/astral-sh/uv`. Without `docker.io/`, Podman 4.9.3 on Ubuntu stopped with `short-name ... did not resolve to an alias`.
++++ {"tags": ["track-linux", "track-hpc"]}
+
 - Rootless, Podman's conda build printed warnings such as `can't raise ambient capability CAP_CHOWN`. The build still succeeded.
+
++++ {"tags": ["track-wsl2", "track-hpc"]}
 
 (route-b)=
 ## Route B: a shared machine or a cluster, Apptainer
 
 - Apptainer runs as you, in your current folder, with no daemon.
++++ {"tags": ["track-hpc"]}
+
 - If your site has it as a module, load it first, for example `module load apptainer`. Your center's documentation names it.
+
++++ {"tags": ["track-wsl2", "track-hpc"]}
 
 **Build the SIF files** from the `.def` files:
 
@@ -130,7 +166,13 @@ apptainer build --fakeroot ../penguins-conda.sif ../containers/penguins-conda.de
 apptainer build --fakeroot ../penguins-uv.sif ../containers/penguins-uv.def
 ```
 
+- Optional: with Apptainer 1.5 or newer, add `--reproducible` to `apptainer build`. Apptainer 1.4 doesn't have it.
+
++++ {"tags": ["track-hpc"]}
+
 - If the build stops because `--fakeroot` isn't allowed, use [From A to B](#from-a-to-b).
+
++++ {"tags": ["track-wsl2", "track-hpc"]}
 
 **Run and compare:**
 
@@ -145,7 +187,11 @@ sha256sum ../penguins-*.sif
 - `apptainer exec IMAGE.sif python analyze.py` runs your `analyze.py` on your `data`, with the container's environment, and writes `metrics.json` in your folder.
 - `diff` prints nothing when the files match exactly.
 - A SIF is one file. Copy it to another machine and run it there with the same `apptainer exec` command.
++++ {"tags": ["track-hpc"]}
+
 - On a cluster, run it in a job, the same way you run any program.
+
++++ {"tags": ["track-hpc"]}
 
 (from-a-to-b)=
 ## From A to B: build where you have root, run on the cluster
@@ -171,7 +217,11 @@ apptainer build ../penguins-uv.sif docker-archive://../penguins-uv.tar
 ```
 
 - Then run and compare as in [Route B](#route-b).
-- As [the GPU container page](../../gpu/container.md) found, converting the same image twice can give SIFs with different hashes. Keep the SIF you ran, or at least its hash.
+- Every build stamps a new ID and build time into the SIF, so the hash changes each time.
+- With Apptainer 1.5 or newer, `apptainer build --reproducible` gives the same hash every time.
+- Either way, record the hash of the SIF you run.
+
++++
 
 (what-we-ran-where)=
 ## What we ran where
@@ -220,8 +270,18 @@ rm ../penguins-*.tar ../penguins-*.sif ../metrics-*.json
 ## Things that trip people up
 
 - Disk space. The two images took 1.3 GB, the files saved from them another 1.3 GB, and the two SIF files 0.4 GB. The conda image is almost four times the uv image, because the Miniforge base image alone is about 600 MB.
++++ {"tags": ["track-linux", "track-hpc"]}
+
 - Rootless Podman keeps images in your home folder, under `~/.local/share/containers`, so check your quota.
++++ {"tags": ["track-wsl2", "track-hpc"]}
+
 - `--fakeroot`. Building a SIF from a `.def` file needs it, and some centers don't allow it. Converting an image doesn't, so use From A to B.
++++ {"tags": ["track-mac", "track-hpc"]}
+
 - The Mac lock. `explicit-osx-arm64.txt` doesn't install in a Linux container. Write a Linux lock first, as in Route A.
++++ {"tags": ["track-mac"]}
+
 - Docker Desktop, Podman Desktop and the other Mac tools run a Linux VM. The VM's memory and disk come out of your machine's, and its settings set how much. On a Mac with Apple silicon, the containers are Linux on ARM, so they use the `linux-aarch64` lock.
++++ {"tags": ["track-wsl2"]}
+
 - On Windows, keep the project in your WSL2 home, not under `/mnt/c`, and run the commands in the WSL2 terminal.
