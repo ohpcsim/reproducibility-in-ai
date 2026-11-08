@@ -10,10 +10,12 @@ HERE = Path(__file__).resolve().parents[1]
 PROJECT = HERE / "project"
 BUCKET = HERE / "osn-bucket"
 ENV = {**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"}
+# A fixed date, so every learner gets the commit IDs on the page.
+STAMP = "2025-04-03T10:00:00+0000"
 
 
-def run(*args):
-    subprocess.run(args, cwd=PROJECT, env=ENV, check=True, capture_output=True)
+def run(*args, env=ENV):
+    subprocess.run(args, cwd=PROJECT, env=env, check=True, capture_output=True)
 
 
 def build():
@@ -27,12 +29,16 @@ def build():
     BUCKET.mkdir()
     run("dvc", "init", "--quiet")
     run("dvc", "config", "core.analytics", "false")
-    # Old tags and fresh clones must resolve the same stand-in bucket.
-    run("dvc", "remote", "add", "--default", "storage", str(BUCKET))
+    # Git gets a relative path, so the commit ID doesn't depend on where you put the exercise.
+    run("dvc", "remote", "add", "--default", "storage", "../osn-bucket")
+    # DVC reads a relative path from old tags as relative to /, so old tags need the full path, in local config.
+    run("dvc", "remote", "modify", "--local", "storage", "url", str(BUCKET))
     run("dvc", "add", "--quiet", "data/penguins.csv")
     run("dvc", "repro", "--quiet")
+    # DVC lists its outputs in .gitignore, so Git gets the code, pointers and lock, not the model, splits or metrics.
     run("git", "add", ".")
-    run("git", "commit", "--quiet", "--no-verify", "--message", "Train the penguin sex classifier with C=0.01")
+    run("git", "commit", "--quiet", "--no-verify", "--message", "Train the penguin sex classifier with C=0.01",
+        env={**ENV, "GIT_AUTHOR_DATE": STAMP, "GIT_COMMITTER_DATE": STAMP})
     run("dvc", "push", "--quiet")
 
 

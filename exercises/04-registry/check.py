@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check committed versions, prod, a clean rebuild and every model in the bucket.
+"""Check registered versions, prod, a clean rebuild and every model in the bucket.
 
 Run from project/: python ../check.py. --short runs the same full check.
 All rebuilds and restores use throwaway clones.
@@ -12,6 +12,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+import dvc.api
+from dvc.exceptions import DvcException
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "scripts"))
@@ -36,7 +38,8 @@ def registered():
     versions = {}
     tags = run("git", "tag", "--list", "penguin-sex-clf@*", cwd=PROJECT).stdout.split()
     for tag in tags:
-        accuracy = json.loads(show(tag, "model_metrics.json"))["val_accuracy"]
+        # The metrics are DVC outputs: DVC reads them from the cache, or from the bucket.
+        accuracy = json.loads(dvc.api.read("model_metrics.json", repo=str(PROJECT), rev=tag))["val_accuracy"]
         c = yaml.safe_load(show(tag, "params.yaml"))["train"]["C"]
         if not isinstance(accuracy, (int, float)) or not math.isfinite(accuracy):
             raise ValueError(f"{tag}: val_accuracy must be a finite number")
@@ -53,7 +56,7 @@ def check_rebuild(prod, recorded):
             again = json.loads((clone / "model_metrics.json").read_text())["val_accuracy"]
         ok = 0.65 <= again <= 0.95 and abs(again - recorded) <= 0.01
         report(ok, "Prod rebuild matches its recorded validation accuracy within 0.01, between 0.65 and 0.95" if ok else
-               "Prod rebuild has an unexpected accuracy. Check train.py and the committed model_metrics.json.")
+               "Prod rebuild has an unexpected accuracy. Check train.py and dvc metrics show --all-tags.")
     except (subprocess.CalledProcessError, OSError, ValueError, KeyError) as error:
         report(False, f"Cannot restore and rebuild {tag}. Run dvc push --all-tags, then check dvc repro --force. {error}")
 
@@ -84,14 +87,14 @@ def main():
         best = max((v["accuracy"] for v in versions.values()), default=None)
         ok = prod in versions and versions[prod]["accuracy"] == best
         report(ok, "Prod is a registered version with the highest validation accuracy" if ok else
-               "Compare model_metrics.json, then use gto assign penguin-sex-clf --version <best> --stage prod (step 3).")
+               "Run dvc metrics show --all-tags, then use gto assign penguin-sex-clf --version <best> --stage prod (step 3).")
         if prod in versions:
             check_rebuild(prod, versions[prod]["accuracy"])
         else:
             report(False, "Assign a registered version to prod before checking its clean rebuild.")
         check_all_versions(versions)
-    except (subprocess.CalledProcessError, OSError, ValueError, KeyError, TypeError) as error:
-        report(False, f"Cannot read the committed registry record. Check params.yaml and model_metrics.json at each version tag. {error}")
+    except (subprocess.CalledProcessError, OSError, ValueError, KeyError, TypeError, DvcException) as error:
+        report(False, f"Cannot read the registry record. Check params.yaml at each version tag, and dvc metrics show --all-tags. {error}")
     print(f"\n{sum(results)} of {len(results)} parts pass.")
     if all(results):
         print("You're done. Prod is the registered version with the best validation score, and every registered model comes back from the bucket.")

@@ -6,6 +6,7 @@ import tempfile
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parents[1] / "project"
+BUCKET = PROJECT.parent / "osn-bucket"
 
 
 def run(*args, cwd):
@@ -16,6 +17,8 @@ def restore(tag, folder):
     clone = folder / "clone"
     run("git", "clone", "--quiet", "--no-hardlinks", str(PROJECT), str(clone), cwd=folder)
     run("git", "checkout", "--quiet", tag, cwd=clone)
+    # A clone has no local config, so give it the bucket's full path.
+    run("dvc", "remote", "modify", "--local", "storage", "url", str(BUCKET), cwd=clone)
     run("dvc", "pull", cwd=clone)
     if not (clone / "model.pkl").is_file():
         raise FileNotFoundError("model.pkl was not restored")
