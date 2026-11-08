@@ -1,0 +1,10 @@
+name: repro-workflows
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - pandas
+  - pyyaml
+  - snakemake-minimal=9
+  - git
