@@ -18,11 +18,12 @@ title: 1b. Environments in containers
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
 - You run it on your own machine, after Exercise 1, because the images are built from the locks you committed there.
-- 1b's commands take under a minute on a fast connection. They download about 380 MB, 270 MB of it the two base images, so on a slow connection the downloads take most of the time.
+- On our ARM Linux machine, 1b's commands took 23 seconds from an empty image cache. They downloaded about 380 MB, 270 MB of it the two base images, compressed. On a slow connection the downloads take most of the time.
 
 +++ {"tags": ["track-hpc"]}
 
 - You run it on the cluster, after Exercise 1, because the images are built from the locks you committed there.
+- On our Linux machine the two Apptainer builds took 21 and 5 seconds.
 
 +++
 
@@ -348,6 +349,9 @@ rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json
 ```
 
 - The base images stay. `podman image ls` lists them, and `podman rmi IMAGE_ID` removes one.
++++ {"tags": ["track-mac"]}
+
+- `podman machine stop` stops the Linux VM.
 +++ {"tags": ["track-hpc"]}
 
 ```bash
