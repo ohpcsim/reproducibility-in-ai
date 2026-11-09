@@ -1,4 +1,4 @@
-# Model registry: which penguin model is live?
+# 4. Model registry: which penguin model is live?
 
 Train two values of C, register both with GTO, promote the better validation score and restore every version with DVC. About 15 to 20 minutes. Instructions are in `registry.ipynb`, or on the site.
 
@@ -11,6 +11,6 @@ python scripts/setup_project.py
 cd project
 ```
 
-Run `python ../check.py` from `project` to check your work. `--short` runs the same check.
+Run `python ../check.py` from `project` to check your work.
 
 For uv instead of conda, see "With uv instead of conda" on [the exercise page](https://ohpcsim.github.io/reproducibility-in-ai/registry).
