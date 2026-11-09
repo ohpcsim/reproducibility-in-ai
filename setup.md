@@ -222,7 +222,7 @@ uv --version
 
 +++ {"tags": ["track-mac"]}
 
-- The installer adds a line to your shell's startup files, so new windows find uv.
+- The installer adds `. "$HOME/.local/bin/env"` to `~/.zshrc` and `~/.profile`, so new windows find uv.
 
 +++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 

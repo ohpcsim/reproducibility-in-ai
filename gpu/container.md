@@ -39,7 +39,7 @@ podman pull docker.io/library/ubuntu:24.04
 podman images --digests docker.io/library/ubuntu
 ```
 
-- With Podman 4.9.3 on our ARM Linux machine, and with Podman 6.1.4 on a Mac, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest in `repro-gpu.def`. Pin the DIGEST column's value. It covers every platform.
+- With Podman 4.9.3 on our ARM Linux machine and on x86_64 WSL2, and with Podman 6.1.4 on a Mac, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest in `repro-gpu.def`. Pin the DIGEST column's value. It covers every platform.
 - Don't use `podman inspect --format '{{.Digest}}'` for this. On a Mac with Podman 6.1.4, it printed a single platform's digest.
 
 (gpu-build-apptainer)=

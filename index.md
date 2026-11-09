@@ -3,7 +3,7 @@ title: Reproducibility in AI
 subject: Hands-on exercises
 ---
 
-Starting an exercise? [Pick your machine](#which-machine-are-you-on).
+Starting an exercise? [Pick your machine](#pick-your-machine).
 
 ## About the workshop
 
@@ -22,7 +22,7 @@ Starting an exercise? [Pick your machine](#which-machine-are-you-on).
 - [Literate Science Results: sexual dimorphism in Palmer penguins](results/results.ipynb) is one such document. The build runs the finished project's code. The page shows what it printed, and draws a figure from the project's validated table.
 - [How this site is built](build.md) shows its configuration, the command that builds it and the automation that reruns every notebook.
 
-## Which machine are you on?
+## Pick your machine
 
 - Pick one. Each track has its own setup page and its own copy of each exercise, with the commands for that machine only.
 - Not sure? Use Binder, the workshop default.
