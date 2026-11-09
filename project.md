@@ -48,7 +48,7 @@ title: "The project: the Palmer penguins dataset"
 
 - Gorman, Williams and Fraser measured the penguins over three austral summers from 2007/08, and published in PLOS ONE in 2014. ([the study](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081))
 - Allison Horst, Alison Hill and Kristen Gorman released the data as the palmerpenguins R package in 2020. ([palmerpenguins](https://allisonhorst.github.io/palmerpenguins/))
-- Zenodo archives that release, v0.1.0 of July 25, 2020, at [doi:10.5281/zenodo.3960218](https://doi.org/10.5281/zenodo.3960218).
+- Zenodo archives that release, v0.1.0 of July 25, 2020, at doi:10.5281/zenodo.3960218.
 - It's on CRAN, and there are versions for Python and Julia. ([Horst, Hill and Gorman, The R Journal, 2022](https://journal.r-project.org/articles/RJ-2022-020/))
 - seaborn loads it with `load_dataset("penguins")`. ([seaborn](https://seaborn.pydata.org/generated/seaborn.load_dataset.html))
 - `pip install palmerpenguins` installs a Python package of it. ([PyPI](https://pypi.org/project/palmerpenguins/))
@@ -63,4 +63,4 @@ title: "The project: the Palmer penguins dataset"
 - The package says the data is "available by CC-0 license in accordance with the Palmer Station LTER Data Policy", and its [LICENSE.md](https://github.com/allisonhorst/palmerpenguins/blob/main/LICENSE.md) is CC0 1.0 Universal. ([palmerpenguins](https://allisonhorst.github.io/palmerpenguins/))
 - The [Palmer LTER data page](https://pallter.marine.rutgers.edu/data/) now says its data is generally provided under Creative Commons Attribution 4.0, and asks you to cite the datasets.
 - The workshop uses the package's copy, so CC0 applies. The citation below credits the study and the package either way.
-- Cite it as: Data: palmerpenguins (Horst, Hill and Gorman 2020, [doi:10.5281/zenodo.3960218](https://doi.org/10.5281/zenodo.3960218)), CC0, from Gorman, Williams and Fraser (2014), PLOS ONE 9(3): e90081. Collected by Palmer Station LTER with NSF support.
+- Cite it as: Data: palmerpenguins (Horst, Hill and Gorman 2020, doi:10.5281/zenodo.3960218), CC0, from Gorman, Williams and Fraser (2014), PLOS ONE 9(3): e90081. Collected by Palmer Station LTER with NSF support.

@@ -3,7 +3,7 @@ title: How this site is built
 ---
 
 :::{figure} slides/how-built.png
-:alt: One repository holds the pages, notebooks, data, environment files and build scripts. Publishing: a push to main runs GitHub Actions, which builds each exercise's environment from its environment.yml; tracks.py writes each page's copy for Binder, Mac, Linux, WSL2 and HPC; Jupyter Book reruns every notebook and the results page, and a failing cell stops the build; GitHub Pages serves the site. Running: one branch per exercise, made by make_binder_branches.sh; mybinder.org's repo2docker builds an image from the same environment.yml and reuses it; learners get JupyterLab in the browser, or build the same environment on their own machine with conda or uv. Everything after the repository is rebuilt from it.
+:alt: One repository holds the pages, notebooks, data, environment files and build scripts. Publishing: a push to main runs GitHub Actions, which builds each exercise's environment from its environment.yml; tracks.py writes each page's copy for Binder, Mac, Linux, WSL2 and HPC; Jupyter Book reruns every notebook and the results page, and a failing cell stops the build; GitHub Pages serves the site. Running: one branch per exercise, made by make_binder_branches.sh; mybinder.org's repo2docker builds an image from the same environment.yml and reuses it; learners get JupyterLab in the browser. Your own machine: clone the branch and build the same environments from its files, with conda or uv. Everything after the repository is rebuilt from it.
 How this site and its Binder sessions are built from one repository.
 :::
 
@@ -11,7 +11,7 @@ How this site and its Binder sessions are built from one repository.
 
 - Exercises 1a, 2a, 3 and 4 are notebooks. They rerun when the site is published, so their output is real, but it's teaching output, not results. 1b, 1c and 2b show recorded output.
 - [The results page](results/results.ipynb) is the literate-science example: the penguin study's numbers, rebuilt from the project's code on every publish, and a figure the page draws from the project's validated table.
-- The site follows its own advice: everything it needs is declared in the repository, it rebuilds from scratch, and the build fails if a notebook raises an error or a link breaks.
+- The site follows its own advice: everything it needs is declared in the repository, it rebuilds from scratch, and the build fails if a notebook raises an error or a cross-reference breaks.
 - It isn't a research publication. [The penguin analysis](project.md) is a teaching example on published data.
 
 ## The tools
@@ -42,6 +42,8 @@ conda env create --quiet --prefix envs/results --file results/environment.yml
 conda install --quiet --yes --prefix envs/results jupyter_server
 ```
 
+- `results/environment.yml` isn't locked yet. It names its packages without versions, so a later build can solve newer ones.
+
 - Install Jupyter Book with `pip install "jupyter-book==2.1.7"`.
 - Then one command builds the site into `_build/html`. Run it in a fresh clone, because running the notebooks writes `project/` folders, and `tracks.py` writes each track's pages over their sources. A second build needs another fresh clone.
 
@@ -69,7 +71,7 @@ conda install --quiet --yes --prefix envs/results jupyter_server
 
 ## Binder
 
-- Each exercise has its own branch, such as `binder-01-environments`. Its files are that exercise's folder, with the folder at the root.
+- Each exercise has its own branch, such as `binder-01-environments`. The branch's root is that exercise's folder.
 - `make_binder_branches.sh` makes the four branches from the site's commit. A person pushes them.
 - mybinder.org builds an image from the branch's `.binder/` folder the first time someone opens the link after the branch changes, and reuses it after that. [Set up your environment](setup.md#binder-and-binderhub-how-it-works) has the details.
 - So a learner's environment comes from the same `environment.yml` that the site's build used.

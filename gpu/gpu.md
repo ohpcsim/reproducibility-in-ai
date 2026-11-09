@@ -169,7 +169,7 @@ conda run -n repro-gpu python verify_gpu.py
 
 - `uv lock` keeps the versions in the committed `uv.lock` unless you changed `pyproject.toml`.
 - `uv sync --locked` builds `.venv` from the lock, and stops if the lock doesn't match `pyproject.toml`.
-- `python-preference = "only-managed"` and `.python-version` make uv download Python 3.12.12 itself, as in Exercises 2 to 4, rather than use a Python on your system.
+- `python-preference = "only-managed"` and `.python-version` make uv download Python 3.12.12 itself, as in Exercises 2a, 3 and 4, rather than use a Python on your system.
 
 ```bash
 uv lock

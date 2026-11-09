@@ -1,6 +1,6 @@
 # 2a. Workflows: add a step to a working workflow
 
-About 15 to 20 minutes: run the penguin project's working Snakefile, add a step that draws the README's figure, and watch a changed parameter rerun one step. The instructions are in `workflows.ipynb`, or on the site. `nextflow.md` is the same exercise in Nextflow, for your own machine.
+About 15 to 20 minutes: run the penguin project's working Snakefile, add a step that draws the README's figure, and watch a changed parameter rerun one step. The instructions are in `workflows.ipynb`, or on the site. `nextflow.md` is the same exercise in Nextflow.
 
 [Open in Binder](https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise) for a terminal and the instructions side by side. Or use your own terminal on Linux, macOS, or Windows through WSL2:
 

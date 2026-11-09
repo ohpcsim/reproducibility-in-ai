@@ -13,4 +13,4 @@ Hands-on exercises from the Reproducibility in AI workshop at Rice Research Comp
 
 You read the page and paste commands into a terminal, on Binder or on your own machine. No GPU, cluster or account needed.
 
-The site is built from this repository with `jupyter-book build --execute --strict`, so the output on its pages comes from real runs. Code is MIT licensed. Each exercise names its data, its license and how to cite it.
+The site is built from this repository by `build_site.sh`, which runs each notebook in its own environment ([How this site is built](https://ohpcsim.github.io/reproducibility-in-ai/build)), so the output on its pages comes from real runs. Code is MIT licensed. Each exercise names its data, its license and how to cite it.

@@ -11,6 +11,31 @@ title: Set up your environment
 - You don't need Jupyter or a GPU.
 - [Tools and documentation](tools.md) lists each tool, with links to its documentation.
 
+## Using Binder
+
+1. On the [home page](index.md), select **Open in Binder** on an exercise. Each exercise page has the same link under "Get a terminal".
+2. mybinder.org shows its progress while it builds or starts the session. The first start can take a few minutes.
+3. JupyterLab opens. The terminal is on the left, already in the `project` folder. A read-only copy of the exercise page is on the right.
+
+- Copy and paste a command: Ctrl+C, then Ctrl+V in the terminal. On a Mac, Cmd+C and Cmd+V.
+- Edit a file: double-click it in the file panel on the far left. Save with Ctrl+S, or Cmd+S on a Mac.
+- Or edit it in the terminal with `nano <file>`, `vi <file>` or `vim <file>`. nano is the simplest. Ctrl+O, then Enter, saves. Ctrl+X quits.
+- The environment is active and `project` is built, so you start at the exercise's first step.
+
+(download-your-work)=
+### Download your work
+
+Pack the `project` folder into one file:
+
+```bash
+cd ~ && tar -czf my-work.tar.gz project && cd project
+```
+
+- In the file panel, go up to the top folder.
+- Right-click `my-work.tar.gz` and choose Download. ([Uploading and downloading](https://jupyterlab.readthedocs.io/en/stable/user/files.html#uploading-and-downloading))
+- To unpack it on your own machine, run `tar -xzf my-work.tar.gz`.
+- The file holds `project` and its commits. It doesn't hold the exercise's `osn-bucket` folder or `check.py`. To carry on with Exercise 3 or 4 on your own machine, start that exercise again there.
+
 ## Binder and BinderHub: how it works
 
 - A Binder is a Git repository with code or content to run, and configuration files that declare its environment. ([What is a Binder?](https://mybinder.readthedocs.io/en/latest/introduction.html#what-is-a-binder))
@@ -67,32 +92,6 @@ When you open it, BinderHub does this ([what happens when a user clicks a Binder
 - So the Binder session is cattle. When it ends, you lose nothing that's in the repository.
 - Your work is the pet. Download it, or do the exercise on your own machine.
 
-## Using Binder
-
-1. On the [home page](index.md), select **Open in Binder** on an exercise. Each exercise page has the same link under "Get a terminal".
-2. mybinder.org shows its progress while it builds or starts the session. The first start can take a few minutes.
-3. JupyterLab opens. The terminal is on the left, already in the `project` folder. A read-only copy of the exercise page is on the right.
-
-- Copy and paste a command: Ctrl+C, then Ctrl+V in the terminal. On a Mac, Cmd+C and Cmd+V.
-- Edit a file: double-click it in the file panel on the far left. Save with Ctrl+S, or Cmd+S on a Mac.
-- Or edit it in the terminal with `nano <file>`, `vi <file>` or `vim <file>`. nano is the simplest. Ctrl+O, then Enter, saves. Ctrl+X quits.
-- The environment is active and `project` is built, so you start at the exercise's first step.
-
-(download-your-work)=
-### Download your work
-
-Pack the `project` folder into one file:
-
-```bash
-cd ~ && tar -czf my-work.tar.gz project && cd project
-```
-
-- In the file panel, go up to the top folder.
-- Right-click `my-work.tar.gz` and choose Download. ([Uploading and downloading](https://jupyterlab.readthedocs.io/en/stable/user/files.html#uploading-and-downloading))
-- The file has your commits too, because `project` is a Git repository.
-- To unpack it on your own machine, run `tar -xzf my-work.tar.gz`.
-- The file holds `project` and its commits. It doesn't hold the exercise's `osn-bucket` folder or `check.py`. To carry on with Exercise 3 or 4 on your own machine, start that exercise again there.
-
 +++ {"tags": ["track-mac"]}
 
 - This page gets your Mac ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access.
@@ -105,6 +104,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 +++ {"tags": ["track-hpc"]}
 
 - This page gets your account on a shared Linux machine or cluster ready for the exercises: a shell, conda and Git, and if you want them, uv and Apptainer. You don't need administrator access.
+- We ran the HPC track on a Linux machine without root and with Apptainer, not on a real cluster. Your site's modules and policies may differ.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 - Each exercise page then clones its own copy of the exercise and builds its own environment.
@@ -208,10 +208,10 @@ If that fails, load your site's Git module. Your center's documentation names it
 - Exercise 1a's conda environment already has uv.
 +++ {"tags": ["track-mac"]}
 
-- You need it for the "With uv instead of conda" option in Exercises 2 to 4.
+- You need it for the "With uv instead of conda" option in Exercises 2a, 3 and 4.
 +++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
-- You need it for the "With uv instead of conda" option in Exercises 2 to 4, and for step 2 of 1c.
+- You need it for the "With uv instead of conda" option in Exercises 2a, 3 and 4, and for step 2 of 1c.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 ```bash
@@ -227,6 +227,10 @@ uv --version
 +++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
 - The installer adds `. "$HOME/.local/bin/env"` to `~/.bashrc`, `~/.profile` and `~/.zshrc`, so new windows find uv.
+
++++ {"tags": ["track-hpc"]}
+
+- The uv installer's line only adds uv's folder to `PATH`, so it doesn't clash with your cluster's modules the way `conda init` can.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
@@ -256,7 +260,7 @@ uv --version
 +++ {"tags": ["track-hpc"]}
 
 - Only Exercises 1b and 1c use one.
-- Apptainer is usually installed by your admins. Check with `apptainer --version`. ([Apptainer](https://apptainer.org/docs/user/main/))
+- Apptainer is usually installed by your admins. Check with `apptainer --version`. ([Apptainer](https://apptainer.org/docs/user/latest/))
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 

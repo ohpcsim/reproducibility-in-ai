@@ -5,7 +5,7 @@ title: Tools and documentation
 - This page lists every tool the exercises and the optional pages use.
 - Each row says what the tool is, where the workshop uses it, and where its official documentation and introduction are.
 - You don't install these one by one. Each exercise's environment file installs what it needs, and your track's Set up page, from [the home page](index.md), has the steps.
-- Exercise links on this page open the Binder copy, and 1b, 1c and 2b links open the Linux copy. Your track's menu has your machine's copy.
+- Exercise links on this page open the Binder copy. Links to 1b, 1c and 2b open the Linux copy unless the link names another track. Your track's menu has your machine's copy.
 
 ## Code
 
@@ -21,7 +21,7 @@ title: Tools and documentation
 | conda | A package and environment manager. It builds an environment from `environment.yml`, with Python and non-Python packages. | Every exercise, [1c](gpu/gpu.md) and [the container page](gpu/container.md). | [Conda documentation](https://docs.conda.io/projects/conda/en/latest/) | [Getting started with conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) |
 | Miniforge | A small conda installer that gets its packages from conda-forge. | Your track's Set up page, from [the home page](index.md), step 2 on the Mac, Linux, WSL2 and HPC tracks. | [README](https://github.com/conda-forge/miniforge) | The README has the install steps. |
 | conda-forge | A community channel of conda packages. | Every environment file lists it first. Exercise 2's files add bioconda. | [conda-forge documentation](https://conda-forge.org/docs/) | [A brief introduction](https://conda-forge.org/docs/user/introduction/) |
-| uv | A Python package and project manager, written in Rust. | [Exercise 1](exercises/01-environments/environments.ipynb), [1c](gpu/gpu.md), and the "With uv instead of conda" option in Exercises 2, 3 and 4. | [uv documentation](https://docs.astral.sh/uv/) | [Getting started](https://docs.astral.sh/uv/getting-started/) |
+| uv | A Python package and project manager, written in Rust. | [Exercise 1](exercises/01-environments/environments.ipynb), [1c](gpu/gpu.md), and the "With uv instead of conda" option in Exercises 2a, 3 and 4. | [uv documentation](https://docs.astral.sh/uv/) | [Getting started](https://docs.astral.sh/uv/getting-started/) |
 
 ## conda and uv
 
@@ -33,14 +33,14 @@ title: Tools and documentation
 | conda | Any language: Python, R, C/C++ libraries, CUDA, MPI. conda-forge, a large community channel. Established on HPC systems. | Slower than uv. One lock file per platform. Large environments. |
 | uv | Very fast. One cross-platform lock file, `uv.lock`. Installs Python itself. Uses the standard `pyproject.toml`. | Python packages only. Non-Python libraries come from the system or from wheels. Newer, and less familiar on HPC systems. |
 
-1a and 1c teach both. Exercises 2, 3 and 4 use conda and give the same steps with uv.
+1a and 1c teach both. Exercises 2a, 3 and 4 use conda and give the same steps with uv. 2b uses conda, which installs Nextflow and Java.
 
 ## Workflows
 
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
 | Snakemake | A workflow manager. You declare rules with inputs and outputs, and it runs the steps whose outputs are missing or out of date. | [2a. Snakemake](exercises/02-workflows/workflows.ipynb): you add a step to a working Snakefile. | [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/) | [Tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html) |
-| Nextflow | Another workflow manager. | [2b. Nextflow](exercises/02-workflows/nextflow.md), on your own machine: you add a process to a working `main.nf`. It's an alternative to Snakemake. | [Nextflow documentation](https://docs.seqera.io/nextflow/) | [Nextflow training](https://training.nextflow.io/latest/) |
+| Nextflow | Another workflow manager. | [2b. Nextflow](exercises/02-workflows/nextflow.md), outside Binder: you add a process to a working `main.nf`. It's an alternative to Snakemake. | [Nextflow documentation](https://docs.seqera.io/nextflow/) | [Nextflow training](https://training.nextflow.io/latest/) |
 
 ## Data and models
 

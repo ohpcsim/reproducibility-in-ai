@@ -103,7 +103,7 @@ subject: Hands-on exercises
 
 ::::
 
-- Exercise 1 has two optional parts, in each own-machine track's menu: 1b, Environments in containers, and 1c, PyTorch with a GPU, for Linux, WSL2 or a GPU node with an NVIDIA GPU.
+- Exercise 1 has two optional parts: 1b, Environments in containers, in every own-machine track, and 1c, PyTorch with a GPU, in the Linux, WSL2 and HPC tracks, for an NVIDIA GPU.
 
 ## How to start
 

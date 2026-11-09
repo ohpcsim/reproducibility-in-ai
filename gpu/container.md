@@ -40,7 +40,7 @@ podman images --digests docker.io/library/ubuntu
 ```
 
 - With Podman 4.9.3 on our ARM Linux machine, and with Podman 6.1.4 on a Mac, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest in `repro-gpu.def`. Pin the DIGEST column's value. It covers every platform.
-- `podman inspect` can print a single platform's digest on some machines. It did on a Mac, with Podman 6.1.4.
+- Don't use `podman inspect --format '{{.Digest}}'` for this. On a Mac with Podman 6.1.4, it printed a single platform's digest.
 
 (gpu-build-apptainer)=
 ## Build and run with Apptainer
@@ -108,9 +108,9 @@ apptainer exec --bind /usr/lib/wsl --env LD_LIBRARY_PATH=/usr/lib/wsl/lib repro-
 (on-wsl2)=
 ## On WSL2
 
-- WSL2 exposes it differently, through `/dev/dxg` and `/usr/lib/wsl`, and there's no `/dev/nvidia0`.
+- WSL2 exposes the GPU through `/dev/dxg` and `/usr/lib/wsl`, and there's no `/dev/nvidia0`.
 
-Here's what the check printed, which is why the check exists:
+On WSL2, `apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py` doesn't reach the GPU. The check printed this, which is why the check exists:
 
 **Recorded November 7, 2026, on x86_64, NVIDIA GeForce RTX 3070, driver 610.74, WSL2, with Apptainer 1.4.5:**
 
@@ -162,3 +162,4 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 ## When you're done
 
 - `rm -f repro-gpu.sif` removes the SIF, and `apptainer cache clean --force` empties Apptainer's cache. Without `--force` it asks first.
+- Then go back to [1c](gpu.md) and finish its clean-up.
