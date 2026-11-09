@@ -5,7 +5,7 @@ title: Tools and documentation
 - This page lists every tool the exercises and the optional pages use.
 - Each row says what the tool is, where the workshop uses it, and where its official documentation and introduction are.
 - You don't install these one by one. Each exercise's environment file installs what it needs, and your track's Set up page, from [the home page](index.md), has the steps.
-- Exercise links on this page open the Binder copy. Links to 1b, 1c and 2b open the Linux copy unless the link names another track. Your track's menu has your machine's copy.
+- Exercise links on this page open the Linux copy unless the link names another track. Your track's menu has your machine's copy.
 
 ## Code
 
@@ -59,7 +59,7 @@ title: Tools and documentation
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
 | Podman | Builds and runs containers from Dockerfiles, with no daemon and without root. | [1b](exercises/01-environments/containers.md) on the Mac, Linux and WSL2 tracks. | [Podman documentation](https://docs.podman.io/en/latest/) | [Get started](https://podman.io/get-started), and the [rootless tutorial](https://github.com/podman-container-tools/podman/blob/main/docs/tutorials/rootless_tutorial.md) |
-| Apptainer | Runs containers on HPC systems, from one SIF file, as your own user. Formerly Singularity. | [1b](exercises/01-environments/containers-hpc.md) on the HPC track, and [the GPU container page](gpu/container-hpc.md). It builds from its own recipe, a `.def` file. | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
+| Apptainer | Runs containers on HPC systems, from one SIF file, as your own user. Formerly Singularity. | [1b](exercises/01-environments/containers-hpc.md) on the HPC track, and [the GPU container page](gpu/container.md). It builds from its own recipe, a `.def` file. | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
 | NVIDIA NGC | NVIDIA's catalog of GPU container images, including PyTorch. | Not used here. Its PyTorch images are an alternative to building your own on [the GPU container page](gpu/container.md). | [NGC documentation](https://docs.nvidia.com/ngc/) | [NGC catalog](https://catalog.ngc.nvidia.com) |
 
 ## Containers on shared machines
@@ -75,7 +75,7 @@ title: Tools and documentation
 
 | Where you are | What to use | Why | What we ran |
 |---|---|---|---|
-| Your Mac | Podman Desktop | It runs a small Linux VM. (Darwin containers such as [rund](https://github.com/darwin-containers/rund) run macOS software natively; not covered here) | Podman 6.1.4 through Podman Desktop (libkrun VM, 5 CPU, 2 GiB), macOS arm64 |
+| Your Mac | Podman Desktop | It runs a small Linux VM. Not covered here: Darwin containers such as [rund](https://github.com/darwin-containers/rund), which run macOS software. | Podman 6.1.4 through Podman Desktop (libkrun VM, 5 CPU, 2 GiB), macOS arm64 |
 | Your Windows PC | Podman inside WSL2 for 1b, Apptainer for 1c | WSL2 provides the Linux kernel | Rootless Podman 4.9.3 and Apptainer 1.4.5 in WSL2, x86_64 |
 | Your own Linux machine | Podman for 1b, Apptainer for 1c | Both run as you, with no daemon. Apptainer reaches the GPU with `--nv` | Rootless Podman 4.9.3 and Apptainer 1.5.5, aarch64 |
 | A shared Linux machine, without root | Apptainer, for 1b and 1c | It needs no root or daemon | Apptainer 1.5.5, without sudo, on the aarch64 machine. It isn't shared |
@@ -91,6 +91,6 @@ title: Tools and documentation
 |---|---|---|---|---|
 | Jupyter Book (mystmd) | Builds a website from Markdown files and notebooks. Jupyter Book 2 runs on mystmd, the MyST Markdown tools. | This site. The exercise notebooks rerun when the site is published. [How this site is built](build.md) has the details. | [Jupyter Book](https://jupyterbook.org/stable/), [MyST guide](https://mystmd.org/guide) | [Get started with MyST](https://mystmd.org/guide/quickstart) |
 | JupyterLab | A browser interface for notebooks, terminals and files. | Binder sessions open in it, with a terminal and the exercise page side by side. | [JupyterLab documentation](https://jupyterlab.readthedocs.io/en/stable/) | [Get started](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html) |
-| Binder and mybinder.org | Opens a Git repository as a temporary session in your browser. mybinder.org is the free public service. | **Launch in Binder** on each exercise card and on [the Binder page](setup.md). [How this site is built](build.md#binder) explains how it works. | [Binder documentation](https://mybinder.readthedocs.io/en/latest/) | [Get started with Binder](https://mybinder.readthedocs.io/en/latest/introduction.html) |
+| Binder and mybinder.org | Opens a Git repository as a temporary session in your browser. mybinder.org is the free public service. | **Launch in Binder** on each exercise card and on [the Binder page](setup.md). [How Binder works](setup.md#how-binder-works) explains it. | [Binder documentation](https://mybinder.readthedocs.io/en/latest/) | [Get started with Binder](https://mybinder.readthedocs.io/en/latest/introduction.html) |
 | BinderHub | The service behind Binder. It builds the images and starts the sessions. | mybinder.org runs it. | [BinderHub documentation](https://binderhub.readthedocs.io/en/latest/) | [The BinderHub architecture](https://binderhub.readthedocs.io/en/latest/overview.html) |
 | repo2docker | Builds a container image from a repository's configuration files. | It reads each exercise branch's `.binder/` folder. | [repo2docker documentation](https://repo2docker.readthedocs.io/en/latest/) | [Using source repositories](https://repo2docker.readthedocs.io/en/latest/use/repository/) |

@@ -79,15 +79,7 @@ conda install --quiet --yes --prefix envs/results jupyter_server
 
 ### How it works
 
-- repo2docker reads a branch's configuration files and builds a container image from them. It looks in `.binder/` first, and if that folder exists it ignores configuration files in the branch's root. ([repo2docker](https://repo2docker.readthedocs.io/en/latest/), [where to put configuration files](https://repo2docker.readthedocs.io/en/latest/use/repository.html#where-to-put-configuration-files-in-a-repository))
-- BinderHub is the service that builds the images and serves them. mybinder.org is a free public federation of BinderHub deployments, with limited resources. ([The BinderHub architecture](https://binderhub.readthedocs.io/en/latest/overview.html), [what is mybinder.org?](https://mybinder.readthedocs.io/en/latest/introduction.html#what-is-mybinder-org))
-- Each branch's `.binder/` folder has four files:
-  - `environment.yml` lists the conda packages. repo2docker installs them into its base environment, so you don't run `conda activate` in Binder.
-  - `postBuild` runs once, at build time. It builds the `project` folder, loads the JupyterLab layout and makes new terminals start in `project`.
-  - `workspace.json` is the layout: a terminal on the left and the exercise on the right.
-  - `exercise.ipynb` is the Binder copy of the exercise page. `make_binder_branches.sh` writes it with `tracks.py --panel`, and `postBuild` turns it into the panel on the right.
-- In each link, such as `https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-environments?urlpath=lab/workspaces/exercise`, `binder-01-environments` is the branch and `?urlpath=lab/workspaces/exercise` opens JupyterLab with the workspace named `exercise`. ([Configure the user interface](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html))
-- A session has no persistent storage. Don't put passwords, API keys or private data in one, and don't push from it to GitHub. The exercises don't need either. ([mybinder.org user guidelines](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html))
+- [How Binder works](setup.md#how-binder-works), on the Binder page, explains repo2docker, BinderHub, each branch's `.binder/` files, the launch links and the session limits.
 
 ## Other tools that do this
 

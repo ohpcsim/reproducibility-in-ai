@@ -41,7 +41,7 @@ title: 2b. Workflows in Nextflow
 ## Why there's no Binder
 
 - Nextflow runs on the Java virtual machine. On our machines one run of this workflow takes about 2 to 4 seconds, most of it starting Java, and peaks at 0.39 to 0.48 GB of memory. A Binder session has at least 1 GB and at most 2 GB, so one run would take a large share of it, next to JupyterLab.
-- We checked whether the first run downloads anything. From the conda package it doesn't. The package carries the whole runtime, `~/.nextflow` held two empty folders after a run, and a run with the network switched off succeeded. Nextflow's own installer is different. [Its install page](https://docs.seqera.io/nextflow/install) says it downloads a Java bundle the first time each version runs, and that plugins download at run time.
+- We checked whether the first run downloads anything. From the conda package it doesn't. The package carries the whole runtime, `~/.nextflow` held two empty folders after a run, and a run with the network switched off succeeded. Nextflow's own installer is different. [Its install page](https://docs.seqera.io/nextflow/install) says it needs Java on the machine, or, with `NXF_JAVA_BUNDLE=true`, downloads a Java bundle the first time each version runs.
 - It has executors for SLURM and the other schedulers, Kubernetes and the cloud batch services, and the point of the tool is to move a workflow from a laptop to those.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 

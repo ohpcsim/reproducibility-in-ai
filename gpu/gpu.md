@@ -40,7 +40,7 @@ title: 1c. PyTorch with a GPU
 2. Step 2, uv: sync the environment from `uv.lock` and run the check.
 3. Step 3, containers: carry the conda lock into a container, on [the container page](container.md).
 
-- Steps 1 and 2 take a few minutes each, mostly downloading. Step 3 takes longer.
+- On our machines step 1's build took about a minute, step 2's sync about 30 seconds and step 3's build 75 to 80 seconds. A slow connection adds to each.
 - Each environment uses 5 to 6 GB of disk.
 
 ## What you need

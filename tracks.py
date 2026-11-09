@@ -210,15 +210,19 @@ def recorded(cell):
             "source": f"**Recorded output:**\n\n{ticks}text\n{text}\n{ticks}"}
 
 
+# The site builds no Binder copy of the four exercise pages, so the panel links each one's Linux copy.
+EXLINK = re.compile(r"(\]\((?:[^)\s#]*/)?)(environments|workflows|dataops|registry)\.ipynb")
+
+
 def panel(name):
     src = f"exercises/{name}.ipynb"
     PAGES[src] = ALL
     nb, cells = read(src, sys.stdin.read())
-    cells = with_line(select(cells, src, "binder", panel=True), f"This is the Binder copy of [the full page]({name}.ipynb).", [])
+    cells = with_line(select(cells, src, "binder", panel=True), f"This is the Binder copy of [the full page]({name}-linux.ipynb).", [])
     # Every code cell on these pages is a recorded output. The panel shows it as text; the site keeps its output area.
     for c in cells:
         assert c["cell_type"] == "markdown" or "Recorded output" in c["source"], f"{src}: a code cell that isn't a recorded output"
-    cells = [recorded(c) if c["cell_type"] == "code" else {**c, "source": panel_markdown(c["source"])} for c in cells]
+    cells = [recorded(c) if c["cell_type"] == "code" else {**c, "source": panel_markdown(EXLINK.sub(r"\1\2-linux.ipynb", c["source"]))} for c in cells]
     sys.stdout.write(dump_nb(nb, cells))
 
 

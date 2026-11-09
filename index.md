@@ -78,7 +78,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 **How do you add a step to the penguin project's working workflow, so one command builds the numbers and the figure, with Snakemake or Nextflow?**
 
 - **Problem:** the project's workflow builds its numbers, and its README shows a figure that nothing builds.
-- **You'll learn:** run a workflow you were given, add a step with Snakemake, and watch the tool run only what's new or stale, and a changed parameter rerun only the step that reads it. The same exercise in Nextflow, 2b, is in each own-machine track's menu.
+- **You'll learn:** run a workflow you were given, add a step with Snakemake, and watch the tool run only what's new or stale, and a changed parameter rerun only the step that reads it. The same exercise in Nextflow, 2b, is in the Mac, Linux, WSL2 and HPC tracks' menus.
 - **Data:** Palmer penguins, the 2007 field season.
 - About 15 to 20 minutes.
 
@@ -113,7 +113,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 
 ::::
 
-- Exercise 1 has two optional parts: 1b, Environments in containers, in every own-machine track, and 1c, PyTorch with a GPU, in the Linux, WSL2 and HPC tracks, for an NVIDIA GPU.
+- Exercise 1 has two optional parts: 1b, Environments in containers, in the Mac, Linux, WSL2 and HPC tracks, and 1c, PyTorch with a GPU, in the Linux, WSL2 and HPC tracks, for an NVIDIA GPU.
 
 ## How to start
 

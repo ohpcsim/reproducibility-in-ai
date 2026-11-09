@@ -47,11 +47,12 @@ podman images --digests docker.io/library/ubuntu
 
 +++ {"tags": ["track-hpc"]}
 
+- If your site has Apptainer as a module, load it first, for example `module load apptainer`.
 - The build needs Apptainer's `--fakeroot`, which your center may or may not allow. If it doesn't, build the SIF on a machine where it works, with the same architecture as the cluster, and copy it over.
 
 +++ {"tags": ["track-linux", "track-wsl2"]}
 
-- The build uses Apptainer's `--fakeroot`.
+- Install Apptainer as [Set up your environment](../setup.md#container-tool) says. The build uses its `--fakeroot`.
 
 +++
 
@@ -110,7 +111,7 @@ apptainer exec --bind /usr/lib/wsl --env LD_LIBRARY_PATH=/usr/lib/wsl/lib repro-
 
 - WSL2 exposes the GPU through `/dev/dxg` and `/usr/lib/wsl`, and there's no `/dev/nvidia0`.
 
-On WSL2, `apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py` doesn't reach the GPU. The check printed this, which is why the check exists:
+Here, `apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py` doesn't reach the GPU. The check printed this, which is why the check exists:
 
 **Recorded November 7, 2026, on x86_64, NVIDIA GeForce RTX 3070, driver 610.74, WSL2, with Apptainer 1.4.5:**
 
@@ -121,9 +122,9 @@ cuda available  False
 FAIL: CUDA is not available; this route did not reach the GPU
 ```
 
-The command above binds WSL2's library folder and points the container at it.
+The `--bind /usr/lib/wsl` command under [Build and run with Apptainer](#gpu-build-apptainer) binds WSL2's library folder and points the container at it.
 
-- **The same machine, with that command.** The conda route on this machine gave the same checksum.
+- **The same machine, with the `--bind` command.** The conda route on this machine gave the same checksum.
 
 ```text
 torch           2.14.1
