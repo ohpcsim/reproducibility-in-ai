@@ -67,11 +67,11 @@ cp metrics.json ../metrics-ex1.json
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
-- An image is what you build. A container is a running copy of it. You build it once from a recipe, a `Dockerfile`. Podman builds Dockerfiles.
+- An image is what you build. A container is a running copy of it. You build the image once from a recipe, a `Dockerfile`. Podman builds Dockerfiles.
 - The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
 +++ {"tags": ["track-hpc"]}
 
-- An image is what you build. A container is a running copy of it. Apptainer builds it once from a recipe, a `.def` file, into one SIF file.
+- An image is what you build. A container is a running copy of it. Apptainer builds the image once from a recipe, a `.def` file, into one SIF file.
 - The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
 - The Mac, Linux and WSL2 tracks build the same images with Podman, from Dockerfiles in the same folder. A `.def` and its Dockerfile declare the same steps for two different tools, and our runs show they give the same results.
 
