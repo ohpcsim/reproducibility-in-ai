@@ -113,7 +113,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 
 ::::
 
-- Exercise 1 has two optional parts: 1b, Environments in containers, in the Mac, Linux, WSL2 and HPC tracks, and 1c, PyTorch with a GPU, in the Linux, WSL2 and HPC tracks, for an NVIDIA GPU.
+- Exercise 1 has two optional parts: 1b, Environments in containers, in the Mac, Linux, WSL2 and HPC tracks; and 1c, PyTorch with a GPU, in the Linux, WSL2 and HPC tracks, for anyone with access to an NVIDIA GPU.
 
 ## How to start
 
