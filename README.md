@@ -1,4 +1,4 @@
-# Managing software environments
+# 1a. Managing software environments
 
 About 20 minutes: declare a missing package and lock the environment, first with conda, then with uv. The instructions are in `environments.ipynb`, or on the site.
 

@@ -17,7 +17,11 @@ title: 1b. Environments in containers
 +++
 
 - There's no Binder for it. A Binder session is already a container, and it has no container tool.
++++ {"tags": ["track-mac", "track-wsl2"]}
+
 - We cover Linux containers. They need a Linux kernel, so a Mac or Windows PC runs them in a VM.
+
++++
 - [Tools and documentation](../../tools.md#containers-on-shared-machines) says which container tool to use on each kind of machine.
 - The site doesn't run this page. The output below was recorded from real runs, listed in [What we ran where](#containers-what-we-ran-where).
 
@@ -47,11 +51,6 @@ cp metrics.json ../metrics-ex1.json
 ```
 
 - If `metrics.json` is missing, run `uv run python analyze.py` first.
-+++ {"tags": ["track-hpc"]}
-
-- On a cluster, clone your `project` and the `containers` folder next to each other, as on your machine.
-
-+++
 
 ## The recipes
 
@@ -65,8 +64,15 @@ cp metrics.json ../metrics-ex1.json
 - The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
 - The Mac, Linux and WSL2 tracks build the same images with Podman, from Dockerfiles in the same folder. A `.def` and its Dockerfile declare the same steps for two different tools, and our runs show they give the same results.
 
-+++
++++ {"tags": ["track-mac", "track-wsl2"]}
+
 - A container is Linux, even on a Mac or Windows PC. So the conda image needs a Linux lock: `explicit-linux-64.txt` on x86_64 or `explicit-linux-aarch64.txt` on ARM. One `uv.lock` builds on both.
+
++++ {"tags": ["track-linux", "track-hpc"]}
+
+- A container is Linux, so the conda image needs a Linux lock: `explicit-linux-64.txt` on x86_64 or `explicit-linux-aarch64.txt` on ARM. One `uv.lock` builds on both.
+
++++
 - A tag such as `miniforge3:26.9.4-2` can move, and a sha256 digest can't. Every recipe pins its base image by digest. Each digest covers x86_64 and ARM, and the tool pulls the one for your machine.
 +++ {"tags": ["track-hpc"]}
 
@@ -74,26 +80,26 @@ cp metrics.json ../metrics-ex1.json
 - To get the digest for another image, use a machine with Podman:
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
-- To get the digest for another image, pull it, then print its digest:
+- To get the digest for another image, pull it, then list its digest:
 
 +++
 
 ```bash
 podman pull docker.io/library/ubuntu:24.04
-podman inspect --format '{{.Digest}}' docker.io/library/ubuntu:24.04
+podman images --digests docker.io/library/ubuntu
 ```
 
 +++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
-- With Podman 4.9.3 on our ARM machine, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest 1c's GPU recipe pins. Pin that digest. It covers every platform.
+- With Podman 4.9.3 on our ARM Linux machine, and with Podman 6.1.4 on a Mac, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest 1c's GPU recipe pins. Pin the DIGEST column's value. It covers every platform.
 
 +++ {"tags": ["track-mac"]}
 
-- On our Linux machine, with Podman 4.9.3, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`. Pin that digest. It covers every platform.
+- With Podman 6.1.4 on a Mac, and with Podman 4.9.3 on our ARM Linux machine, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`. Pin the DIGEST column's value. It covers every platform.
 
 +++
 
-- Don't use `podman inspect --format '{{index .RepoDigests 0}}'`. On the same machine it printed a different digest, for the ARM image only.
+- `podman inspect` can print a single platform's digest on some machines. It did on a Mac, with Podman 6.1.4.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
@@ -157,7 +163,7 @@ git add explicit-linux-*.txt
 git commit -m "Lock the conda environment for Linux"
 ```
 
-- That's a new solve from `environment.yml`, so compare its versions with your Mac lock.
+- That's a new solve from `environment.yml`, so compare its versions with your Mac lock. `grep /pandas- explicit-*.txt` prints the pandas line from both locks. The versions should match.
 - With Podman 6.1.4 on a Mac with Apple silicon, it wrote the same 38 packages as the lock from Linux on ARM.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
@@ -291,28 +297,6 @@ sha256sum ../penguins-*.sif
 
 +++
 
-## When you're done
-
-- Remove what you made.
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
-
-```bash
-podman rmi penguins-conda:v1 penguins-uv:v1
-rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json
-```
-
-- The base images stay. `podman image ls` lists them, and `podman rmi IMAGE_ID` removes one.
-+++ {"tags": ["track-hpc"]}
-
-```bash
-rm -f ../penguins-conda.sif ../penguins-uv.sif
-rm -f ../metrics-ex1.json ../metrics-sif-conda.json ../metrics-sif-uv.json
-```
-
-- The base images stay in Apptainer's cache. `apptainer cache clean` empties it.
-
-+++
-
 ## Things that trip people up
 
 - The uv image's build may print `warning: Failed to hardlink files; falling back to full copy`. It's harmless. uv copies the files instead.
@@ -340,3 +324,25 @@ rm -f ../metrics-ex1.json ../metrics-sif-conda.json ../metrics-sif-uv.json
 +++ {"tags": ["track-wsl2"]}
 
 - On Windows, keep the project in your WSL2 home, not under `/mnt/c`, and run the commands in the WSL2 terminal.
+
++++
+
+## When you're done
+
+- Remove what you made.
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
+
+```bash
+podman rmi penguins-conda:v1 penguins-uv:v1
+rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json
+```
+
+- The base images stay. `podman image ls` lists them, and `podman rmi IMAGE_ID` removes one.
++++ {"tags": ["track-hpc"]}
+
+```bash
+rm -f ../penguins-conda.sif ../penguins-uv.sif
+rm -f ../metrics-ex1.json ../metrics-sif-conda.json ../metrics-sif-uv.json
+```
+
+- The base images stay in Apptainer's cache. `apptainer cache clean --force` empties it. Without `--force` it asks first.
