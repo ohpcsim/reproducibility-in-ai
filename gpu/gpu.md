@@ -52,6 +52,7 @@ title: 1c. PyTorch with a GPU
 
 - On a cluster, do this on a GPU node, for example in a session from `srun --gpus=1 --pty bash`, because a login node has no GPU driver. The flags vary by site.
 - The GPU node needs network access for the clone and the installs.
+- By default the conda environment, uv's cache and Apptainer's cache go in your home folder. Check your quota before you start.
 - We haven't run this on an HPC cluster. The recorded runs are from a DGX Spark and a Windows PC with WSL2.
 
 +++
@@ -238,6 +239,7 @@ If the check fails:
 
 ## When you're done
 
+- If you plan to do step 3, the container page, do it first. It needs this folder and your `lock.txt`.
 - The environments are cattle, and your locks can rebuild them.
 - `conda env remove --yes --name repro-gpu` removes the conda environment.
 - `rm -rf .venv` removes the uv environment. `uv cache dir` shows where uv keeps its downloads, and `uv cache clean` empties that cache for every project.

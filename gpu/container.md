@@ -39,8 +39,8 @@ podman pull docker.io/library/ubuntu:24.04
 podman inspect --format '{{.Digest}}' docker.io/library/ubuntu:24.04
 ```
 
-- With Podman 4.9.3 on our ARM machine, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest in `repro-gpu.def`. Pin that digest. It covers every platform.
-- Don't use `podman inspect --format '{{index .RepoDigests 0}}'`. On the same machine it printed a different digest, for the ARM image only.
+- With Podman 4.9.3 on our ARM machine and in x86_64 WSL2, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest in `repro-gpu.def`. Pin that digest. It covers every platform.
+- Don't use `podman inspect --format '{{index .RepoDigests 0}}'`. On the ARM machine it printed a different digest, for the ARM image only.
 
 (gpu-build-apptainer)=
 ## Build and run with Apptainer
@@ -92,7 +92,7 @@ apptainer exec --bind /usr/lib/wsl --env LD_LIBRARY_PATH=/usr/lib/wsl/lib repro-
 
 - Every build stamps a new ID and build time into the SIF, so the hash changes each time.
 - Optional: with Apptainer 1.5 or newer, add `--reproducible` to `apptainer build`. Apptainer 1.4 doesn't have it.
-- `--reproducible` gave the same sha256 twice for 1b's small uv image. For this image, two builds still gave different hashes, because files such as the apt and dpkg logs, conda's history and the ldconfig cache change on every build.
+- `--reproducible` gave the same sha256 twice for the small uv SIF built from 1b's `penguins-uv.def`. For this image, two builds still gave different hashes, because files such as the apt and dpkg logs, conda's history and the ldconfig cache change on every build.
 - Either way, record the `sha256sum` of the SIF you run.
 +++ {"tags": ["track-linux", "track-hpc"]}
 
@@ -108,7 +108,6 @@ apptainer exec --bind /usr/lib/wsl --env LD_LIBRARY_PATH=/usr/lib/wsl/lib repro-
 (on-wsl2)=
 ## On WSL2
 
-- On WSL2, `--nv` alone doesn't reach the GPU.
 - WSL2 exposes it differently, through `/dev/dxg` and `/usr/lib/wsl`, and there's no `/dev/nvidia0`.
 
 Here's what the check printed, which is why the check exists:
@@ -122,11 +121,7 @@ cuda available  False
 FAIL: CUDA is not available; this route did not reach the GPU
 ```
 
-Bind WSL2's library folder instead, and point the container at it:
-
-```bash
-apptainer exec --bind /usr/lib/wsl --env LD_LIBRARY_PATH=/usr/lib/wsl/lib repro-gpu.sif python /opt/verify_gpu.py
-```
+The command above binds WSL2's library folder and points the container at it.
 
 - **The same machine, with that command.** The conda route on this machine gave the same checksum.
 
@@ -166,4 +161,4 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 
 ## When you're done
 
-- `rm -f repro-gpu.sif` removes the SIF, and `apptainer cache clean` empties Apptainer's cache.
+- `rm -f repro-gpu.sif` removes the SIF, and `apptainer cache clean --force` empties Apptainer's cache. Without `--force` it asks first.

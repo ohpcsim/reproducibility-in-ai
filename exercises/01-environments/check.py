@@ -158,7 +158,7 @@ def main():
         uv_parts.append(check_uv_rebuild(clone, uv, uv_parts[-1]))
     print(f"\n{sum(results)} of {len(results)} parts pass.")
     if all(results):
-        print(f"Both routes pass. Your conda lock rebuilds on {SUBDIR}. Your uv lock rebuilds on Linux, macOS and Windows.")
+        print(f"Both routes pass. Your conda lock rebuilds on {SUBDIR}. Your uv lock rebuilds on this machine, and one `uv.lock` covers Linux, macOS and Windows.")
         return 0
     if all(conda):
         print("The conda route passes. Step 2, the uv route, is left.")

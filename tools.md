@@ -5,6 +5,7 @@ title: Tools and documentation
 - This page lists every tool the exercises and the optional pages use.
 - Each row says what the tool is, where the workshop uses it, and where its official documentation and introduction are.
 - You don't install these one by one. Each exercise's environment file installs what it needs, and your track's Set up page, from [the home page](index.md), has the steps.
+- Exercise links on this page open the Binder copy, and 1b, 1c and 2b links open the Linux copy. Your track's menu has your machine's copy.
 
 ## Code
 
@@ -32,7 +33,7 @@ title: Tools and documentation
 | conda | Any language: Python, R, C/C++ libraries, CUDA, MPI. conda-forge, a large community channel. Established on HPC systems. | Slower than uv. One lock file per platform. Large environments. |
 | uv | Very fast. One cross-platform lock file, `uv.lock`. Installs Python itself. Uses the standard `pyproject.toml`. | Python packages only. Non-Python libraries come from the system or from wheels. Newer, and less familiar on HPC systems. |
 
-Exercise 1 and 1c teach both. Exercises 2, 3 and 4 use conda and give the same steps with uv.
+1a and 1c teach both. Exercises 2, 3 and 4 use conda and give the same steps with uv.
 
 ## Workflows
 
@@ -46,10 +47,10 @@ Exercise 1 and 1c teach both. Exercises 2, 3 and 4 use conda and give the same s
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
 | DVC | Data Version Control. Git keeps small pointer files, and the data goes to a separate store. | Exercises [3](exercises/03-dataops/dataops.ipynb) and [4](exercises/04-registry/registry.ipynb). | [DVC documentation](https://doc.dvc.org/) | [Get started](https://doc.dvc.org/start) |
-| Git LFS | A Git extension that keeps large files on a separate server and leaves pointers in the repository. | Not used. Git LFS needs a server. DVC, in [exercise 3](exercises/03-dataops/dataops.ipynb), doesn't. | [Documentation](https://github.com/git-lfs/git-lfs/tree/main/docs) | [Getting started](https://git-lfs.com/), on the home page |
+| Git LFS | A Git extension that keeps large files on a separate server and leaves pointers in the repository. | Not used. Git LFS needs a server. DVC, in [Exercise 3](exercises/03-dataops/dataops.ipynb), doesn't. | [Documentation](https://github.com/git-lfs/git-lfs/tree/main/docs) | [Getting started](https://git-lfs.com/), on the home page |
 | GTO | Git Tag Ops. It records model versions and stages as Git tags, so the registry lives in the repository. | [Exercise 4](exercises/04-registry/registry.ipynb). | [GTO documentation](https://mlem.ai/doc/gto) | [Get started](https://mlem.ai/doc/gto/get-started) |
 | OSN | The Open Storage Network, object storage for research data that you reach from laptops, clusters and cloud platforms. | Exercises [3](exercises/03-dataops/dataops.ipynb) and [4](exercises/04-registry/registry.ipynb) use a local folder that stands in for an OSN bucket. | [OSN user documentation](https://openstoragenetwork.github.io/docs/) | [Why use OSN?](https://openstoragenetwork.github.io/docs/why-osn/) |
-| pandas | Data tables for Python. | Exercises 2 to 4 read and summarize the penguin table with it. In [exercise 1](exercises/01-environments/environments.ipynb), the project imports it without declaring it, and you declare it. | [pandas documentation](https://pandas.pydata.org/docs/) | [Getting started](https://pandas.pydata.org/docs/getting_started/index.html) |
+| pandas | Data tables for Python. | Exercises 2 to 4 read and summarize the penguin table with it. In [Exercise 1](exercises/01-environments/environments.ipynb), the project imports it without declaring it, and you declare it. | [pandas documentation](https://pandas.pydata.org/docs/) | [Getting started](https://pandas.pydata.org/docs/getting_started/index.html) |
 | scikit-learn | Machine learning for Python. | [Exercise 4](exercises/04-registry/registry.ipynb) trains its penguin sex classifier with it. | [scikit-learn documentation](https://scikit-learn.org/stable/) | [Getting started](https://scikit-learn.org/stable/getting_started.html) |
 | PyTorch | Deep learning for Python, with GPU support. | [1c, PyTorch with a GPU](gpu/gpu.md) and [its container page](gpu/container.md). | [PyTorch documentation](https://docs.pytorch.org/docs/stable/) | [Learn the basics](https://docs.pytorch.org/tutorials/beginner/basics/intro.html) |
 
@@ -68,7 +69,7 @@ Exercise 1 and 1c teach both. Exercises 2, 3 and 4 use conda and give the same s
 - Why Podman and not Docker: Docker Desktop needs a paid plan in larger organizations. Podman is free and open source, runs without root or a daemon, and takes the same commands.
 - Apptainer is the HPC standard. A container is one SIF file, it runs as your user, and there's no daemon.
 - Apptainer is the original Singularity project, renamed when it joined the Linux Foundation, and it still provides a `singularity` command. Sylabs' separate fork, SingularityCE, reached end of life on October 25, 2026, and [its repository](https://github.com/sylabs/singularity) is archived. If your site still says Singularity, use Apptainer. ([CIQ's announcement](https://ciq.com/blog/singularityce-end-of-life-apptainer))
-- A container that needs the GPU gets the host's NVIDIA driver through Apptainer's `--nv`.
+- A container that needs the GPU gets the host's NVIDIA driver through Apptainer's `--nv`. On WSL2, `--nv` alone didn't reach the GPU. [The WSL2 container page](gpu/container-wsl2.md) binds `/usr/lib/wsl` instead.
 
 - We cover Linux containers. They need a Linux kernel, so a Mac or Windows PC runs them in a VM.
 
@@ -81,7 +82,7 @@ Exercise 1 and 1c teach both. Exercises 2, 3 and 4 use conda and give the same s
 | An HPC cluster | Apptainer | It runs as you, with no daemon. The image is one SIF file, with no registry needed. It works with the scheduler, MPI and GPUs | Not run |
 | Binder | None | The session is already a container | Nothing to run |
 
-- [1b. Environments in containers](exercises/01-environments/containers.md) builds Exercise 1's conda and uv environments with Podman, or with Apptainer on a shared machine or cluster, with recorded output. "What we ran" is from there.
+- 1b builds Exercise 1's conda and uv environments [with Podman](exercises/01-environments/containers.md), or [with Apptainer](exercises/01-environments/containers-hpc.md) on a shared machine or cluster, with recorded output. "What we ran" is from there.
 - [The GPU container page](gpu/container.md) does the same for PyTorch with CUDA.
 
 ## Documentation and Binder

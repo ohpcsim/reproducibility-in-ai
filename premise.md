@@ -127,10 +127,11 @@ The goal:
 
 ## From the ideas to the exercises
 
-- An environment file and its lock: [exercise 1, Software environments](exercises/01-environments/environments.ipynb).
-- Declared steps: [exercise 2, Workflows](exercises/02-workflows/workflows.ipynb).
-- Pointers to the data in Git, and the data in object storage: [exercise 3, Versioning data](exercises/03-dataops/dataops.ipynb).
-- A model registry: [exercise 4, Model registry](exercises/04-registry/registry.ipynb).
+- The links open the Binder pages. Your track's menu has your machine's copy.
+- An environment file and its lock: [Exercise 1, Software environments](exercises/01-environments/environments.ipynb).
+- Declared steps: [Exercise 2, Workflows](exercises/02-workflows/workflows.ipynb).
+- Pointers to the data in Git, and the data in object storage: [Exercise 3, Versioning data](exercises/03-dataops/dataops.ipynb).
+- A model registry: [Exercise 4, Model registry](exercises/04-registry/registry.ipynb).
 
 ## Further reading
 

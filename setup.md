@@ -91,6 +91,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 - Right-click `my-work.tar.gz` and choose Download. ([Uploading and downloading](https://jupyterlab.readthedocs.io/en/stable/user/files.html#uploading-and-downloading))
 - The file has your commits too, because `project` is a Git repository.
 - To unpack it on your own machine, run `tar -xzf my-work.tar.gz`.
+- The file holds `project` and its commits. It doesn't hold the exercise's `osn-bucket` folder or `check.py`. To carry on with Exercise 3 or 4 on your own machine, start that exercise again there.
 
 +++ {"tags": ["track-mac"]}
 
@@ -186,11 +187,19 @@ source ~/miniforge3/bin/activate
 git --version
 ```
 
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
+
 If that fails, install Git into conda's base environment:
 
 ```bash
 conda install --yes git
 ```
+
++++ {"tags": ["track-hpc"]}
+
+If that fails, load your site's Git module. Your center's documentation names it.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 (install-uv)=
 ## Optional: uv
@@ -210,6 +219,16 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source "$HOME/.local/bin/env"
 uv --version
 ```
+
++++ {"tags": ["track-mac"]}
+
+- The installer adds a line to your shell's startup files, so new windows find uv.
+
++++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
+
+- The installer adds `. "$HOME/.local/bin/env"` to `~/.bashrc`, `~/.profile` and `~/.zshrc`, so new windows find uv.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 (container-tool)=
 ## Optional: a container tool

@@ -11,7 +11,7 @@ How this site and its Binder sessions are built from one repository.
 
 - Exercises 1a, 2a, 3 and 4 are notebooks. They rerun when the site is published, so their output is real, but it's teaching output, not results. 1b, 1c and 2b show recorded output.
 - [The results page](results/results.ipynb) is the literate-science example: the penguin study's numbers, rebuilt from the project's code on every publish, and a figure the page draws from the project's validated table.
-- The site follows its own advice: everything it needs is declared in the repository, it rebuilds from scratch, and the build fails if a page breaks.
+- The site follows its own advice: everything it needs is declared in the repository, it rebuilds from scratch, and the build fails if a notebook raises an error or a link breaks.
 - It isn't a research publication. [The penguin analysis](project.md) is a teaching example on published data.
 
 ## The tools
@@ -43,7 +43,7 @@ conda install --quiet --yes --prefix envs/results jupyter_server
 ```
 
 - Install Jupyter Book with `pip install "jupyter-book==2.1.7"`.
-- Then one command builds the site into `_build/html`. Run it in a fresh clone, because running the notebooks writes `project/` folders.
+- Then one command builds the site into `_build/html`. Run it in a fresh clone, because running the notebooks writes `project/` folders, and `tracks.py` writes each track's pages over their sources. A second build needs another fresh clone.
 
 ```bash
 ./build_site.sh envs/01-environments envs/02-workflows envs/03-dataops envs/04-registry envs/results
@@ -52,7 +52,7 @@ conda install --quiet --yes --prefix envs/results jupyter_server
 - The script builds each notebook alone, as a one-page site, with its own environment first on `PATH`.
 - Jupyter Book caches each notebook's outputs, keyed by its code, in `_build/execute`. The script copies those to the whole site's `_build/execute`.
 - The last command builds the whole site with `--execute --strict`. It reuses the cached outputs, so no notebook runs in the wrong environment.
-- `--strict` turns every warning into a failure, so a broken cross-reference or an error in a notebook cell stops the build.
+- `--strict` turns every warning into a failure, so a broken cross-reference or a Python error in a notebook cell stops the build. The exercise pages record what each shell command prints, pass or fail, because the starter checks are meant to fail.
 
 ```{literalinclude} build_site.sh
 :language: bash
