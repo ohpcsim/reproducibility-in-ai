@@ -101,11 +101,11 @@ podman images --digests docker.io/library/ubuntu
 
 +++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
-- With Podman 4.9.3 on our ARM Linux machine, and with Podman 6.1.4 on a Mac, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest 1c's GPU recipe pins. Pin the DIGEST column's value. It covers every platform.
+- With Podman 4.9.3 on our ARM Linux machine and on x86_64 WSL2, and with Podman 6.1.4 on a Mac, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest 1c's GPU recipe pins. Pin the DIGEST column's value. It covers every platform.
 
 +++ {"tags": ["track-mac"]}
 
-- With Podman 6.1.4 on a Mac, and with Podman 4.9.3 on our ARM Linux machine, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`. Pin the DIGEST column's value. It covers every platform.
+- With Podman 6.1.4 on a Mac, and with Podman 4.9.3 on our ARM Linux machine and on x86_64 WSL2, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`. Pin the DIGEST column's value. It covers every platform.
 
 +++
 
