@@ -6,7 +6,16 @@ title: Environments in containers
 
 - Anyone who wants to carry [Exercise 1](environments.ipynb)'s environment to another machine, such as a cluster.
 - It's optional, and none of the other exercises need it.
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
+
 - You run it on your own machine, after Exercise 1, because the images are built from the locks you committed there.
+
++++ {"tags": ["track-hpc"]}
+
+- You run it on the cluster, after Exercise 1, because the images are built from the locks you committed there.
+
++++
+
 - There's no Binder for it. A Binder session is already a container, and it has no container tool.
 - We cover Linux containers. They need a Linux kernel, so a Mac or Windows PC runs them in a VM.
 - [Tools and documentation](../../tools.md#containers-on-shared-machines) says which container tool to use on each kind of machine.
@@ -74,7 +83,16 @@ podman pull docker.io/library/ubuntu:24.04
 podman inspect --format '{{.Digest}}' docker.io/library/ubuntu:24.04
 ```
 
++++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
+
 - With Podman 4.9.3 on our ARM machine, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest 1c's GPU recipe pins. Pin that digest. It covers every platform.
+
++++ {"tags": ["track-mac"]}
+
+- On our Linux machine, with Podman 4.9.3, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`. Pin that digest. It covers every platform.
+
++++
+
 - Don't use `podman inspect --format '{{index .RepoDigests 0}}'`. On the same machine it printed a different digest, for the ARM image only.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
@@ -128,19 +146,15 @@ podman inspect --format '{{.Digest}}' docker.io/library/ubuntu:24.04
 +++ {"tags": ["track-linux", "track-wsl2"]}
 
 - Install Podman as [Set up your environment](../../setup.md#container-tool) says. Podman runs rootless, as you, with no daemon. Don't use `sudo` with these commands.
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
-
-- Podman is free and open source, and runs without root or a daemon.
-
 +++ {"tags": ["track-mac"]}
 
-**A Mac needs a Linux lock first.** Your conda lock is `explicit-osx-arm64.txt`, and it doesn't install in a Linux container. Skip the conda image, or write a Linux lock inside the Miniforge container and commit it:
+**A Mac needs a Linux lock first.** Your conda lock is `explicit-osx-arm64.txt`, and it doesn't install in a Linux container. Write a Linux lock inside the Miniforge container and commit it:
 
 ```bash
 podman run --rm -v "$PWD":/work -w /work docker.io/condaforge/miniforge3:26.9.4-2@sha256:dfb274710eee2bb062c87b15c10fde6ea91f71b763796b5de489df87b08cf678 \
   sh -c 'conda env create --quiet --prefix /tmp/env --file environment.yml && conda list --prefix /tmp/env --explicit --md5 > explicit-$(conda config --show subdir | cut -d" " -f2).txt'
-git add explicit-linux-aarch64.txt
-git commit -m "Lock the conda environment for Linux on ARM"
+git add explicit-linux-*.txt
+git commit -m "Lock the conda environment for Linux"
 ```
 
 - That's a new solve from `environment.yml`, so compare its versions with your Mac lock.
@@ -163,7 +177,7 @@ diff ../metrics-ex1.json ../metrics-image-uv.json
 
 - `analyze.py` prints the same JSON it writes to `metrics.json`, so each run's file is the container's `metrics.json`.
 - `diff` prints nothing when the files match exactly. That's the check.
-- Podman needs the full image name, with the registry. The recipes have it: `docker.io/condaforge/miniforge3` and `ghcr.io/astral-sh/uv`. Without `docker.io/`, Podman 4.9.3 on Ubuntu stopped with `short-name ... did not resolve to an alias`.
+- Podman needs the full image name, with the registry. The recipes have it: `docker.io/condaforge/miniforge3` and `ghcr.io/astral-sh/uv`. Without `docker.io/`, Podman 4.9.3 on our Linux machine stopped with `short-name ... did not resolve to an alias`.
 +++ {"tags": ["track-mac"]}
 
 - The Linux-lock step pulls the Miniforge image, so the conda build reuses it.
@@ -205,7 +219,7 @@ sha256sum ../penguins-*.sif
 
 - `apptainer exec IMAGE.sif python analyze.py` runs your `analyze.py` on your `data`, with the container's environment, and writes `metrics.json` in your folder.
 - `diff` prints nothing when the files match exactly.
-- A SIF is one file. Copy it to another machine and run it there with the same `apptainer exec` command.
+- A SIF is one file. Copy it to another machine with your `project` folder, and run it there with the same `apptainer exec` command.
 - On a cluster, run it in a job, the same way you run any program.
 - Record the `sha256sum` of the SIF you run.
 
@@ -277,9 +291,9 @@ sha256sum ../penguins-*.sif
 
 +++
 
-## Clean up
+## When you're done
 
-- When you're done, remove what you made.
+- Remove what you made.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
 ```bash
@@ -313,7 +327,7 @@ rm -f ../metrics-ex1.json ../metrics-sif-conda.json ../metrics-sif-uv.json
 - Disk space. The two SIF files took 0.4 GB, and Apptainer's cache in your home folder keeps the base images, so check your quota. The conda SIF is almost four times the uv SIF, because of the Miniforge base image.
 +++ {"tags": ["track-linux"]}
 
-- Rootless Podman keeps images in your home folder, under `~/.local/share/containers`, so check your quota.
+- Rootless Podman keeps images in your home folder, under `~/.local/share/containers`, so check your free disk space.
 +++ {"tags": ["track-hpc"]}
 
 - `--fakeroot`. Building a SIF from a `.def` file needs it, and some centers don't allow it. Then build the SIF where it works and copy it over.
