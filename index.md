@@ -72,7 +72,7 @@ subject: Hands-on exercises
 **How do you add a step to the penguin project's working workflow, so one command builds the numbers and the figure, with Snakemake or Nextflow?**
 
 - **Problem:** the project's workflow builds its numbers, and its README shows a figure that nothing builds.
-- **You'll learn:** run a workflow you were given, add a step in the same form with Snakemake, and watch the tool run only what's new or stale, and a changed parameter rerun only the step that reads it. The same exercise in Nextflow, [2b](exercises/02-workflows/nextflow.md), for your own machine.
+- **You'll learn:** run a workflow you were given, add a step with Snakemake, and watch the tool run only what's new or stale, and a changed parameter rerun only the step that reads it. The same exercise in Nextflow, [2b](exercises/02-workflows/nextflow.md), for your own machine.
 - **Data:** Palmer penguins, the 2007 field season.
 - About 15 to 20 minutes.
 

@@ -9,7 +9,7 @@ title: Workflows in Nextflow
 ## Learning objectives
 
 - Start from a working Nextflow workflow, and read what each process reads and writes.
-- Add a process in the same form as the others, call it in the `workflow` block, and let `-resume` take the rest from the cache.
+- Add a process written like the others, call it in the `workflow` block, and let `-resume` take the rest from the cache.
 - See how Nextflow decides what's stale. `-resume` reruns a task when the hash of its inputs or script changed, and takes the rest from `work/`. File dates play no part.
 - Compare the two tools on the same job.
 
@@ -168,7 +168,7 @@ ls: cannot access 'figures': No such file or directory
 **Facts**
 
 - `plot.py` reads `results/validated.csv` and writes `figures/body_mass.svg`, body mass by species and sex.
-- A new process goes in the same form as the others, with the same `publishDir` line, and takes its script as an input.
+- A new process is written like the others, with the same `publishDir` line, and takes its script as an input.
 - A process runs only if the `workflow` block calls it. `VALIDATE` returns `validated`, so `PLOT` takes it, like `REPORT` does.
 - With `-resume`, Nextflow computes each task's hash from its inputs and its script, and looks it up in `.nextflow/cache/`. A match whose outputs are still in `work/` is reused, and prints `Cached process`. Anything else runs, and prints `Submitted process`. ([Cache and resume](https://docs.seqera.io/nextflow/cache-and-resume))
 - Without `-resume`, every run executes every task, and `work/` keeps the old task folders too.
@@ -176,7 +176,7 @@ ls: cannot access 'figures': No such file or directory
 
 **Steps**
 
-1. In `main.nf`, add a process `PLOT` in the same form as `REPORT`. It reads `results/validated.csv` and `plot.py`, writes `figures/body_mass.svg`, and runs `python plot.py`:
+1. In `main.nf`, add a process `PLOT`, written like `REPORT`. It reads `results/validated.csv` and `plot.py`, writes `figures/body_mass.svg`, and runs `python plot.py`:
 
 ```text
 process PLOT {
@@ -321,7 +321,7 @@ PASS  A changed report.statistic reruns REPORT, and -resume takes the rest from 
 
 - The idea doesn't change. Each step names what it reads and what it writes, the tool knows what's stale, and one command rebuilds everything from the raw data.
 - The two tools differ on how they know. Snakemake reads file dates first and keeps records next to them. Nextflow hashes.
-- In both, a new step is one more declaration in the same form, and the tool runs only what's new or stale.
+- In both, a new step is one more declaration, written like the others, and the tool runs only what's new or stale.
 
 ## What we ran where
 
