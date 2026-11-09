@@ -5,7 +5,7 @@ title: The premise
 ## Problem statement
 
 - Reproducibility is a core tenet of science.
-- Most published computational results can't be rerun from what's published. Is that really science?
+- Most published computational results can't be rerun from what's published.
 - Of 204 Science papers sampled, artifacts were obtained for 44% and results reproduced for 26% ([Stodden, Seiler and Ma, PNAS 2018](https://doi.org/10.1073/pnas.1708290115)).
 - Reproducibility involves software, data and workflows.
 - LLMs add more reproducibility challenges.
@@ -130,7 +130,7 @@ The goal:
 - An environment file and its lock: [exercise 1, Software environments](exercises/01-environments/environments.ipynb).
 - Declared steps: [exercise 2, Workflows](exercises/02-workflows/workflows.ipynb).
 - Pointers to the data in Git, and the data in object storage: [exercise 3, Versioning data](exercises/03-dataops/dataops.ipynb).
-- A model registry: [exercise 4, model registry](exercises/04-registry/registry.ipynb).
+- A model registry: [exercise 4, Model registry](exercises/04-registry/registry.ipynb).
 
 ## Further reading
 

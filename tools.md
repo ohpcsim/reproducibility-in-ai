@@ -4,9 +4,9 @@ title: Tools and documentation
 
 - This page lists every tool the exercises and the optional pages use.
 - Each row says what the tool is, where the workshop uses it, and where its official documentation and introduction are.
-- You don't install these one by one. Each exercise's environment file installs what it needs, and [Set up your environment](setup.md) has the steps.
+- You don't install these one by one. Each exercise's environment file installs what it needs, and your track's Set up page, from [the home page](index.md), has the steps.
 
-## Code and tests
+## Code
 
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
@@ -18,8 +18,8 @@ title: Tools and documentation
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
 | conda | A package and environment manager. It builds an environment from `environment.yml`, with Python and non-Python packages. | Every exercise, [1c](gpu/gpu.md) and [the container page](gpu/container.md). | [Conda documentation](https://docs.conda.io/projects/conda/en/latest/) | [Getting started with conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) |
-| Miniforge | A small conda installer that gets its packages from conda-forge. | [Set up your environment](setup.md), step 2. | [README](https://github.com/conda-forge/miniforge) | The README has the install steps. |
-| conda-forge | A community channel of conda packages. | Every environment file in the workshop lists it as the only channel. | [conda-forge documentation](https://conda-forge.org/docs/) | [A brief introduction](https://conda-forge.org/docs/user/introduction/) |
+| Miniforge | A small conda installer that gets its packages from conda-forge. | Your track's Set up page, from [the home page](index.md), step 2 on the Mac, Linux, WSL2 and HPC tracks. | [README](https://github.com/conda-forge/miniforge) | The README has the install steps. |
+| conda-forge | A community channel of conda packages. | Every environment file lists it first. Exercise 2's files add bioconda. | [conda-forge documentation](https://conda-forge.org/docs/) | [A brief introduction](https://conda-forge.org/docs/user/introduction/) |
 | uv | A Python package and project manager, written in Rust. | [Exercise 1](exercises/01-environments/environments.ipynb), [1c](gpu/gpu.md), and the "With uv instead of conda" option in Exercises 2, 3 and 4. | [uv documentation](https://docs.astral.sh/uv/) | [Getting started](https://docs.astral.sh/uv/getting-started/) |
 
 ## conda and uv
@@ -30,9 +30,9 @@ title: Tools and documentation
 | | Pros | Cons |
 |---|---|---|
 | conda | Any language: Python, R, C/C++ libraries, CUDA, MPI. conda-forge, a large community channel. Established on HPC systems. | Slower than uv. One lock file per platform. Large environments. |
-| uv | Very fast. One cross-platform lock file, `uv.lock`. Installs Python itself. Uses the standard `pyproject.toml`. | Python and PyPI packages only. Non-Python libraries come from the system or from wheels. Newer, and less familiar on HPC systems. |
+| uv | Very fast. One cross-platform lock file, `uv.lock`. Installs Python itself. Uses the standard `pyproject.toml`. | Python packages only. Non-Python libraries come from the system or from wheels. Newer, and less familiar on HPC systems. |
 
-The workshop uses conda. Exercises 2, 3 and 4 also give the same steps with uv.
+Exercise 1 and 1c teach both. Exercises 2, 3 and 4 use conda and give the same steps with uv.
 
 ## Workflows
 
@@ -58,7 +58,7 @@ The workshop uses conda. Exercises 2, 3 and 4 also give the same steps with uv.
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
 | Podman | Builds and runs containers from Dockerfiles, with no daemon and without root. | [1b](exercises/01-environments/containers.md) on the Mac, Linux and WSL2 tracks. | [Podman documentation](https://docs.podman.io/en/latest/) | [Get started](https://podman.io/get-started), and the [rootless tutorial](https://github.com/podman-container-tools/podman/blob/main/docs/tutorials/rootless_tutorial.md) |
-| Apptainer | Runs containers on HPC systems, from one SIF file, as your own user. Formerly Singularity. | [1b](exercises/01-environments/containers.md) on the HPC track, and [the GPU container page](gpu/container.md). It builds from its own recipe, a `.def` file. | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
+| Apptainer | Runs containers on HPC systems, from one SIF file, as your own user. Formerly Singularity. | [1b](exercises/01-environments/containers-hpc.md) on the HPC track, and [the GPU container page](gpu/container-hpc.md). It builds from its own recipe, a `.def` file. | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
 | NVIDIA NGC | NVIDIA's catalog of GPU container images, including PyTorch. | Not used here. Its PyTorch images are an alternative to building your own on [the GPU container page](gpu/container.md). | [NGC documentation](https://docs.nvidia.com/ngc/) | [NGC catalog](https://catalog.ngc.nvidia.com) |
 
 ## Containers on shared machines
@@ -88,7 +88,7 @@ The workshop uses conda. Exercises 2, 3 and 4 also give the same steps with uv.
 
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
-| Jupyter Book (mystmd) | Builds a website from Markdown files and notebooks. Jupyter Book 2 runs on mystmd, the MyST Markdown tools. | This site. Each exercise page is a notebook that reruns when the site is published. [How this site is built](build.md) has the details. | [Jupyter Book](https://jupyterbook.org/stable/), [MyST guide](https://mystmd.org/guide) | [Get started with MyST](https://mystmd.org/guide/quickstart) |
+| Jupyter Book (mystmd) | Builds a website from Markdown files and notebooks. Jupyter Book 2 runs on mystmd, the MyST Markdown tools. | This site. The exercise notebooks rerun when the site is published. [How this site is built](build.md) has the details. | [Jupyter Book](https://jupyterbook.org/stable/), [MyST guide](https://mystmd.org/guide) | [Get started with MyST](https://mystmd.org/guide/quickstart) |
 | JupyterLab | A browser interface for notebooks, terminals and files. | Binder sessions open in it, with a terminal and the exercise page side by side. | [JupyterLab documentation](https://jupyterlab.readthedocs.io/en/stable/) | [Get started](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html) |
 | Binder and mybinder.org | Opens a Git repository as a temporary session in your browser. mybinder.org is the free public service. | **Open in Binder** on each exercise. [Set up your environment](setup.md) explains how it works. | [Binder documentation](https://mybinder.readthedocs.io/en/latest/) | [Get started with Binder](https://mybinder.readthedocs.io/en/latest/introduction.html) |
 | BinderHub | The service behind Binder. It builds the images and starts the sessions. | mybinder.org runs it. | [BinderHub documentation](https://binderhub.readthedocs.io/en/latest/) | [The BinderHub architecture](https://binderhub.readthedocs.io/en/latest/overview.html) |

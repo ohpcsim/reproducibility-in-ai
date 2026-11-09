@@ -4,8 +4,8 @@ title: How this site is built
 
 ## What this site is
 
-- The exercise pages are a tutorial. They rerun when the site is published, so their output is real, but it's teaching output, not results.
-- [The results page](results/results.ipynb) is the literate-science example: the penguin study's numbers and figure, rebuilt from the project's code on every publish.
+- Exercises 1a, 2a, 3 and 4 are notebooks. They rerun when the site is published, so their output is real, but it's teaching output, not results. 1b, 1c and 2b show recorded output.
+- [The results page](results/results.ipynb) is the literate-science example: the penguin study's numbers, rebuilt from the project's code on every publish, and a figure the page draws from the project's validated table.
 - The site follows its own advice: everything it needs is declared in the repository, it rebuilds from scratch, and the build fails if a page breaks.
 - It isn't a research publication. [The penguin analysis](project.md) is a teaching example on published data.
 
@@ -13,11 +13,11 @@ title: How this site is built
 
 - This site is a project too. Its pages, its configuration and the automation that builds it are in [one repository](https://github.com/ohpcsim/reproducibility-in-ai).
 - [Jupyter Book 2](https://jupyterbook.org/stable/) builds it, on [mystmd](https://mystmd.org/guide).
-- The exercise pages and the results page are notebooks. The build reruns them, so their output comes from a real run.
+- The exercise notebooks and the results page rerun in the build, so their output comes from a real run.
 
 ## The configuration
 
-`myst.yml` names the pages, their order and the theme:
+`myst.yml` names the pages, their order and the theme. `tracks.py` writes each track's copy of a page from one source, before the build.
 
 ```{literalinclude} myst.yml
 :language: yaml

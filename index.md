@@ -34,8 +34,8 @@ subject: Hands-on exercises
 
 ## About the workshop
 
-- The exercises from the Reproducibility in AI workshop at Rice Research Computing Day.
-- You do them on your own time, with these pages and a terminal.
+- The exercises from the Reproducibility in AI workshop at Rice Research Computing Day, November 10, 2026.
+- You do them in the workshop or on your own time, with these pages and a terminal.
 - Each exercise adds one thing to the penguin project: a locked environment, a workflow step, versioned data, a model registry.
 - A check script tells you when you're done.
 - You don't need a GPU, a cluster or an account.
@@ -65,18 +65,18 @@ subject: Hands-on exercises
 - **Data:** Palmer penguins, the 2007 field season.
 - About 20 minutes.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-environments?urlpath=lab/workspaces/exercise>` [Read the page](exercises/01-environments/environments.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-environments?urlpath=lab/workspaces/exercise>` [Read the Binder page](exercises/01-environments/environments.ipynb)
 :::
 
 :::{card} 2. Workflows
 **How do you add a step to the penguin project's working workflow, so one command builds the numbers and the figure, with Snakemake or Nextflow?**
 
 - **Problem:** the project's workflow builds its numbers, and its README shows a figure that nothing builds.
-- **You'll learn:** run a workflow you were given, add a step with Snakemake, and watch the tool run only what's new or stale, and a changed parameter rerun only the step that reads it. The same exercise in Nextflow, [2b](exercises/02-workflows/nextflow.md), for your own machine.
+- **You'll learn:** run a workflow you were given, add a step with Snakemake, and watch the tool run only what's new or stale, and a changed parameter rerun only the step that reads it. The same exercise in Nextflow, 2b, is in each own-machine track's menu.
 - **Data:** Palmer penguins, the 2007 field season.
 - About 15 to 20 minutes.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>` [Read the page](exercises/02-workflows/workflows.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>` [Read the Binder page](exercises/02-workflows/workflows.ipynb)
 :::
 
 :::{card} 3. Versioning data
@@ -87,7 +87,7 @@ subject: Hands-on exercises
 - **Data:** Palmer penguins, the 2007 season, then 2007 to 2009.
 - About 15 minutes.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise>` [Read the page](exercises/03-dataops/dataops.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise>` [Read the Binder page](exercises/03-dataops/dataops.ipynb)
 :::
 
 :::{card} 4. Model registry
@@ -98,12 +98,12 @@ subject: Hands-on exercises
 - **Data:** Palmer penguins, 2007 to 2009.
 - About 15 to 20 minutes.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise>` [Read the page](exercises/04-registry/registry.ipynb)
+{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise>` [Read the Binder page](exercises/04-registry/registry.ipynb)
 :::
 
 ::::
 
-- Exercise 1 has two optional parts you run on your own machine: [1b, Environments in containers](exercises/01-environments/containers.md), and [1c, PyTorch with a GPU](gpu/gpu.md) on Linux or WSL2 with an NVIDIA GPU.
+- Exercise 1 has two optional parts, in each own-machine track's menu: 1b, Environments in containers, and 1c, PyTorch with a GPU, for Linux, WSL2 or a GPU node with an NVIDIA GPU.
 
 ## How to start
 
@@ -112,7 +112,7 @@ It works the same way everywhere: read the page, and paste the commands into a t
 1. Pick your machine at the top of this page, and follow its setup page.
 2. Pick an exercise in that track. If you're not sure, start with the first.
 3. On Binder, the first start can take a few minutes. A session has 2 GB of memory and ends when it sits idle, so download anything you want to keep.
-4. Do the steps on the page, then run its check, `python ../check.py`.
+4. Do the steps on the page, then run the check the page gives.
 5. To learn a tool, [Tools and documentation](tools.md) links to its documentation and its introduction.
 
 The code here is MIT licensed. Each exercise names its data, its license and how to cite it.

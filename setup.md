@@ -21,12 +21,13 @@ title: Set up your environment
 
 ### What's in each exercise branch
 
-Each exercise branch has three files in `.binder/`:
+Each exercise branch has four files in `.binder/`:
 
 - `environment.yml` lists the conda packages. repo2docker installs them into its own base environment, not into one named `repro-environments`, so you don't run `conda activate` in Binder. ([environment.yml](https://repo2docker.readthedocs.io/en/latest/configuration/research.html))
 - `postBuild` runs once, at build time, after the packages are installed. Ours builds the `project` folder, loads the JupyterLab layout and makes new terminals start in `project`. ([postBuild](https://repo2docker.readthedocs.io/en/latest/configuration/actions.html))
 - `workspace.json` is the JupyterLab layout: a terminal on the left and the exercise page on the right. ([JupyterLab on Binder](https://jupyterlab.readthedocs.io/en/stable/user/binder.html#customize-the-layout))
-- In exercises 2 to 4, the root `pyproject.toml`, `uv.lock` and `.python-version` do not change Binder's environment. See [where to put configuration files](https://repo2docker.readthedocs.io/en/latest/use/repository.html#where-to-put-configuration-files-in-a-repository).
+- `exercise.ipynb` is the Binder copy of the page. `postBuild` turns it into the panel on the right.
+- In exercises 2 to 4, the root `pyproject.toml`, `uv.lock` and `.python-version` don't change Binder's environment. See [where to put configuration files](https://repo2docker.readthedocs.io/en/latest/use/repository.html#where-to-put-configuration-files-in-a-repository).
 - The branches have no `start` file, the script repo2docker would run each time a session starts. ([start](https://repo2docker.readthedocs.io/en/latest/configuration/actions.html))
 
 ### What happens when you open a link
@@ -115,7 +116,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 
 - Open Terminal.
 - It's in Applications, under Utilities.
-- This works on Apple silicon and on Intel Macs.
+- We ran these pages on Apple silicon, not on an Intel Mac.
 
 +++ {"tags": ["track-wsl2"]}
 
@@ -164,6 +165,20 @@ source ~/miniforge3/bin/activate
 
 - The last line turns conda on in this window.
 - Run it again each time you open a new one.
+
++++ {"tags": ["track-mac"]}
+
+- Optional: to turn conda on in every new window, run `conda init zsh` once. It adds a block to `~/.zshrc`.
+
++++ {"tags": ["track-linux", "track-wsl2"]}
+
+- Optional: to turn conda on in every new window, run `conda init bash` once. It adds a block to `~/.bashrc`.
+
++++ {"tags": ["track-hpc"]}
+
+- Don't run `conda init` on a cluster. It edits `~/.bashrc`, which can clash with the cluster's modules. Use the `source` line, or your site's conda module, instead.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 
 ## Step 3: check for Git
 
@@ -216,7 +231,7 @@ uv --version
 +++ {"tags": ["track-wsl2"]}
 
 - Only Exercises 1b and 1c use one.
-- For 1b, install Podman in the same Ubuntu window: `sudo apt install -y podman`. Check with `podman --version`. Run `podman` itself without `sudo`.
+- For 1b, install Podman in the same Ubuntu window: `sudo apt update && sudo apt install -y podman`. Check with `podman --version`. Run `podman` itself without `sudo`.
 - For 1c, install Apptainer inside WSL2, in the Ubuntu window, with `sudo`. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html#install-ubuntu-packages) has the Ubuntu steps. Check with `apptainer --version`.
 
 +++ {"tags": ["track-hpc"]}
