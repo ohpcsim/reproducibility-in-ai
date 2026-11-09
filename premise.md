@@ -114,7 +114,7 @@ The goal:
 
 ## Thesis
 
-"Bringing cloud-native, declarative, and stateless concepts to batch HPC workloads solves most problems."
+"Bringing cloud-native, declarative, and stateless concepts to computational workloads solves most problems."
 
 - Interactive HPC workloads are stateful.
 - You can't capture the state of an HPC system.
