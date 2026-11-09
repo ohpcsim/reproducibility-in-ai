@@ -1,4 +1,4 @@
-# The same steps as Dockerfile.conda, for a machine with Apptainer and no Docker.
+# The same steps as Dockerfile.conda, in Apptainer's own recipe format.
 Bootstrap: docker
 From: docker.io/condaforge/miniforge3@sha256:dfb274710eee2bb062c87b15c10fde6ea91f71b763796b5de489df87b08cf678
 

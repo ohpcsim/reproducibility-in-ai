@@ -1,4 +1,4 @@
-# The same steps as Dockerfile.uv, for a machine with Apptainer and no Docker.
+# The same steps as Dockerfile.uv, in Apptainer's own recipe format.
 Bootstrap: docker
 From: ghcr.io/astral-sh/uv@sha256:d4a752dd52f42e0c508bb0b6a912f15922bb32e42f66af30671c3fdc0d759f21
 
