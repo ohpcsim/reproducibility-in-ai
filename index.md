@@ -17,14 +17,14 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 
 - In 1984 Donald Knuth proposed writing a program as one document, for people and for the machine. Literate science puts the claims, the code, the environment and the data in one project, and every published result comes from running it.
 - Your research products (papers, code, data) are curated: you keep and version them. Everything that runs them is disposable, so you can delete it and build it again from what's in the project. Cloud computing calls these [pets and cattle](premise.md#pets-vs-cattle).
-- This site works the same way. The exercise notebooks rerun every time the site is published, so the output on them is real.
+- This site works the same way. The exercise notebooks rerun every time the site is published, so their displayed output comes from that run.
 - [The premise](premise.md) has the full argument.
 - [Literate Science Results: sexual dimorphism in Palmer penguins](results/results.ipynb) is one such document. The build runs the finished project's code. The page shows what it printed, and draws a figure from the project's validated table.
 - [How this site is built](build.md) shows its configuration, the command that builds it and the automation that reruns every notebook.
 
 ## Pick your machine
 
-- Pick one. Binder is one page with a launch button for each exercise. Each other track has its own setup page and its own copy of each exercise, with the commands for that machine only.
+- Pick one. The Binder page has a launch button for each exercise. Each other track has its own setup page and its own copy of each exercise, with the commands for that machine only.
 - Not sure? Use Binder, the workshop default.
 
 | Track | Who it's for | Exercises |
@@ -65,7 +65,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 **How do you declare and lock what the penguin project needs, with conda and with uv?**
 
 - **Problem:** a script imports a package that the project's dependency files don't declare.
-- **You'll learn:** declare and lock an environment with conda, then with uv, and why a conda lock is per platform and a uv lock isn't.
+- **You'll learn:** declare and lock an environment with conda, then with uv. Learn why conda needs a separate lock file for each platform and uv doesn't.
 - **Data:** Palmer penguins, the 2007 field season.
 - About 20 minutes.
 
@@ -75,10 +75,10 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 :::{card} 2. Workflows
 {button}`Launch in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>`
 
-**How do you add a step to the penguin project's working workflow, so one command builds the numbers and the figure, with Snakemake or Nextflow?**
+**How do you add a step with Snakemake or Nextflow so one command builds the penguin project's numbers and figure?**
 
 - **Problem:** the project's workflow builds its numbers, and its README shows a figure that nothing builds.
-- **You'll learn:** run a workflow you were given, add a step with Snakemake, and watch the tool run only what's new or stale, and a changed parameter rerun only the step that reads it. The same exercise in Nextflow, 2b, is in the Mac, Linux, WSL2 and HPC tracks' menus.
+- **You'll learn:** run a workflow you were given and add a step with Snakemake. Watch Snakemake run only new or outdated steps. Change a parameter and rerun only the step that reads it. The same exercise in Nextflow, 2b, is in the Mac, Linux, WSL2 and HPC tracks' menus.
 - **Data:** Palmer penguins, the 2007 field season.
 - About 15 to 20 minutes.
 
@@ -103,8 +103,8 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 
 **Which penguin model is live?**
 
-- **Problem:** a trained penguin model has no registered version or live stage.
-- **You'll learn:** register two versions with GTO, promote the better validation score and restore every model with DVC.
+- **Problem:** a trained penguin model has no registered version, and nothing records whether it is the model in use.
+- **You'll learn:** register two model versions with GTO, promote the one with the better validation score and restore either version with DVC.
 - **Data:** Palmer penguins, 2007 to 2009.
 - About 15 to 20 minutes.
 

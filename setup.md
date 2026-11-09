@@ -11,8 +11,8 @@ Pick an exercise and launch it. You need a browser and nothing else.
 
 ## What you'll see
 
-- JupyterLab opens with a terminal on the left, already in the `project` folder, and the exercise on the right.
-- The first launch can take a few minutes while the image builds.
+- JupyterLab opens with a terminal on the left and the exercise on the right. The terminal starts in the `project` folder.
+- The first launch can take a few minutes while Binder prepares the software for the exercise.
 - A session shuts down after 10 minutes idle and lasts at most about six hours, with 1 to 2 GB of memory.
 - Download anything you want to keep. [Download your work](#download-your-work) shows how.
 - Copy and paste: Ctrl+C and Ctrl+V. On a Mac, Cmd+C and Cmd+V.
@@ -29,7 +29,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 - In the file panel, go up to the top folder.
 - Right-click `my-work.tar.gz` and choose Download.
 - To unpack it on your own machine, run `tar -xzf my-work.tar.gz`.
-- The file holds `project` and its commits only, not the exercise's `osn-bucket` folder or `check.py`. To carry on with Exercise 3 or 4 on your own machine, start that exercise again there.
+- The file holds `project` and its commits only, not the exercise's `osn-bucket` folder or `check.py`. To do Exercise 3 or 4 on your own machine, start the exercise there from the beginning.
 
 (how-binder-works)=
 ## How Binder works
@@ -40,7 +40,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 - A Binder is a Git repository with code or content to run, and configuration files that declare its environment. ([What is a Binder?](https://mybinder.readthedocs.io/en/latest/introduction.html#what-is-a-binder))
 - repo2docker reads those files and builds a container image from them. ([repo2docker](https://repo2docker.readthedocs.io/en/latest/))
 - repo2docker looks for the files in a `binder/` or `.binder/` folder first. If that folder exists, it ignores configuration files in the root of the repository. ([Where to put configuration files](https://repo2docker.readthedocs.io/en/latest/use/repository.html#where-to-put-configuration-files-in-a-repository))
-- BinderHub is the service that builds the images and serves them. It uses repo2docker to build, a Docker registry to store the images, Kubernetes to manage the cloud machines, and JupyterHub to run a temporary container for each user. ([The BinderHub architecture](https://binderhub.readthedocs.io/en/latest/overview.html))
+- BinderHub is the service that builds the images and serves them. repo2docker builds the images. A Docker registry stores them. Kubernetes manages the cloud machines. JupyterHub runs a temporary container for each user. ([The BinderHub architecture](https://binderhub.readthedocs.io/en/latest/overview.html))
 - mybinder.org is a free public service. It's a federation of BinderHub deployments that the Binder community maintains, and it has limited resources. ([What is mybinder.org?](https://mybinder.readthedocs.io/en/latest/introduction.html#what-is-mybinder-org), [Is mybinder.org free to use?](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#is-mybinder-org-free-to-use))
 
 ### Using Binder
