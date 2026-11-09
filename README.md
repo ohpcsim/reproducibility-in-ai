@@ -1,4 +1,4 @@
-# Workflows: add a step to a working workflow
+# 2a. Workflows: add a step to a working workflow
 
 About 15 to 20 minutes: run the penguin project's working Snakefile, add a step that draws the README's figure, and watch a changed parameter rerun one step. The instructions are in `workflows.ipynb`, or on the site. `nextflow.md` is the same exercise in Nextflow, for your own machine.
 

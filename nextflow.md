@@ -40,10 +40,18 @@ title: 2b. Workflows in Nextflow
 
 ## Why there's no Binder
 
-- Nextflow runs on the Java virtual machine. On our machines one run of this workflow takes about 3 to 4 seconds, most of it starting Java, and peaks at 0.41 to 0.47 GB of memory. A Binder session has at least 1 GB and at most 2 GB, so one run would take a large share of it, next to JupyterLab.
+- Nextflow runs on the Java virtual machine. On our machines one run of this workflow takes about 3 to 4 seconds, most of it starting Java, and peaks at 0.41 to 0.48 GB of memory. A Binder session has at least 1 GB and at most 2 GB, so one run would take a large share of it, next to JupyterLab.
 - We checked whether the first run downloads anything. From the conda package it doesn't. The package carries the whole runtime, `~/.nextflow` held two empty folders after a run, and a run with the network switched off succeeded. Nextflow's own installer is different. [Its install page](https://docs.seqera.io/nextflow/install) says it downloads a Java bundle the first time each version runs, and that plugins download at run time.
 - It has executors for SLURM and the other schedulers, Kubernetes and the cloud batch services, and the point of the tool is to move a workflow from a laptop to those.
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
+
 - So use it on your own Linux or macOS machine, or on Windows through WSL2, on x86_64 or ARM. The environment file below solved on all four platforms, and we ran the exercise on three machines, listed at the end.
+
++++ {"tags": ["track-hpc"]}
+
+- On a cluster, follow your site's rule for where short jobs run. One run takes a few seconds and under 0.5 GB. The environment file below solved on all four platforms. We ran the exercise on three machines, listed at the end, none of them a cluster.
+
++++
 
 ## Get a terminal
 
@@ -118,7 +126,7 @@ The environment:
 
 ## Step 1: run the workflow you were given
 
-**Problem:** Before you change a workflow, run it, and check that you get the numbers its authors got.
+**Problem:** before you change a workflow, run it, and check that you get the numbers its authors got.
 
 ```bash
 nextflow run main.nf
@@ -126,7 +134,7 @@ cat metrics.json
 git status --short
 ```
 
-- Recorded November 8, 2026, on aarch64, Linux, Nextflow 26.10.5, OpenJDK 25.0.2. Your task hashes and run names will differ.
+- Recorded November 8, 2026, on aarch64, Linux, Nextflow 26.10.5, OpenJDK 25.0.2. Your task hashes and run names will differ, and after your edit in step 2, so will the `revision:` ID.
 
 ```text
 $ nextflow run main.nf
@@ -159,7 +167,7 @@ $ git status --short
 
 ## Step 2: add a step
 
-**Problem:** The README shows a figure that nothing builds.
+**Problem:** the README shows a figure that nothing builds.
 
 ```bash
 grep body_mass README.md
@@ -235,7 +243,16 @@ body_mass.svg
 ```
 
 - `PLOT` and `REPORT` both wait only for `VALIDATE`, so here and in step 3 the order of their lines can differ on your machine.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
+
 - Open `figures/body_mass.svg` in a web browser, or `README.md` in a Markdown viewer.
+
++++ {"tags": ["track-hpc"]}
+
+- Copy `figures/body_mass.svg` to your laptop with `scp` and open it there.
+
++++
 
 4. Commit `main.nf`. The figure is built, not committed, so `git status --short` prints nothing after the commit.
 
@@ -301,7 +318,7 @@ $ git status --short
 ## Check your work
 
 - The same checker as the Snakemake exercise, with `--nextflow`. It clones your last commit into an empty folder, runs `nextflow run main.nf` there, compares the numbers with this page and reads the figure for the penguins it plots. Then it changes `report.statistic`, runs with `-resume`, and reads Nextflow's log to see that only `REPORT` ran.
-- Each line says what to do next. It takes about 10 seconds. `--short` runs the same parts.
+- Each line says what to do next. It takes about 10 seconds.
 
 ```bash
 python ../check.py --nextflow
@@ -341,15 +358,15 @@ PASS  A changed report.statistic reruns REPORT, and -resume takes the rest from 
 ## What we ran where
 
 - Recorded November 8, 2026, with Nextflow 26.10.5, OpenJDK 25.0.2 and Python 3.12.16 from the environment file above.
-- The first row is the whole current page, run by a script: the starter and its failing check, the three steps and the final check. Peak memory is the largest resident set of any process in the run, which is the Java virtual machine.
+- The first two rows are the whole current page: the starter and its failing check, the three steps and the final check. Peak memory is the largest resident set of any process in the run, which is the Java virtual machine.
 
 | Machine | Starter fails | Solution passes | Whole page | Peak memory |
 |---|---|---|---|---|
 | aarch64, Linux, DGX Spark | Yes, 2 of 4 | Yes, 4 of 4 | 45 s | 0.47 GB |
-| x86_64, WSL2 on Windows, Ubuntu 24.04 | Earlier version, 0 of 1. Not rerun on the current page. | Yes, 4 of 4 | 36 s | 0.46 GB |
-| arm64, macOS 27.0.1 | Earlier version, 0 of 1. Not rerun on the current page. | Yes, 4 of 4 | 33 s | 0.41 GB |
+| x86_64, WSL2 on Windows, Ubuntu 24.04 | Yes, 2 of 4 | Yes, 4 of 4 | 29 s | 0.48 GB |
+| arm64, macOS 27.0.1 | Earlier version, 0 of 1. Not rerun on the current page. | Yes, 4 of 4 | 33 s, earlier version | 0.41 GB |
 
-- The WSL2 and macOS rows ran an earlier version of this page, where you wrote `VALIDATE` and `REPORT` yourself.
+- The macOS row ran an earlier version of this page, where you wrote `VALIDATE` and `REPORT` yourself.
 
 +++ {"tags": ["track-hpc"]}
 
