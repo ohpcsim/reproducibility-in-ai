@@ -3,8 +3,20 @@ title: PyTorch with a GPU
 ---
 
 - This is part 1c of [Exercise 1](../exercises/01-environments/environments.ipynb). It's optional, and none of the other exercises need it.
-- You run it yourself, on a Linux machine or WSL2 with an NVIDIA GPU.
-- It won't work on a Mac, because Macs have no NVIDIA GPU, and we didn't test on one.
++++ {"tags": ["track-linux"]}
+
+- You run it yourself, on your Linux machine with an NVIDIA GPU.
+
++++ {"tags": ["track-wsl2"]}
+
+- You run it yourself, in WSL2 with an NVIDIA GPU.
+
++++ {"tags": ["track-hpc"]}
+
+- You run it yourself, on a GPU node with an NVIDIA GPU.
+
++++
+
 - There's no Binder for it, because Binder has no GPU.
 - The output on this page is a recording from real runs, labeled with the machine, architecture, GPU and driver.
 - The machines that build this site have no GPU, so this page doesn't rerun when the site is published.
@@ -17,7 +29,7 @@ title: PyTorch with a GPU
 
 ## The problem
 
-- An environment that installs isn't an environment that works.
+- A CUDA build can install and still fail to reach the GPU.
 - The usual trap is a CUDA build that doesn't match your GPU or your driver.
 - It may install fine, then crash when it does real work, or quietly fall back to the CPU.
 - So you check it the same way on every route.
@@ -39,6 +51,8 @@ title: PyTorch with a GPU
 +++ {"tags": ["track-hpc"]}
 
 - On a cluster, do this on a GPU node, for example in a session from `srun --gpus=1 --pty bash`, because a login node has no GPU driver. The flags vary by site.
+- The GPU node needs network access for the clone and the installs.
+- We haven't run this on an HPC cluster. The recorded runs are from a DGX Spark and a Windows PC with WSL2.
 
 +++
 
@@ -222,8 +236,9 @@ If the check fails:
 | uv | Passed | Passed |
 | Containers | See [what we ran where](container.md#gpu-what-we-ran-where) | See [what we ran where](container.md#gpu-what-we-ran-where) |
 
-## Clean up
+## When you're done
 
 - The environments are cattle, and your locks can rebuild them.
 - `conda env remove --yes --name repro-gpu` removes the conda environment.
 - `rm -rf .venv` removes the uv environment. `uv cache dir` shows where uv keeps its downloads, and `uv cache clean` empties that cache for every project.
+- `cd ../.. && rm -rf repro-gpu` removes the clone.
