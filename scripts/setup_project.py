@@ -46,6 +46,7 @@ def main():
     if "--reset" in sys.argv:
         shutil.rmtree(PROJECT, ignore_errors=True)
         shutil.rmtree(BUCKET, ignore_errors=True)
+        shutil.rmtree(HERE / "restore-v1.0.0", ignore_errors=True)
     if PROJECT.exists():
         print("project/ already exists, so I left your work alone. To start over: python scripts/setup_project.py --reset")
         return
