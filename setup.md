@@ -99,7 +99,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 - This page gets your Linux machine ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access, except to install Docker, Podman or Apptainer for 1b and 1c.
 +++ {"tags": ["track-wsl2"]}
 
-- This page gets your Windows PC ready for the exercises: Ubuntu in WSL2, conda and Git, and if you want them, uv and Apptainer. You need administrator access to turn on WSL2, and `sudo` in Ubuntu to install Apptainer for 1b and 1c.
+- This page gets your Windows PC ready for the exercises: Ubuntu in WSL2, conda and Git, and if you want them, uv, Podman and Apptainer. You need administrator access to turn on WSL2, and `sudo` in Ubuntu to install Podman and Apptainer.
 +++ {"tags": ["track-hpc"]}
 
 - This page gets your account on a shared Linux machine or cluster ready for the exercises: a shell, conda and Git, and if you want them, uv and Apptainer. You don't need administrator access.
@@ -202,7 +202,10 @@ uv --version
 +++ {"tags": ["track-mac"]}
 
 - Only Exercise 1b uses one.
-- Install [Docker Desktop](https://docs.docker.com/desktop/) or [Podman Desktop](https://podman-desktop.io/). Each runs a small Linux VM.
+- Install [Podman Desktop](https://podman-desktop.io/). It runs a small Linux VM.
+- Open a new Terminal window after installing, so `podman` is on your `PATH`.
+- Start the Podman machine from Podman Desktop, or with `podman machine init` and then `podman machine start`. Check that `podman machine list` says `Currently running`.
+- The default 2 GiB machine is enough for Exercise 1b.
 
 +++ {"tags": ["track-linux"]}
 
@@ -213,6 +216,7 @@ uv --version
 +++ {"tags": ["track-wsl2"]}
 
 - Only Exercises 1b and 1c use one.
+- For Route A of 1b, install Podman in the same Ubuntu window: `sudo apt install -y podman`. Check with `podman --version`. Run `podman` itself without `sudo`.
 - Install Apptainer inside WSL2, in the Ubuntu window, with `sudo`. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html#install-ubuntu-packages) has the Ubuntu steps. Check with `apptainer --version`.
 
 +++ {"tags": ["track-hpc"]}

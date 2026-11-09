@@ -22,8 +22,8 @@ title: Environments in containers
 
 | Where you are | What to use | Why | What we ran |
 |---|---|---|---|
-| Your Mac | Docker Desktop, Podman Desktop, OrbStack, Colima, or Apple's `container` (macOS 26) | Each runs a small Linux VM. (Darwin containers such as [rund](https://github.com/darwin-containers/rund) run macOS software natively; not covered here) | Not run |
-| Your Windows PC | Docker Desktop or Podman Desktop, or Podman and Apptainer inside WSL2 | WSL2 provides the Linux kernel | Apptainer 1.4.5 in WSL2, x86_64 |
+| Your Mac | Podman Desktop | It runs a small Linux VM. (Darwin containers such as [rund](https://github.com/darwin-containers/rund) run macOS software natively; not covered here) | Podman 6.1.4 through Podman Desktop (libkrun VM, 5 CPU, 2 GiB), macOS arm64 |
+| Your Windows PC | Podman and Apptainer inside WSL2 | WSL2 provides the Linux kernel | Apptainer 1.4.5 and rootless Podman 4.9.3 in WSL2, x86_64 |
 | Your own Linux machine | Docker, Podman or Apptainer | You have root, so any of them works | Docker 29.6.2, Podman 4.9.3 and Apptainer 1.5.5, aarch64 |
 | A shared Linux machine, without root | Podman (rootless) or Apptainer | Neither needs root or a daemon | Rootless Podman and Apptainer, without sudo, on the aarch64 machine. It isn't shared |
 | An HPC cluster | Apptainer | It runs as you, with no daemon. The image is one SIF file, with no registry needed. It works with the scheduler, MPI and GPUs | Not run |
@@ -35,15 +35,21 @@ title: Environments in containers
 
 Pick one route. Each one is complete on its own and ends with the same check.
 
-+++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
++++ {"tags": ["track-linux", "track-hpc"]}
 
 - **Route A: your own Mac, Windows or Linux machine, with Docker or Podman.** You build two images and run them.
++++ {"tags": ["track-mac"]}
+
+- **Route A: your Mac, with Podman.** You build two images and run them.
++++ {"tags": ["track-wsl2"]}
+
+- **Route A: Podman inside WSL2.** You build two images and run them.
 +++ {"tags": ["track-linux"]}
 
 - **Or Route B, with Apptainer.** You build two SIF files from `.def` files instead, and run them. The build uses Apptainer's `--fakeroot`.
 +++ {"tags": ["track-wsl2"]}
 
-- **Route B: Apptainer inside WSL2.** You build two SIF files from `.def` files and run them. The build uses Apptainer's `--fakeroot`.
+- **Or Route B: Apptainer inside WSL2.** You build two SIF files from `.def` files and run them. The build uses Apptainer's `--fakeroot`.
 +++ {"tags": ["track-hpc"]}
 
 - **Route B: a shared Linux machine or an HPC cluster, without root, with Apptainer.** You build two SIF files from `.def` files and run them. The build needs Apptainer's `--fakeroot`, which your center may or may not allow.
@@ -77,9 +83,14 @@ cp metrics.json ../metrics-ex1.json
 - Both kinds of recipe do the same steps. The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
 - A container is Linux, even on a Mac or Windows PC. So the conda image needs a Linux lock: `explicit-linux-64.txt` on x86_64 or `explicit-linux-aarch64.txt` on ARM. One `uv.lock` builds on both.
 - A tag such as `miniforge3:26.9.4-2` can move, and a sha256 digest can't. Every recipe pins its base image by digest. Each digest covers x86_64 and ARM, and the tool pulls the one for your machine.
-+++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
++++ {"tags": ["track-linux", "track-hpc"]}
 
 - To get a digest for another image, run `docker pull`, then `docker inspect --format '{{index .RepoDigests 0}}' IMAGE`.
++++ {"tags": ["track-mac", "track-wsl2"]}
+
+- To get a digest for another image, run `podman pull`, then `podman inspect --format '{{index .RepoDigests 0}}' IMAGE`.
+
++++
 
 `containers/Dockerfile.conda`:
 
@@ -109,7 +120,7 @@ cp metrics.json ../metrics-ex1.json
 - They put the environment first on `PATH` and run `python analyze.py`.
 - The uv image doesn't start with `uv run`. Under Apptainer, which runs in your folder, `uv run` found the project's own `.venv` and used it instead of the container's environment.
 
-+++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
++++ {"tags": ["track-linux", "track-hpc"]}
 
 ## Route A: your own machine, Docker or Podman
 
@@ -121,19 +132,33 @@ cp metrics.json ../metrics-ex1.json
 
 +++ {"tags": ["track-mac"]}
 
+## Route A: your Mac, with Podman
+
+- Install Podman Desktop and start the Podman machine, as [Set up your environment](../../setup.md#container-tool) says.
++++ {"tags": ["track-wsl2"]}
+
+## Route A: Podman inside WSL2
+
+- Install Podman as [Set up your environment](../../setup.md#container-tool) says. Podman runs rootless, as you, with no daemon. Don't use `sudo` with these commands.
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
+
+- Docker Desktop needs a paid plan in larger organizations. Podman is free and open source, runs without root or a daemon, and takes the same commands.
+
++++ {"tags": ["track-mac"]}
+
 **A Mac needs a Linux lock first.** Your conda lock is `explicit-osx-arm64.txt`, and it doesn't install in a Linux container. Skip the conda image, or write a Linux lock inside the Miniforge container and commit it:
 
 ```bash
-docker run --rm -v "$PWD":/work -w /work docker.io/condaforge/miniforge3:26.9.4-2@sha256:dfb274710eee2bb062c87b15c10fde6ea91f71b763796b5de489df87b08cf678 \
+podman run --rm -v "$PWD":/work -w /work docker.io/condaforge/miniforge3:26.9.4-2@sha256:dfb274710eee2bb062c87b15c10fde6ea91f71b763796b5de489df87b08cf678 \
   sh -c 'conda env create --quiet --prefix /tmp/env --file environment.yml && conda list --prefix /tmp/env --explicit --md5 > explicit-$(conda config --show subdir | cut -d" " -f2).txt'
 git add explicit-linux-aarch64.txt
 git commit -m "Lock the conda environment for Linux on ARM"
 ```
 
 - That's a new solve from `environment.yml`, so compare its versions with your Mac lock.
-- We ran this command with Podman on Linux on ARM, where it wrote the same 38 packages as the lock from Exercise 1. We haven't run it on a Mac.
+- With Podman 6.1.4 on a Mac with Apple silicon, it wrote the same 38 packages as the lock from Linux on ARM.
 
-+++ {"tags": ["track-mac", "track-linux", "track-hpc"]}
++++ {"tags": ["track-linux", "track-hpc"]}
 
 **Build, run and compare:**
 
@@ -146,9 +171,30 @@ diff ../metrics-ex1.json ../metrics-image-conda.json
 diff ../metrics-ex1.json ../metrics-image-uv.json
 ```
 
++++ {"tags": ["track-mac", "track-wsl2"]}
+
+**Build, run and compare:**
+
+```bash
+podman build -f ../containers/Dockerfile.conda -t penguins-conda:v1 .
+podman build -f ../containers/Dockerfile.uv -t penguins-uv:v1 .
+podman run --rm penguins-conda:v1 > ../metrics-image-conda.json
+podman run --rm penguins-uv:v1 > ../metrics-image-uv.json
+diff ../metrics-ex1.json ../metrics-image-conda.json
+diff ../metrics-ex1.json ../metrics-image-uv.json
+```
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
+
 - `analyze.py` prints the same JSON it writes to `metrics.json`, so each run's file is the container's `metrics.json`.
 - `diff` prints nothing when the files match exactly. That's the check.
 - Podman needs the full image name, with the registry. The recipes have it: `docker.io/condaforge/miniforge3` and `ghcr.io/astral-sh/uv`. Without `docker.io/`, Podman 4.9.3 on Ubuntu stopped with `short-name ... did not resolve to an alias`.
++++ {"tags": ["track-mac"]}
+
+- The Linux-lock step pulls the Miniforge image, so the conda build reuses it.
++++ {"tags": ["track-wsl2"]}
+
+- The first `podman` command may print `"/" is not a shared mount, this could cause issues or missing mounts with rootless containers`. Our builds and runs worked with it.
 +++ {"tags": ["track-linux", "track-hpc"]}
 
 - Rootless, Podman's conda build printed warnings such as `can't raise ambient capability CAP_CHOWN`. The build still succeeded.
@@ -237,7 +283,8 @@ apptainer build --force ../penguins-uv.sif docker-archive://../penguins-uv.tar
 ## What we ran where
 
 - **NVIDIA DGX Spark, aarch64, Ubuntu 24.04.5, Linux 7.0.0, with Docker 29.6.2, Podman 4.9.3 rootless and Apptainer 1.5.5.** Recorded November 8, 2026. The locks were `explicit-linux-aarch64.txt` and `uv.lock`, from Exercise 1 on that machine. We have root there, but ran Podman and Apptainer without sudo.
-- **A Windows 11 PC, x86_64, WSL2 with Ubuntu 24.04.1, with Apptainer 1.4.5.** Recorded November 8, 2026. It has no Docker or Podman. The locks were `explicit-linux-64.txt`, made there with Exercise 1's steps, and the same `uv.lock` as on the ARM machine, byte for byte.
+- **A Windows 11 PC, x86_64, WSL2 with Ubuntu 24.04.1, with Apptainer 1.4.5, and rootless Podman 4.9.3 in a second Ubuntu 24.04.1 distribution.** Recorded November 8, 2026. The locks were `explicit-linux-64.txt`, made there with Exercise 1's steps, and the same `uv.lock` as on the ARM machine, byte for byte.
+- **A Mac with Apple silicon, with Podman Desktop and Podman 6.1.4.** Recorded November 8, 2026. The locks were `explicit-linux-aarch64.txt`, written there with Route A's Linux-lock step and identical to the ARM machine's lock, and `uv.lock` from Exercise 1 on the Mac.
 - Every run printed this, and every `diff` printed nothing:
 
 ```text
@@ -249,20 +296,20 @@ apptainer build --force ../penguins-uv.sif docker-archive://../penguins-uv.tar
 }
 ```
 
-- On the ARM machine, both images have Python 3.12.16, pandas 3.1.1 and numpy 2.5.4, the same versions as Exercise 1's locks.
+- On the ARM machine, the Mac and the Windows PC, both images have Python 3.12.16, pandas 3.1.1 and numpy 2.5.4, the same versions as Exercise 1's locks.
 
 | Route | Machine | conda | uv |
 |---|---|---|---|
 | A, Docker | DGX Spark, aarch64 Linux | Ran and matched. 1.03 GB image, 7 s build | Ran and matched. 282 MB image, 3 s build |
 | A, Podman rootless | DGX Spark, aarch64 Linux | Ran and matched. 1.06 GB image, 14 s build | Ran and matched. 288 MB image, 4 s build |
-| A | A Mac | Not run | Not run |
-| A | A Windows PC, Docker Desktop or Podman Desktop | Not run | Not run |
+| A, Podman Desktop | MacBook, Apple silicon, macOS, Podman 6.1.4 (libkrun, 2 GiB VM) | Ran and matched. 1.06 GB image, 11 s build (Linux lock first, 12 s with the pull) | Ran and matched. 288 MB image, 6 s build |
+| A, Podman rootless | Windows 11 PC, x86_64 WSL2 | Ran and matched. 1.06 GB image, 17 s build | Ran and matched. 270 MB image, 5 s build |
 | B, Apptainer `--fakeroot` | DGX Spark, aarch64 Linux | Ran and matched. 320 MB SIF, 21 s build | Ran and matched. 87 MB SIF, 5 s build |
 | B, Apptainer `--fakeroot` | Windows 11 PC, x86_64 WSL2 | Ran and matched. 331 MB SIF, 23 s build | Ran and matched. 89 MB SIF, 6 s build |
 | B | An HPC cluster | Not run | Not run |
 | From A to B, Docker's or Podman's image | DGX Spark, aarch64 Linux, both ends | Ran and matched. 320 MB SIF, 20 to 28 s to save and convert | Ran and matched. 87 MB SIF, 5 to 7 s to save and convert |
 
-- Build times include pulling the base image, except Docker's, which had it already. They depend on your network.
+- Build times include pulling the base image, except Docker's, which had it already, and the Mac's conda build, which reused the image the Linux-lock step pulled. They depend on your network.
 - Our From A to B run built and converted on the same machine, so the architecture already matched.
 
 ## Clean up
@@ -271,18 +318,21 @@ apptainer build --force ../penguins-uv.sif docker-archive://../penguins-uv.tar
 +++ {"tags": ["track-mac"]}
 
 ```bash
-docker rmi penguins-conda:v1 penguins-uv:v1
+podman rmi penguins-conda:v1 penguins-uv:v1
 rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json
 ```
 
-- With Podman, run `podman rmi penguins-conda:v1 penguins-uv:v1` instead of `docker rmi`.
-- The base images stay. `docker image ls` or `podman image ls` lists them, and `docker rmi IMAGE_ID` or `podman rmi IMAGE_ID` removes one.
+- The base images stay. `podman image ls` lists them, and `podman rmi IMAGE_ID` removes one.
 +++ {"tags": ["track-wsl2"]}
 
 ```bash
-rm -f ../penguins-conda.sif ../penguins-uv.sif ../metrics-ex1.json ../metrics-sif-conda.json ../metrics-sif-uv.json
+rm -f ../penguins-conda.sif ../penguins-uv.sif
+rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json ../metrics-sif-conda.json ../metrics-sif-uv.json
+podman rmi penguins-conda:v1 penguins-uv:v1
 ```
 
+- `rm -f` skips the files your route didn't make. Skip `podman rmi` if you used only Route B.
+- The base images stay. `podman image ls` lists Podman's, and `podman rmi IMAGE_ID` removes one.
 - Apptainer keeps the base images it pulled in its cache. `apptainer cache list` shows it, and `apptainer cache clean` empties it.
 +++ {"tags": ["track-linux"]}
 
@@ -318,7 +368,7 @@ rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json .
 - Disk space. The two images took 1.3 GB, and the two SIF files 0.4 GB. The conda image is almost four times the uv image, because the Miniforge base image alone is about 600 MB.
 +++ {"tags": ["track-wsl2"]}
 
-- Disk space. The two SIF files took 0.4 GB. The conda SIF is almost four times the uv SIF, because it holds the Miniforge base image.
+- Disk space. The two images took 1.3 GB, and the two SIF files 0.4 GB. Podman keeps images in your WSL2 home, under `~/.local/share/containers`.
 +++ {"tags": ["track-hpc"]}
 
 - Disk space. The two images took 1.3 GB, the files saved from them another 1.3 GB, and the two SIF files 0.4 GB. The conda image is almost four times the uv image, because the Miniforge base image alone is about 600 MB.
@@ -336,7 +386,7 @@ rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json .
 - The Mac lock. `explicit-osx-arm64.txt` doesn't install in a Linux container. Write a Linux lock first, as in Route A.
 +++ {"tags": ["track-mac"]}
 
-- Docker Desktop, Podman Desktop and the other Mac tools run a Linux VM. The VM's memory and disk come out of your machine's, and its settings set how much. On a Mac with Apple silicon, the containers are Linux on ARM, so they use the `linux-aarch64` lock.
+- Podman Desktop runs a Linux VM. Its memory and disk come out of your Mac's, and Podman Desktop's settings set how much. On Apple silicon, the containers are Linux on ARM, so they use the `linux-aarch64` lock.
 +++ {"tags": ["track-wsl2"]}
 
 - On Windows, keep the project in your WSL2 home, not under `/mnt/c`, and run the commands in the WSL2 terminal.
