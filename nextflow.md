@@ -342,7 +342,7 @@ PASS  A changed report.statistic reruns REPORT, and -resume takes the rest from 
 | One task at a time | `--cores 1` | Not needed here. The config can set `executor.cpus`. |
 | Where it's common | Research groups and bioinformatics, with Python-heavy code. Rules with wildcards run over many samples. | Bioinformatics and clinical pipelines, clusters and clouds. The [nf-core](https://nf-co.re/) community maintains pipelines in it, and a company, Seqera, maintains the tool. |
 | Scaling up | Executors and profiles for cluster schedulers and clouds. | Executors for SLURM and other schedulers, Kubernetes and the cloud batch services, switched by a config profile. |
-| Start-up | A Python process. | A Java virtual machine, about 3 seconds and 0.4 to 0.5 GB here before any work. |
+| Start-up | A Python process. | A Java virtual machine. One run of this workflow takes 2 to 4 seconds here, most of it starting Java, and peaks at 0.39 to 0.48 GB. |
 | Learn more | [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/) | [Nextflow documentation](https://docs.seqera.io/nextflow/), [Hello Nextflow](https://training.nextflow.io/latest/hello_nextflow/) |
 
 - The idea doesn't change. Each step names what it reads and what it writes, the tool knows what's stale, and one command rebuilds everything from the raw data.
@@ -352,7 +352,7 @@ PASS  A changed report.statistic reruns REPORT, and -resume takes the rest from 
 ## What we ran where
 
 - Recorded November 8, 2026, with Nextflow 26.10.5, OpenJDK 25.0.2 and Python 3.12.16 from the environment file above.
-- All three rows ran the whole current page by a script: the starter and its failing check, the three steps and the final check. Peak memory is the largest resident set of any process in the run, which is the Java virtual machine.
+- A script ran the whole current page on each machine: the starter and its failing check, the three steps and the final check. Peak memory is the largest resident set of any process in the run, which is the Java virtual machine.
 
 | Machine | Starter fails | Solution passes | Whole page | Peak memory |
 |---|---|---|---|---|

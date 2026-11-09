@@ -1,6 +1,6 @@
 # 2b. Workflows in Nextflow
 
-The same workflow as `../workflows.ipynb`, written for Nextflow instead of Snakemake. The instructions are in `../nextflow.md`, or on the site. There's no Binder for it. It runs on your own Linux, macOS or Windows (WSL2) machine.
+The same workflow as `../workflows.ipynb`, written for Nextflow instead of Snakemake. The instructions are in `../nextflow.md`, or on the site. There's no Binder for it. It runs on Linux, macOS, Windows (WSL2) or a cluster.
 
 - `environment.yml`: conda packages for this route, Nextflow and a Java runtime plus the Python packages the scripts need.
 - `main.nf`: the starting workflow, with three working processes. You add a fourth, `PLOT`.
