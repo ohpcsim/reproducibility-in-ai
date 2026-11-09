@@ -5,8 +5,9 @@
 set -eu
 
 store() (
+    env=$(cd "$1" && pwd)  # an absolute path, so a relative env still works after the cd
     cd "exercises/$2"
-    PATH="$1/bin:$PATH" jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 "$3"
+    PATH="$env/bin:$PATH" jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=600 "$3"
 )
 
 store "$1" 01-environments environments.ipynb

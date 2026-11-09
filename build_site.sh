@@ -18,11 +18,12 @@ mkdir -p _build/execute
 python3 tracks.py
 
 run_notebook() (
+    env=$(cd "$1" && pwd)  # an absolute path, so a relative env still works after the cd
     cd "$2"
     # Without a site: section, jupyter-book prints "No site configuration found" and runs nothing.
     printf 'version: 1\nproject:\n  toc:\n    - file: %s\nsite:\n  template: book-theme\n' "$3" > myst.yml
     trap 'rm -rf myst.yml _build' EXIT
-    PATH="$1/bin:$PATH" "$JUPYTER_BOOK" build --site --execute --strict
+    PATH="$env/bin:$PATH" "$JUPYTER_BOOK" build --site --execute --strict
     cp _build/execute/* "$ROOT/_build/execute/"
 )
 

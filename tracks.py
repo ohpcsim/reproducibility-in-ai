@@ -8,7 +8,7 @@ and blocks go to every track of the page. "site-only" keeps a Binder cell out of
 Binder panel, and "panel-only" puts a cell only in the panel.
 
 The first track listed for a page keeps the source's file name, so its URL doesn't change.
-The others get <name>-<track> next to it. Labels such as (route-b)= get -<track> on
+The others get <name>-<track> next to it. Labels such as (build-apptainer)= get -<track> on
 those copies, because MyST labels are site-wide.
 
 Usage:
