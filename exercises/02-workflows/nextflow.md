@@ -1,5 +1,5 @@
 ---
-title: Workflows in Nextflow
+title: 2b. Workflows in Nextflow
 ---
 
 - This page is optional. It redoes [2a. Snakemake](workflows.ipynb) in Nextflow, with the same data, the same scripts and the same result.

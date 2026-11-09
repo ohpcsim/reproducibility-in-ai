@@ -1,5 +1,5 @@
 ---
-title: PyTorch with a GPU
+title: 1c. PyTorch with a GPU
 ---
 
 - This is part 1c of [Exercise 1](../exercises/01-environments/environments.ipynb). It's optional, and none of the other exercises need it.

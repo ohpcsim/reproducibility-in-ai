@@ -1,5 +1,5 @@
 ---
-title: If you need a container
+title: 1c. If you need a container
 ---
 
 - This is step 3 of [1c, PyTorch with a GPU](gpu.md). It's optional, and none of the other exercises need it.
