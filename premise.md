@@ -108,7 +108,8 @@ The goal:
 **You don't have to choose one or the other**
 
 - Computational infrastructure is cattle. You can throw it away and replace it.
-- Your data and results are pets. Preserve them carefully.
+- Your data is a pet. Keep and version it.
+- Built files, such as figures and intermediate tables, are cattle. Rebuild them from the code and data.
 - Software environments are declarative definitions under version control.
 - Your research products (papers, code, data) are the pets. Everything that runs them is cattle.
 
