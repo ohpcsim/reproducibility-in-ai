@@ -128,7 +128,9 @@ pre code .hljs-string {
   color: var(--repro-code-string);
 }
 
-/* Each track ends at exercise 4. The footer doesn't lead into the next track's setup page, or back from it. */
+/* Each track ends at exercise 4. The footer doesn't lead into the next track's setup page, or back from it.
+   The Binder page (/setup) doesn't lead back to the results page, which is only before it in the sidebar. */
+a.myst-footer-link-prev[href$="/results"],
 a.myst-footer-link-next[href*="/setup-"],
 a.myst-footer-link-next[href$="/setup"],
 a.myst-footer-link-prev[href*="/registry"],
