@@ -80,26 +80,26 @@ cp metrics.json ../metrics-ex1.json
 - To get the digest for another image, use a machine with Podman:
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
-- To get the digest for another image, pull it, then print its digest:
+- To get the digest for another image, pull it, then list its digest:
 
 +++
 
 ```bash
 podman pull docker.io/library/ubuntu:24.04
-podman inspect --format '{{.Digest}}' docker.io/library/ubuntu:24.04
+podman images --digests docker.io/library/ubuntu
 ```
 
 +++ {"tags": ["track-linux", "track-wsl2", "track-hpc"]}
 
-- With Podman 4.9.3 on our ARM machine and in x86_64 WSL2, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest 1c's GPU recipe pins. Pin that digest. It covers every platform.
+- With Podman 4.9.3 on our ARM Linux machine, and with Podman 6.1.4 on a Mac, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest 1c's GPU recipe pins. Pin the DIGEST column's value. It covers every platform.
 
 +++ {"tags": ["track-mac"]}
 
-- On our Linux machines, ARM and x86_64, with Podman 4.9.3, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`. Pin that digest. It covers every platform.
+- With Podman 6.1.4 on a Mac, and with Podman 4.9.3 on our ARM Linux machine, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`. Pin the DIGEST column's value. It covers every platform.
 
 +++
 
-- Don't use `podman inspect --format '{{index .RepoDigests 0}}'`. On the ARM machine it printed a different digest, for the ARM image only.
+- `podman inspect` can print a single platform's digest on some machines. It did on a Mac, with Podman 6.1.4.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 

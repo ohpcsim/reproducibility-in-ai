@@ -32,15 +32,15 @@ title: 1c. If you need a container
 ```{literalinclude} repro-gpu.def
 ```
 
-- To get the digest for another image, pull it on a machine with Podman, then print its digest:
+- To get the digest for another image, pull it on a machine with Podman, then list its digest:
 
 ```bash
 podman pull docker.io/library/ubuntu:24.04
-podman inspect --format '{{.Digest}}' docker.io/library/ubuntu:24.04
+podman images --digests docker.io/library/ubuntu
 ```
 
-- With Podman 4.9.3 on our ARM machine and in x86_64 WSL2, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest in `repro-gpu.def`. Pin that digest. It covers every platform.
-- Don't use `podman inspect --format '{{index .RepoDigests 0}}'`. On the ARM machine it printed a different digest, for the ARM image only.
+- With Podman 4.9.3 on our ARM Linux machine, and with Podman 6.1.4 on a Mac, the DIGEST column showed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest in `repro-gpu.def`. Pin the DIGEST column's value. It covers every platform.
+- `podman inspect` can print a single platform's digest on some machines. It did on a Mac, with Podman 6.1.4.
 
 (gpu-build-apptainer)=
 ## Build and run with Apptainer
@@ -97,7 +97,7 @@ apptainer exec --bind /usr/lib/wsl --env LD_LIBRARY_PATH=/usr/lib/wsl/lib repro-
 +++ {"tags": ["track-linux", "track-hpc"]}
 
 - **Recorded November 8, 2026, on aarch64, NVIDIA GB10, Linux, with Apptainer 1.5.5.** The check passed with torch 2.14.1 and CUDA runtime 13.4, and printed checksum -4.8324e+05, the same as the conda route on this machine.
-- The build took 75 s and made a 3.9 GB SIF.
+- Two builds took 75 and 80 s, and each made a SIF of about 4 GB.
 
 +++ {"tags": ["track-hpc"]}
 
@@ -144,7 +144,7 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 
 | Step | aarch64, GB10, Linux |
 |---|---|
-| `apptainer build --fakeroot` from `repro-gpu.def` | Ran, and passed. Apptainer 1.5.5, 75 s, 3.9 GB SIF |
+| `apptainer build --fakeroot` from `repro-gpu.def` | Ran, and passed. Apptainer 1.5.5, 75 to 80 s, about 4 GB SIF |
 | `apptainer exec --nv` | Passed |
 | `apptainer build --reproducible`, twice | The hashes differed |
 
@@ -152,7 +152,7 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 
 | Step | aarch64, GB10, Linux | x86_64, RTX 3070, WSL2 |
 |---|---|---|
-| `apptainer build --fakeroot` from `repro-gpu.def` | Ran, and passed. Apptainer 1.5.5, 75 s, 3.9 GB SIF | Ran, and passed. Apptainer 1.4.5 |
+| `apptainer build --fakeroot` from `repro-gpu.def` | Ran, and passed. Apptainer 1.5.5, 75 to 80 s, about 4 GB SIF | Ran, and passed. Apptainer 1.4.5 |
 | `apptainer exec --nv` | Passed | Failed, as shown above |
 | `apptainer exec --bind /usr/lib/wsl` | Not needed | Passed |
 | `apptainer build --reproducible`, twice | The hashes differed | Not run, because Apptainer 1.4 doesn't have it |
