@@ -2,6 +2,11 @@
 title: How this site is built
 ---
 
+:::{figure} slides/how-built.png
+:alt: One repository holds the pages, notebooks, data, environment files and build scripts. Publishing: a push to main runs GitHub Actions, which builds each exercise's environment from its environment.yml; tracks.py writes each page's copy for Binder, Mac, Linux, WSL2 and HPC; Jupyter Book reruns every notebook and the results page, and a failing cell stops the build; GitHub Pages serves the site. Running: one branch per exercise, made by make_binder_branches.sh; mybinder.org's repo2docker builds an image from the same environment.yml and reuses it; learners get JupyterLab in the browser, or build the same environment on their own machine with conda or uv. Everything after the repository is rebuilt from it.
+How this site and its Binder sessions are built from one repository.
+:::
+
 ## What this site is
 
 - Exercises 1a, 2a, 3 and 4 are notebooks. They rerun when the site is published, so their output is real, but it's teaching output, not results. 1b, 1c and 2b show recorded output.
