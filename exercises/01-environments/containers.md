@@ -4,11 +4,21 @@ title: 1b. Environments in containers
 
 ## Who it's for
 
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
+
 - Anyone who wants to carry [Exercise 1](environments.ipynb)'s environment to another machine, such as a cluster.
+
++++ {"tags": ["track-hpc"]}
+
+- Anyone who wants to carry [Exercise 1](environments.ipynb)'s environment between clusters, or to a colleague's machine.
+
++++
+
 - It's optional, and none of the other exercises need it.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
 - You run it on your own machine, after Exercise 1, because the images are built from the locks you committed there.
+- 1b's commands take under a minute on a fast connection. They download about 380 MB, 270 MB of it the two base images, so on a slow connection the downloads take most of the time.
 
 +++ {"tags": ["track-hpc"]}
 
@@ -99,7 +109,7 @@ podman images --digests docker.io/library/ubuntu
 
 +++
 
-- `podman inspect` can print a single platform's digest on some machines. It did on a Mac, with Podman 6.1.4.
+- Don't use `podman inspect --format '{{.Digest}}'` for this. On a Mac with Podman 6.1.4, it printed a single platform's digest.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
@@ -192,7 +202,7 @@ diff ../metrics-ex1.json ../metrics-image-uv.json
 - The first `podman` command may print `"/" is not a shared mount, this could cause issues or missing mounts with rootless containers`. Our builds and runs worked with it.
 +++ {"tags": ["track-linux"]}
 
-- Rootless, Podman's conda build printed warnings such as `can't raise ambient capability CAP_CHOWN`. The build still succeeded.
+- Rootless, both Podman builds can print warnings such as `can't raise ambient capability CAP_CHOWN`. Ours did, and both builds still succeeded.
 
 +++ {"tags": ["track-hpc"]}
 
