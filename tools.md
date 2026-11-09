@@ -57,28 +57,26 @@ The workshop uses conda. Exercises 2, 3 and 4 also give the same steps with uv.
 
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
-| Docker | Builds and runs containers through a daemon. | [The GPU container page](gpu/container.md), and [1b](exercises/01-environments/containers.md) on the HPC track. Podman takes the same commands, and Docker Desktop needs a paid plan in larger organizations. | [Docker Docs](https://docs.docker.com/) | [Get started](https://docs.docker.com/get-started/) |
-| Podman | Builds and runs containers with no daemon, and without root. It takes the same commands and Dockerfiles as Docker. | [1b](exercises/01-environments/containers.md) and [the GPU container page](gpu/container.md). | [Podman documentation](https://docs.podman.io/en/latest/) | [Get started](https://podman.io/get-started), and the [rootless tutorial](https://github.com/podman-container-tools/podman/blob/main/docs/tutorials/rootless_tutorial.md) |
-| Apptainer | Runs containers on HPC systems, from one SIF file, as your own user. Formerly Singularity. | [1b](exercises/01-environments/containers.md) and [the GPU container page](gpu/container.md). | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
-| NVIDIA NGC | NVIDIA's catalog of GPU container images, including PyTorch. | [The container page](gpu/container.md), with a pre-built image. | [NGC documentation](https://docs.nvidia.com/ngc/) | [NGC catalog](https://catalog.ngc.nvidia.com) |
+| Podman | Builds and runs containers from Dockerfiles, with no daemon and without root. | [1b](exercises/01-environments/containers.md) on the Mac, Linux and WSL2 tracks. | [Podman documentation](https://docs.podman.io/en/latest/) | [Get started](https://podman.io/get-started), and the [rootless tutorial](https://github.com/podman-container-tools/podman/blob/main/docs/tutorials/rootless_tutorial.md) |
+| Apptainer | Runs containers on HPC systems, from one SIF file, as your own user. Formerly Singularity. | [1b](exercises/01-environments/containers.md) on the HPC track, and [the GPU container page](gpu/container.md). It builds from its own recipe, a `.def` file. | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
+| NVIDIA NGC | NVIDIA's catalog of GPU container images, including PyTorch. | Not used here. Its PyTorch images are an alternative to building your own on [the GPU container page](gpu/container.md). | [NGC documentation](https://docs.nvidia.com/ngc/) | [NGC catalog](https://catalog.ngc.nvidia.com) |
 
 ## Containers on shared machines
 
-- Docker runs a daemon, and using it usually needs root or membership in the `docker` group.
-- Shared HPC and lab machines don't give users either one.
-- Podman has no daemon and runs rootless. It accepts the same commands and Dockerfiles as Docker.
+- Shared HPC and lab machines don't give users root.
+- Podman has no daemon and runs rootless. It builds from Dockerfiles.
 - Apptainer is the HPC standard. A container is one SIF file, it runs as your user, and there's no daemon.
 - Apptainer is the original Singularity project, renamed when it joined the Linux Foundation, and it still provides a `singularity` command. Sylabs' separate fork, SingularityCE, reached end of life on October 25, 2026, and [its repository](https://github.com/sylabs/singularity) is archived. If your site still says Singularity, use Apptainer. ([CIQ's announcement](https://ciq.com/blog/singularityce-end-of-life-apptainer))
-- A container that needs the GPU gets it through NVIDIA's tools: `--gpus all` in Docker, a CDI spec in Podman, and `--nv` in Apptainer. ([NVIDIA's CDI guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html))
+- A container that needs the GPU gets the host's NVIDIA driver through Apptainer's `--nv`.
 
 - We cover Linux containers. They need a Linux kernel, so a Mac or Windows PC runs them in a VM.
 
 | Where you are | What to use | Why | What we ran |
 |---|---|---|---|
 | Your Mac | Podman Desktop | It runs a small Linux VM. (Darwin containers such as [rund](https://github.com/darwin-containers/rund) run macOS software natively; not covered here) | Podman 6.1.4 through Podman Desktop (libkrun VM, 5 CPU, 2 GiB), macOS arm64 |
-| Your Windows PC | Podman inside WSL2 | WSL2 provides the Linux kernel | Rootless Podman 4.9.3 in WSL2, x86_64 |
-| Your own Linux machine | Podman. Docker and Apptainer work too | You have root, so any of them works | Rootless Podman 4.9.3, aarch64 |
-| A shared Linux machine, without root | Podman (rootless) or Apptainer | Neither needs root or a daemon | Rootless Podman and Apptainer, without sudo, on the aarch64 machine. It isn't shared |
+| Your Windows PC | Podman inside WSL2 for 1b, Apptainer for 1c | WSL2 provides the Linux kernel | Rootless Podman 4.9.3 and Apptainer 1.4.5 in WSL2, x86_64 |
+| Your own Linux machine | Podman for 1b, Apptainer for 1c | Both run as you, with no daemon. Apptainer reaches the GPU with `--nv` | Rootless Podman 4.9.3 and Apptainer 1.5.5, aarch64 |
+| A shared Linux machine, without root | Apptainer, for 1b and 1c | It needs no root or daemon | Apptainer 1.5.5, without sudo, on the aarch64 machine. It isn't shared |
 | An HPC cluster | Apptainer | It runs as you, with no daemon. The image is one SIF file, with no registry needed. It works with the scheduler, MPI and GPUs | Not run |
 | Binder | None | The session is already a container | Nothing to run |
 

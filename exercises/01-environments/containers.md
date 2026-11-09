@@ -22,18 +22,11 @@ title: Environments in containers
 
 ## Apptainer on the cluster
 
-- Apptainer runs the containers on the cluster. Route B builds the two SIF files there, with Apptainer's `--fakeroot`.
-- If your center doesn't allow `--fakeroot`, use From A to B. You build the images with Route A where you have root, copy them to the cluster as files, and convert them to SIF files there.
-
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
-
-## Get ready
-
-+++ {"tags": ["track-hpc"]}
-
-## Get ready, for every route
+- Apptainer builds and runs the containers on the cluster. You build two SIF files from Apptainer's own recipes, the `.def` files, with `--fakeroot`.
 
 +++
+
+## Get ready
 
 - Do [Exercise 1](environments.ipynb) in your own terminal, not in Binder, so `project` has both locks committed.
 - Every command below runs in that `project` folder. The recipes are in `containers`, next to it.
@@ -59,20 +52,32 @@ cp metrics.json ../metrics-ex1.json
 - The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
 +++ {"tags": ["track-hpc"]}
 
-- An image is the built container. You build it once from a recipe: a `Dockerfile` for Docker and Podman, or a `.def` file for Apptainer.
-- Both kinds of recipe do the same steps. The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
+- An image is the built container. Apptainer builds it once from a recipe, a `.def` file, into one SIF file.
+- The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
+- The Mac, Linux and WSL2 tracks build the same images with Podman, from Dockerfiles in the same folder. A `.def` and its Dockerfile declare the same steps for two different tools, and our runs show they give the same results.
 
 +++
 - A container is Linux, even on a Mac or Windows PC. So the conda image needs a Linux lock: `explicit-linux-64.txt` on x86_64 or `explicit-linux-aarch64.txt` on ARM. One `uv.lock` builds on both.
 - A tag such as `miniforge3:26.9.4-2` can move, and a sha256 digest can't. Every recipe pins its base image by digest. Each digest covers x86_64 and ARM, and the tool pulls the one for your machine.
 +++ {"tags": ["track-hpc"]}
 
-- To get a digest for another image, run `docker pull`, then `docker inspect --format '{{index .RepoDigests 0}}' IMAGE`.
+- Each `.def` file's `From:` line pins its base image by digest, the same digest as its Dockerfile.
+- To get the digest for another image, use a machine with Podman:
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
-- To get a digest for another image, run `podman pull`, then `podman inspect --format '{{index .RepoDigests 0}}' IMAGE`.
+- To get the digest for another image, pull it, then print its digest:
 
 +++
+
+```bash
+podman pull docker.io/library/ubuntu:24.04
+podman inspect --format '{{.Digest}}' docker.io/library/ubuntu:24.04
+```
+
+- With Podman 4.9.3 on our ARM machine, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest 1c's GPU recipe pins. Pin that digest. It covers every platform.
+- Don't use `podman inspect --format '{{index .RepoDigests 0}}'`. On the same machine it printed a different digest, for the ARM image only.
+
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
 `containers/Dockerfile.conda`:
 
@@ -88,8 +93,12 @@ cp metrics.json ../metrics-ex1.json
 
 +++ {"tags": ["track-hpc"]}
 
+`containers/penguins-conda.def`:
+
 ```{literalinclude} containers/penguins-conda.def
 ```
+
+`containers/penguins-uv.def`:
 
 ```{literalinclude} containers/penguins-uv.def
 ```
@@ -103,14 +112,6 @@ cp metrics.json ../metrics-ex1.json
 +++ {"tags": ["track-hpc"]}
 
 - The uv image doesn't start with `uv run`. Under Apptainer, which runs in your folder, `uv run` found the project's own `.venv` and used it instead of the container's environment.
-
-+++ {"tags": ["track-hpc"]}
-
-## Route A: your own machine, Docker or Podman
-
-- Do this on a machine where you have root, with Docker or Podman, for From A to B.
-- The commands are the same with `podman`: write `podman` where this says `docker`.
-- On Linux, `docker` needs root or membership in the `docker` group. Podman runs rootless, with no daemon.
 
 +++ {"tags": ["track-mac"]}
 
@@ -129,7 +130,7 @@ cp metrics.json ../metrics-ex1.json
 - Install Podman as [Set up your environment](../../setup.md#container-tool) says. Podman runs rootless, as you, with no daemon. Don't use `sudo` with these commands.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
-- Docker Desktop needs a paid plan in larger organizations. Podman is free and open source, runs without root or a daemon, and takes the same commands.
+- Podman is free and open source, and runs without root or a daemon.
 
 +++ {"tags": ["track-mac"]}
 
@@ -145,19 +146,6 @@ git commit -m "Lock the conda environment for Linux on ARM"
 - That's a new solve from `environment.yml`, so compare its versions with your Mac lock.
 - With Podman 6.1.4 on a Mac with Apple silicon, it wrote the same 38 packages as the lock from Linux on ARM.
 
-+++ {"tags": ["track-hpc"]}
-
-**Build, run and compare:**
-
-```bash
-docker build -f ../containers/Dockerfile.conda -t penguins-conda:v1 .
-docker build -f ../containers/Dockerfile.uv -t penguins-uv:v1 .
-docker run --rm penguins-conda:v1 > ../metrics-image-conda.json
-docker run --rm penguins-uv:v1 > ../metrics-image-uv.json
-diff ../metrics-ex1.json ../metrics-image-conda.json
-diff ../metrics-ex1.json ../metrics-image-uv.json
-```
-
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
 **Build, run and compare:**
@@ -171,7 +159,7 @@ diff ../metrics-ex1.json ../metrics-image-conda.json
 diff ../metrics-ex1.json ../metrics-image-uv.json
 ```
 
-+++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
 - `analyze.py` prints the same JSON it writes to `metrics.json`, so each run's file is the container's `metrics.json`.
 - `diff` prints nothing when the files match exactly. That's the check.
@@ -182,14 +170,14 @@ diff ../metrics-ex1.json ../metrics-image-uv.json
 +++ {"tags": ["track-wsl2"]}
 
 - The first `podman` command may print `"/" is not a shared mount, this could cause issues or missing mounts with rootless containers`. Our builds and runs worked with it.
-+++ {"tags": ["track-linux", "track-hpc"]}
++++ {"tags": ["track-linux"]}
 
 - Rootless, Podman's conda build printed warnings such as `can't raise ambient capability CAP_CHOWN`. The build still succeeded.
 
 +++ {"tags": ["track-hpc"]}
 
-(route-b)=
-## Route B: Apptainer
+(build-apptainer)=
+## Build and run with Apptainer
 
 - Apptainer runs as you, in your current folder, with no daemon.
 - If your site has it as a module, load it first, for example `module load apptainer`. Your center's documentation names it.
@@ -201,8 +189,9 @@ apptainer build --fakeroot ../penguins-conda.sif ../containers/penguins-conda.de
 apptainer build --fakeroot ../penguins-uv.sif ../containers/penguins-uv.def
 ```
 
-- Optional: with Apptainer 1.5 or newer, add `--reproducible` to `apptainer build`. Apptainer 1.4 doesn't have it.
-- If the build stops because `--fakeroot` isn't allowed, use [From A to B](#from-a-to-b).
+- If the build stops because `--fakeroot` isn't allowed, build the SIF files on a machine where it works, with the same architecture as the cluster, and copy them over.
+- Every build stamps a new ID and build time into the SIF, so the hash changes each time.
+- Optional: with Apptainer 1.5 or newer, add `--reproducible` to `apptainer build`. Apptainer 1.4 doesn't have it. With it, two builds of the uv `.def` gave the same sha256 on our machine.
 
 **Run and compare:**
 
@@ -218,37 +207,7 @@ sha256sum ../penguins-*.sif
 - `diff` prints nothing when the files match exactly.
 - A SIF is one file. Copy it to another machine and run it there with the same `apptainer exec` command.
 - On a cluster, run it in a job, the same way you run any program.
-
-+++ {"tags": ["track-hpc"]}
-
-(from-a-to-b)=
-## From A to B: build where you have root, run on the cluster
-
-- Converting an image to a SIF doesn't need `--fakeroot`.
-- The image has to match the cluster's architecture, usually x86_64. On an Apple-silicon Mac, or any ARM machine, add `--platform linux/amd64` to each `docker build`. The conda image then needs `explicit-linux-64.txt`, the conda lock for x86_64 Linux. Write it with Exercise 1's steps on an x86_64 Linux machine. We haven't run `--platform linux/amd64` on a Mac.
-
-**On your machine**, build the images as in Route A, then save each one to a file:
-
-```bash
-docker save -o ../penguins-conda.tar penguins-conda:v1
-docker save -o ../penguins-uv.tar penguins-uv:v1
-```
-
-- With Podman, save with `podman save --format docker-archive -o ...`.
-- Copy the two `.tar` files to the folder next to your `project` on the cluster, for example with `scp`.
-
-**On the cluster**, convert each file to a SIF:
-
-```bash
-apptainer build --force ../penguins-conda.sif docker-archive://../penguins-conda.tar
-apptainer build --force ../penguins-uv.sif docker-archive://../penguins-uv.tar
-```
-
-- `--force` writes over the SIF files from Route B, if you made them.
-- Then run and compare as in [Route B](#route-b).
-- Every build stamps a new ID and build time into the SIF, so the hash changes each time.
-- With Apptainer 1.5 or newer, `apptainer build --reproducible` gives the same hash every time.
-- Either way, record the hash of the SIF you run.
+- Record the `sha256sum` of the SIF you run.
 
 +++
 
@@ -260,7 +219,7 @@ apptainer build --force ../penguins-uv.sif docker-archive://../penguins-uv.tar
 - **NVIDIA DGX Spark, aarch64, Ubuntu 24.04.5, Linux 7.0.0, with Podman 4.9.3 rootless.** Recorded November 8, 2026. The locks were `explicit-linux-aarch64.txt` and `uv.lock`, from Exercise 1 on that machine. We have root there, but ran Podman without sudo.
 +++ {"tags": ["track-hpc"]}
 
-- **NVIDIA DGX Spark, aarch64, Ubuntu 24.04.5, Linux 7.0.0, with Docker 29.6.2, Podman 4.9.3 rootless and Apptainer 1.5.5.** Recorded November 8, 2026. The locks were `explicit-linux-aarch64.txt` and `uv.lock`, from Exercise 1 on that machine. We have root there, but ran Podman and Apptainer without sudo.
+- **NVIDIA DGX Spark, aarch64, Ubuntu 24.04.5, Linux 7.0.0, with Apptainer 1.5.5.** Recorded November 8, 2026. The locks were `explicit-linux-aarch64.txt` and `uv.lock`, from Exercise 1 on that machine. We have root there, but ran Apptainer without sudo.
 +++ {"tags": ["track-mac"]}
 
 - **A Mac with Apple silicon, with Podman Desktop and Podman 6.1.4.** Recorded November 8, 2026. The locks were `explicit-linux-aarch64.txt`, written there with this page's Linux-lock step and identical to the lock from Linux on ARM, and `uv.lock` from Exercise 1 on the Mac.
@@ -309,14 +268,12 @@ apptainer build --force ../penguins-uv.sif docker-archive://../penguins-uv.tar
 
 +++ {"tags": ["track-hpc"]}
 
-| Route | Machine | conda | uv |
+| Tool | Machine | conda | uv |
 |---|---|---|---|
-| B, Apptainer `--fakeroot` | DGX Spark, aarch64 Linux | Ran and matched. 320 MB SIF, 21 s build | Ran and matched. 87 MB SIF, 5 s build |
-| B | An HPC cluster | Not run | Not run |
-| From A to B, Docker's or Podman's image | DGX Spark, aarch64 Linux, both ends | Ran and matched. 320 MB SIF, 20 to 28 s to save and convert | Ran and matched. 87 MB SIF, 5 to 7 s to save and convert |
+| Apptainer `--fakeroot`, from the `.def` files | DGX Spark, aarch64 Linux | Ran and matched. 320 MB SIF, 21 s build | Ran and matched. 87 MB SIF, 5 s build |
+| Apptainer `--fakeroot`, from the `.def` files | An HPC cluster | Not run | Not run |
 
 - Build times include pulling the base image. They depend on your network.
-- Our From A to B run built and converted on the same machine, so the architecture already matched.
 
 +++
 
@@ -334,13 +291,11 @@ rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json
 +++ {"tags": ["track-hpc"]}
 
 ```bash
-rm -f ../penguins-conda.tar ../penguins-uv.tar ../penguins-conda.sif ../penguins-uv.sif
-rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json ../metrics-sif-conda.json ../metrics-sif-uv.json
+rm -f ../penguins-conda.sif ../penguins-uv.sif
+rm -f ../metrics-ex1.json ../metrics-sif-conda.json ../metrics-sif-uv.json
 ```
 
-- `rm -f` skips the files your route didn't make.
-- If you used Route A or From A to B, remove the images on the machine where you built them, with `docker rmi penguins-conda:v1 penguins-uv:v1` or `podman rmi penguins-conda:v1 penguins-uv:v1`.
-- The base images stay. `docker image ls` or `podman image ls` lists them, and `apptainer cache clean` empties Apptainer's cache.
+- The base images stay in Apptainer's cache. `apptainer cache clean` empties it.
 
 +++
 
@@ -355,13 +310,13 @@ rm -f ../metrics-ex1.json ../metrics-image-conda.json ../metrics-image-uv.json .
 - Disk space. The two images took 1.3 GB. Podman keeps images in your WSL2 home, under `~/.local/share/containers`.
 +++ {"tags": ["track-hpc"]}
 
-- Disk space. The two images took 1.3 GB, the files saved from them another 1.3 GB, and the two SIF files 0.4 GB. The conda image is almost four times the uv image, because the Miniforge base image alone is about 600 MB.
-+++ {"tags": ["track-linux", "track-hpc"]}
+- Disk space. The two SIF files took 0.4 GB, and Apptainer's cache in your home folder keeps the base images, so check your quota. The conda SIF is almost four times the uv SIF, because of the Miniforge base image.
++++ {"tags": ["track-linux"]}
 
 - Rootless Podman keeps images in your home folder, under `~/.local/share/containers`, so check your quota.
 +++ {"tags": ["track-hpc"]}
 
-- `--fakeroot`. Building a SIF from a `.def` file needs it, and some centers don't allow it. Converting an image doesn't, so use From A to B.
+- `--fakeroot`. Building a SIF from a `.def` file needs it, and some centers don't allow it. Then build the SIF where it works and copy it over.
 +++ {"tags": ["track-mac"]}
 
 - The Mac lock. `explicit-osx-arm64.txt` doesn't install in a Linux container. Write a Linux lock first, with the Linux-lock step above.

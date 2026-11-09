@@ -1,4 +1,4 @@
-# The same steps as the Dockerfile, for a machine with Apptainer and no Docker.
+# Apptainer's recipe for the 1c GPU image, built from your conda lock in lock.txt.
 Bootstrap: docker
 From: ubuntu@sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852
 

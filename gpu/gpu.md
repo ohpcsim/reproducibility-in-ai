@@ -204,28 +204,17 @@ If the check fails:
 ## Step 3: containers
 
 - A container carries the whole stack, apart from the driver, to the next system.
-+++ {"tags": ["track-linux"]}
-
-- [The container page](container.md) builds an image from your conda lock with Docker or Podman, converts it to an Apptainer SIF for a cluster, and runs the same check inside.
-+++ {"tags": ["track-hpc"]}
-
-- [The container page](container.md) builds an image from your conda lock with Docker and converts it to an Apptainer SIF for the cluster, or builds the SIF with Apptainer alone, and runs the same check inside.
+- [The container page](container.md) builds an Apptainer SIF from your conda lock with a `.def` file, and runs the same check inside.
 +++ {"tags": ["track-wsl2"]}
 
-- [The container page](container.md) builds an Apptainer SIF from your conda lock with a `.def` file, and runs the same check inside.
-
 - On WSL2, Apptainer's `--nv` doesn't reach the GPU. [The WSL2 section](container.md#on-wsl2) has the fix, `--bind /usr/lib/wsl`.
-+++ {"tags": ["track-linux"]}
-
-- Rootless Podman 4.9 can't read the GPU spec that NVIDIA's current toolkit writes. [The admin fix](container.md#podman-admin-fix) needs root once.
-
 +++
 
 ## Which to use
 
 - Use conda when you need CUDA and system libraries managed as packages. Lock each platform.
 - Use uv when the machine's driver is right and you only need Python packages. One lock covers every platform, with per-platform entries inside it.
-- Use a container to carry the whole stack to a cluster. Build it from a lock, and record its digest or the SIF's hash.
+- Use a container to carry the whole stack to a cluster. Build it from a lock, and record the SIF's hash.
 
 | Route | aarch64, GB10, Linux | x86_64, RTX 3070, WSL2 |
 |---|---|---|

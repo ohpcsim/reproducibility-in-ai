@@ -7,198 +7,63 @@ title: If you need a container
 - There's no Binder for it.
 
 - A container carries your software to the next system.
-+++ {"tags": ["track-linux", "track-hpc"]}
-
-- A tag such as `ubuntu:24.04` can move, and a sha256 digest can't, so this file pins the base image by digest and the installer by version.
-- The digest is for a multi-architecture image, and Docker pulls the right one for your machine.
-- `uname -m` picks the matching installer.
-+++
-
 - The environment comes from your lock, so the container has exactly what you tested.
 - You need about 20 GB of free disk.
 
-+++ {"tags": ["track-linux", "track-hpc"]}
+## The recipe
 
-```{literalinclude} Dockerfile
-:language: dockerfile
-```
+- Apptainer builds the image from its own recipe, a `.def` file, into one SIF file.
+- [1b](../exercises/01-environments/containers.md) builds with Podman from Dockerfiles on the Mac, Linux and WSL2 tracks. A `.def` and a Dockerfile declare the same steps for two different tools, and our runs show they give the same results.
+- A tag such as `ubuntu:24.04` can move, and a sha256 digest can't, so `repro-gpu.def` pins the base image by digest and the installer by version.
+- The digest is for a multi-architecture image, and Apptainer pulls the right one for your machine.
+- `uname -m` picks the matching installer.
 
-- To get a digest for another image, run `docker pull`, then `docker inspect --format '{{index .RepoDigests 0}}' IMAGE`.
-
-+++ {"tags": ["track-linux", "track-hpc"]}
-
-(with-docker-and-apptainer)=
-## With Docker and Apptainer
-
-- Most HPC centers run Apptainer rather than Docker.
-- So build with Docker on a machine you control, with the same architecture as your cluster, then save the image to one file.
-
-From the `gpu` folder, with your `lock.txt` in it:
-
-```bash
-docker build -t repro-gpu:v1 .
-docker run --rm --gpus all repro-gpu:v1
-docker save -o repro-gpu.tar repro-gpu:v1
-```
-
-- `docker run --gpus all` needs NVIDIA's container toolkit on that machine.
-- Copy `repro-gpu.tar` to your cluster and convert it to a SIF, a single file you can hash and move.
-- Build one per architecture.
-- On a GPU node, run the same check.
-- The `--nv` flag brings in the host's NVIDIA driver, the one thing the container doesn't carry.
-
-```bash
-apptainer build --force repro-gpu.sif docker-archive://repro-gpu.tar
-sha256sum repro-gpu.sif
-apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py
-```
-
-- Every build stamps a new ID and build time into the SIF, so the hash changes each time.
-- With Apptainer 1.5 or newer, `apptainer build --reproducible` gives the same hash every time.
-- Either way, record the hash of the SIF you run.
-
-- **Recorded November 7, 2026, on aarch64, NVIDIA GB10, driver 580.178.04, Linux, with Apptainer 1.5.5.** The conda route on this machine gave the same checksum.
-- That's the check, not the time.
-
-```text
-torch           2.14.1
-cuda runtime    13.4
-cuda available  True
-device          NVIDIA GB10
-capability      (12, 1)
-matmul 4096^2   0.0962 s, checksum -4.8324e+05
-host            Linux-7.0.0-1024-nvidia-aarch64-with-glibc2.39
-```
-
-+++ {"tags": ["track-linux"]}
-
-## With Podman
-
-- Use this on a shared Linux machine where you don't have root and can't use Docker.
-- Podman has no daemon and runs rootless, and it builds from the same Dockerfile with the same commands.
-- Rootless Podman keeps images in your home folder, under `~/.local/share/containers`. Our image was 6.8 GB and the saved file 6.4 GB, so check your quota.
-- [Tools and documentation](../tools.md#containers-on-shared-machines) says which container tool to use where.
-
-From the `gpu` folder, with your `lock.txt` in it:
-
-```bash
-podman build -t repro-gpu:v1 .
-podman run --rm --device nvidia.com/gpu=all repro-gpu:v1
-podman save --format docker-archive -o repro-gpu-podman.tar repro-gpu:v1
-```
-
-- The file has its own name, because `podman save` won't write over Docker's `repro-gpu.tar`.
-
-- `--device nvidia.com/gpu=all` asks for the GPU through CDI, the Container Device Interface.
-- It needs a CDI spec that an administrator makes with `nvidia-ctk cdi generate`, in `/etc/cdi` or `/var/run/cdi`. ([NVIDIA's CDI guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html))
-- `nvidia-ctk cdi list` shows the devices the spec names.
-- Then convert Podman's file to a SIF and run it:
-
-```bash
-apptainer build --force repro-gpu.sif docker-archive://repro-gpu-podman.tar
-sha256sum repro-gpu.sif
-apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py
-```
-
-- **Recorded November 8, 2026, on aarch64, NVIDIA GB10, driver 580.178.04, Ubuntu 24.04, with Podman 4.9.3 rootless and Apptainer 1.5.5.**
-- `podman build` and `podman save` worked.
-- `podman run` with the GPU didn't. The machine's CDI spec came from NVIDIA Container Toolkit 1.20.1 in CDI format 0.7.0, and Podman 4.9.3 couldn't read it:
-
-```text
-Error: setting up CDI devices: unresolvable CDI devices nvidia.com/gpu=all
-```
-
-- `podman --log-level=debug run ...` shows the reason, `json: unknown field "additionalGids"`.
-- [The admin fix below](#podman-admin-fix) needs root. Without it, `podman run` with the GPU fails this way on Podman 4.9.
-- Without `--device`, the container runs, and the check fails as it should when there's no GPU:
-
-```text
-torch           2.14.1
-cuda runtime    13.4
-cuda available  False
-FAIL: CUDA is not available; this route did not reach the GPU
-```
-
-- The SIF converted from Podman's file reached the GPU with `apptainer exec --nv`. The conda route on this machine gave the same checksum.
-
-```text
-torch           2.14.1
-cuda runtime    13.4
-cuda available  True
-device          NVIDIA GB10
-capability      (12, 1)
-matmul 4096^2   0.0914 s, checksum -4.8324e+05
-host            Linux-7.0.0-1024-nvidia-aarch64-with-glibc2.39
-```
-
-- So without the fix, Podman built the image and Apptainer ran it on the GPU.
-
-(podman-admin-fix)=
-### The admin fix for Podman 4.9
-
-- On Ubuntu 24.04, Podman is 4.9.3.
-- NVIDIA Container Toolkit 1.20 writes a CDI spec in version 0.7.0, and Podman 4.9 can't read it.
-- An administrator can make the toolkit write an older spec instead. It takes one systemd drop-in for `nvidia-cdi-refresh.service`, then a restart of that service.
-- This needs root. We applied it on our machine, checked it, then removed it again, so our later runs failed with `unresolvable CDI devices nvidia.com/gpu=all`:
-
-```bash
-sudo mkdir -p /etc/systemd/system/nvidia-cdi-refresh.service.d
-printf '[Service]\nEnvironment=NVIDIA_CTK_CDI_GENERATE_FEATURE_FLAGS=no-additional-gids-for-device-nodes\n' | sudo tee /etc/systemd/system/nvidia-cdi-refresh.service.d/50-podman4-compat.conf
-sudo systemctl daemon-reload
-sudo systemctl restart nvidia-cdi-refresh.service
-```
-
-- With the drop-in, the toolkit wrote a spec in version 0.5.0, which Podman 4.9 read.
-- The side effect is that containers no longer got the `video` and `render` groups for the display devices. CUDA uses `/dev/nvidia*`, so it wasn't affected.
-- Podman 5 reads the 0.7.0 spec directly, so it shouldn't need the drop-in. We didn't test Podman 5.
-
-- **Recorded November 8, 2026, on the same machine, after the fix, with rootless Podman 4.9.3.**
-- We ran only `nvidia-smi -L` this way, not the workshop's GPU check.
-
-```bash
-podman run --rm --device nvidia.com/gpu=all docker.io/library/ubuntu:24.04 nvidia-smi -L
-```
-
-```text
-GPU 0: NVIDIA GB10
-```
-
-+++
-
-## With Apptainer and no Docker
-
-- If you don't have Docker, this definition file does the same steps.
-- It needs Apptainer's `--fakeroot`, which your center may or may not allow.
-
-From the `gpu` folder, with your `lock.txt` in it:
+`repro-gpu.def`:
 
 ```{literalinclude} repro-gpu.def
 ```
 
+- To get the digest for another image, pull it on a machine with Podman, then print its digest:
+
+```bash
+podman pull docker.io/library/ubuntu:24.04
+podman inspect --format '{{.Digest}}' docker.io/library/ubuntu:24.04
+```
+
+- With Podman 4.9.3 on our ARM machine, that printed `sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852`, the digest in `repro-gpu.def`. Pin that digest. It covers every platform.
+- Don't use `podman inspect --format '{{index .RepoDigests 0}}'`. On the same machine it printed a different digest, for the ARM image only.
+
+(gpu-build-apptainer)=
+## Build and run with Apptainer
+
+- The build needs Apptainer's `--fakeroot`, which your center may or may not allow. If it doesn't, build the SIF on a machine where it works, with the same architecture as the cluster, and copy it over.
+- Build one SIF per architecture.
+
+From the `gpu` folder, with your `lock.txt` in it:
+
 ```bash
 apptainer build --fakeroot --force repro-gpu.sif repro-gpu.def
+sha256sum repro-gpu.sif
 apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py
 ```
 
-- Optional: with Apptainer 1.5 or newer, add `--reproducible` to `apptainer build`. Apptainer 1.4 doesn't have it.
+- The `--nv` flag brings in the host's NVIDIA driver, the one thing the container doesn't carry.
++++ {"tags": ["track-hpc"]}
 
+- On a cluster, run the check on a GPU node.
++++ {"tags": ["track-wsl2"]}
+
+- On WSL2, `--nv` alone doesn't reach the GPU. Run the check with the command in [On WSL2](#on-wsl2) instead.
++++
+
+- Every build stamps a new ID and build time into the SIF, so the hash changes each time.
+- Optional: with Apptainer 1.5 or newer, add `--reproducible` to `apptainer build`. Apptainer 1.4 doesn't have it.
+- `--reproducible` gave the same sha256 twice for 1b's small uv image. For this image, two builds still gave different hashes, because files such as the apt and dpkg logs, conda's history and the ldconfig cache change on every build.
+- Either way, record the `sha256sum` of the SIF you run.
 +++ {"tags": ["track-linux", "track-hpc"]}
 
-## With a pre-built image
-
-- You don't have to build your own.
-- NVIDIA's [NGC catalog](https://catalog.ngc.nvidia.com) has PyTorch images with CUDA already configured, and they're tested by NVIDIA.
-- Pick a tag recent enough for your GPU, then record and use its digest rather than the tag, the same way as above.
-- Run the same check on it.
-- We did not run this one, so treat these commands as a starting point.
-
-```bash
-docker pull nvcr.io/nvidia/pytorch:YY.MM-py3
-docker inspect --format '{{index .RepoDigests 0}}' nvcr.io/nvidia/pytorch:YY.MM-py3
-apptainer pull ngc-pytorch.sif docker://nvcr.io/nvidia/pytorch@sha256:THE_DIGEST
-sha256sum ngc-pytorch.sif
-apptainer exec --nv ngc-pytorch.sif python verify_gpu.py
-```
+- **Recorded November 8, 2026, on aarch64, NVIDIA GB10, Linux, with Apptainer 1.5.5.** The check passed with torch 2.14.1 and CUDA runtime 13.4, and printed checksum -4.8324e+05, the same as the conda route on this machine.
+- The build took 75 s and made a 3.9 GB SIF.
 
 +++ {"tags": ["track-wsl2"]}
 
@@ -242,45 +107,11 @@ host            Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
 (gpu-what-we-ran-where)=
 ## What we ran where
 
-+++ {"tags": ["track-linux"]}
-
 | Step | aarch64, GB10, Linux | x86_64, RTX 3070, WSL2 |
 |---|---|---|
-| `docker build`, `docker run --gpus all`, `docker save` | Ran, and passed | Not run, because this machine has no Docker |
-| `apptainer build` from `docker-archive://` | Ran, and passed | Not run, because it needs the Docker file |
-| `podman build`, `podman save`, rootless | Ran, and passed | Not run |
-| `podman run --device nvidia.com/gpu=all`, before the admin fix | Failed, because Podman 4.9.3 couldn't read the CDI spec | Not run |
-| `podman run --device nvidia.com/gpu=all ... nvidia-smi -L`, after the admin fix | Ran, and printed `GPU 0: NVIDIA GB10` | Not run |
-| The GPU check under `podman run --device nvidia.com/gpu=all` | Not run | Not run |
-| `podman run` without the GPU | Ran, and the check failed as expected | Not run |
-| `apptainer build` from Podman's `docker-archive://`, then `apptainer exec --nv` | Ran, and passed | Not run |
-| `apptainer build --fakeroot` from `repro-gpu.def` | Ran, and passed | Ran, and passed |
+| `apptainer build --fakeroot` from `repro-gpu.def` | Ran, and passed. Apptainer 1.5.5, 75 s, 3.9 GB SIF | Ran, and passed. Apptainer 1.4.5 |
 | `apptainer exec --nv` | Passed | Failed, as shown above |
 | `apptainer exec --bind /usr/lib/wsl` | Not needed | Passed |
+| `apptainer build --reproducible`, twice | The hashes differed | Not run, because Apptainer 1.4 doesn't have it |
 
-- So the `docker-archive://` route, from Docker or Podman, has only run on aarch64.
-+++ {"tags": ["track-wsl2", "track-hpc"]}
-
-| Step | aarch64, GB10, Linux | x86_64, RTX 3070, WSL2 |
-|---|---|---|
-| `docker build`, `docker run --gpus all`, `docker save` | Ran, and passed | Not run, because this machine has no Docker |
-| `apptainer build` from `docker-archive://` | Ran, and passed | Not run, because it needs the Docker file |
-| `apptainer build --fakeroot` from `repro-gpu.def` | Ran, and passed | Ran, and passed |
-| `apptainer exec --nv` | Passed | Failed, as shown above |
-| `apptainer exec --bind /usr/lib/wsl` | Not needed | Passed |
-
-- So the `docker-archive://` route, from Docker, has only run on aarch64.
-+++
-
-- We expect it to work on x86_64 too, because the Dockerfile picks its installer with `uname -m` and the base image's digest covers both architectures, but we haven't run it there.
-
-- When you're done, remove what you made.
-+++ {"tags": ["track-linux"]}
-
-- `docker rmi repro-gpu:v1` or `podman rmi repro-gpu:v1` removes the image, and `rm -f repro-gpu.tar repro-gpu-podman.tar repro-gpu.sif` removes the files.
-+++ {"tags": ["track-hpc"]}
-
-- `docker rmi repro-gpu:v1` removes the image, and `rm -f repro-gpu.tar repro-gpu.sif` removes the files.
-+++ {"tags": ["track-wsl2"]}
-
-- `rm repro-gpu.sif` removes the SIF.
+- When you're done, `rm -f repro-gpu.sif` removes the SIF, and `apptainer cache clean` empties Apptainer's cache.
