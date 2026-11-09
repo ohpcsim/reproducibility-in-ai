@@ -148,7 +148,7 @@ conda run -n repro-gpu python verify_gpu.py
 **Facts**
 
 - On PyPI, `torch` for Linux comes with one CUDA version, which PyTorch picks for each release.
-- PyTorch's own index, `download.pytorch.org`, has one index per CUDA version, so you pick. `cu130` is CUDA 13.0.
+- PyTorch's own server, `download.pytorch.org`, has one package index per CUDA version, so you pick the CUDA version. `cu130` is CUDA 13.0.
 - `[[tool.uv.index]]` names that index. `explicit = true` means uv uses it only for packages that point to it.
 - `[tool.uv.sources]` points `torch` at that index on Linux. On macOS and Windows, `torch` comes from PyPI, and it has no CUDA there.
 - The wheels carry the CUDA runtime libraries, as `nvidia-*` packages such as `nvidia-cuda-runtime` and `nvidia-cublas`. They don't carry the driver.

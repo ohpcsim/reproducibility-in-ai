@@ -5,11 +5,11 @@ title: 2b. Workflows in Nextflow
 - This page is optional. It redoes [2a. Snakemake](workflows.ipynb) in Nextflow, with the same data, the same scripts and the same result.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
-- You run it on your own machine. There's no Binder for it, and the next section says why.
+- You run it on your own machine. There's no Binder for it, and the section "Why there's no Binder" below says why.
 
 +++ {"tags": ["track-hpc"]}
 
-- You run it on the cluster, with Nextflow's local executor. There's no Binder for it, and the next section says why.
+- You run it on the cluster, with Nextflow's local executor. There's no Binder for it, and the section "Why there's no Binder" below says why.
 
 +++
 
@@ -19,7 +19,7 @@ title: 2b. Workflows in Nextflow
 
 - Start from a working Nextflow workflow, and read what each process reads and writes.
 - Add a process written like the others, call it in the `workflow` block, and run with `-resume` so the other processes come from the cache.
-- See how Nextflow decides what's stale. `-resume` reruns a task when the hash of its inputs or script changed, and takes the rest from `work/`. File dates play no part.
+- See how Nextflow decides what's stale. `-resume` reruns a task when the hash of its inputs or script changed, and takes the rest from `work/`. With this project's `cache = 'deep'`, file dates play no part.
 - Compare the two tools on the same job.
 
 ## The problem
@@ -258,7 +258,7 @@ git status --short
 
 ## Step 3: change a parameter
 
-**Problem:** `params.yaml` says `statistic: mean`. Change it to `median`, and which tasks have to rerun? Nextflow decides from hashes, and `-resume` tells you what it decided.
+**Problem:** `params.yaml` says `statistic: mean`. If you change it to `median`, which tasks have to rerun? Nextflow decides from hashes, and `-resume` tells you what it decided.
 
 **Facts**
 
@@ -312,7 +312,7 @@ $ git status --short
 ## Check your work
 
 - The same checker as the Snakemake exercise, with `--nextflow`. It clones your last commit into an empty folder, runs `nextflow run main.nf` there, compares the numbers with this page and checks which penguins the figure plots. Then it changes `report.statistic`, runs with `-resume`, and reads Nextflow's log to see that only `REPORT` ran.
-- Each line says what to do next. It takes about 10 seconds.
+- Each FAIL line says what to fix. It takes about 10 seconds.
 
 ```bash
 python ../check.py --nextflow

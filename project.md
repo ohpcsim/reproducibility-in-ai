@@ -10,7 +10,7 @@ title: "The project: the Palmer penguins dataset"
 
 - 344 adult Adelie, Chinstrap and Gentoo penguins, measured on Biscoe, Dream and Torgersen islands near Palmer Station, Antarctica. ([Gorman, Williams and Fraser 2014](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081))
 - The field work covered three breeding seasons, the austral summers of 2007/08, 2008/09 and 2009/10. The `year` column says 2007, 2008 and 2009. ([the study](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081))
-- Kristen Gorman and the Palmer Station Long Term Ecological Research program collected them, with NSF support. ([palmerpenguins](https://allisonhorst.github.io/palmerpenguins/))
+- Kristen Gorman and the Palmer Station Long Term Ecological Research program collected the data, with NSF support. ([palmerpenguins](https://allisonhorst.github.io/palmerpenguins/))
 - They collected them for a 2014 PLOS ONE study, "Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus *Pygoscelis*)", on how males and females differ in size and foraging. ([the study](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081))
 - Each penguin's sex comes from a DNA test of a blood sample, not from its measurements. ([the study](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081))
 - The table has 344 rows and 8 columns: species, island, bill length, bill depth, flipper length, body mass, sex and year. ([the package's introduction](https://allisonhorst.github.io/palmerpenguins/articles/intro.html))
@@ -29,11 +29,11 @@ title: "The project: the Palmer penguins dataset"
 | 2007 to 2009 | 333 | 674.7 g | 411.8 g | 805.1 g |
 
 - In 2007 that's 22 males and 22 females for Adelie, 13 and 13 for Chinstrap, and 17 and 16 for Gentoo.
-- It describes breeding adults with a recorded sex. It doesn't say why the species differ.
+- The body mass comparison describes breeding adults with a recorded sex. It doesn't say why the species differ.
 - Exercise 4 adds a classifier. It predicts a penguin's recorded sex from bill length, bill depth, flipper length, body mass and species.
 - It's logistic regression on standardized measurements, trained on 2007 and 2008 (216 rows) and checked on 2009 (117 rows).
 - Its validation accuracy is 0.846 at `C: 0.01` and 0.889 at `C: 1`.
-- The study fit the same kind of model, logistic regression, one species at a time, and checked it on birds it hadn't fit. It reports 88.64 percent for Adelie, 94.44 percent for Chinstrap and 89.47 percent for Gentoo. ([the study](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081), Table 1)
+- The study fit a separate logistic regression model for each species and tested it on birds excluded from training. It reports 88.64 percent for Adelie, 94.44 percent for Chinstrap and 89.47 percent for Gentoo. ([the study](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090081), Table 1)
 - The classifier is a classroom example checked against a known label. It doesn't replace the DNA test.
 
 ## What each exercise adds

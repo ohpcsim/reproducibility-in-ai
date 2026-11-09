@@ -30,7 +30,7 @@ How this site and its Binder sessions are built from one repository.
 
 ## Build it on your own machine
 
-- Each notebook has to run in its own environment. Exercise 1's failure needs pandas to be missing, and the results page needs matplotlib.
+- Each notebook has to run in its own environment. Exercise 1 deliberately starts without pandas, while the results page needs matplotlib.
 - So first build five environments: one for each exercise, from its `.binder/environment.yml` plus `ipykernel` and `jupyter_server`, and one for the results page, from `results/environment.yml` plus `jupyter_server`:
 
 ```bash
