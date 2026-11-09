@@ -72,8 +72,7 @@ When you open it, BinderHub does this ([what happens when a user clicks a Binder
 2. mybinder.org shows its progress while it builds or starts the session. The first start can take a few minutes.
 3. JupyterLab opens. The terminal is on the left, already in the `project` folder. A read-only copy of the exercise page is on the right.
 
-- Copy a command: select it and press Ctrl+C, or Cmd+C on a Mac.
-- Paste it in the terminal: Ctrl+Shift+V, or right-click and choose Paste. Cmd+V on a Mac is untested, so right-click if it doesn't work.
+- Copy and paste a command: Ctrl+C, then Ctrl+V in the terminal. On a Mac, Cmd+C and Cmd+V.
 - Edit a file: double-click it in the file panel on the far left. Save with Ctrl+S, or Cmd+S on a Mac.
 - Or edit it in the terminal with `nano <file>`, `vi <file>` or `vim <file>`. nano is the simplest. Ctrl+O, then Enter, saves. Ctrl+X quits.
 - The environment is active and `project` is built, so you start at the exercise's first step.
