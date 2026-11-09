@@ -11,7 +11,7 @@ import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[1]
-LEARNER_FOLDERS = {"project", "remote", "envs", ".venv", "osn-bucket", ".git", ".ipynb_checkpoints", "_build"}
+LEARNER_FOLDERS = {"project", "remote", "envs", ".venv", "osn-bucket", "restore-v1.0.0", ".git", ".ipynb_checkpoints", "_build"}
 
 scratch = Path(tempfile.mkdtemp())
 atexit.register(shutil.rmtree, scratch, ignore_errors=True)
@@ -25,8 +25,14 @@ subprocess.run([sys.executable, "scripts/setup_project.py"], cwd=root, env=envir
 def run(*commands):
     """Run the commands in the scratch project, and print them the way a terminal would."""
     text = []
+    folder = root / "project"
     for command in commands:
-        done = subprocess.run(["bash", "-c", command], cwd=root / "project", env=environment,
+        if command.startswith("cd "):
+            # Each command runs in its own shell, so follow a cd here for the ones after it.
+            folder = Path(os.path.normpath(folder / command[3:]))
+            text.append(f"$ {command}\n")
+            continue
+        done = subprocess.run(["bash", "-c", command], cwd=folder, env=environment,
                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         text.append(f"$ {command}\n{done.stdout}")
     print("\n".join(text).replace(str(root), "~"), end="")

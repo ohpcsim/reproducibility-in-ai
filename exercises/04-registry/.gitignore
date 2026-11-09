@@ -1,5 +1,6 @@
 /project/
 /osn-bucket/
+/restore-v1.0.0/
 __pycache__/
 .ipynb_checkpoints/
 _build/
