@@ -16,7 +16,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 ## The idea: literate science
 
 - In 1984 Donald Knuth proposed writing a program as one document, for people and for the machine. Literate science puts the claims, the code, the environment and the data in one project, and every published result comes from running it.
-- Your research products (papers, code, data) are the pets. Everything that runs them is cattle, so you can delete it and build it again from what's in the project.
+- Your research products (papers, code, data) are curated: you keep and version them. Everything that runs them is disposable, so you can delete it and build it again from what's in the project. Cloud computing calls these [pets and cattle](premise.md#pets-vs-cattle).
 - This site works the same way. The exercise notebooks rerun every time the site is published, so the output on them is real.
 - [The premise](premise.md) has the full argument.
 - [Literate Science Results: sexual dimorphism in Palmer penguins](results/results.ipynb) is one such document. The build runs the finished project's code. The page shows what it printed, and draws a figure from the project's validated table.
