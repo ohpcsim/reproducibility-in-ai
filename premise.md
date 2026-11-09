@@ -8,7 +8,7 @@ title: The premise
 - Most published computational results can't be rerun from what's published.
 - Of 204 Science papers sampled, artifacts were obtained for 44% and results reproduced for 26% ([Stodden, Seiler and Ma, PNAS 2018](https://doi.org/10.1073/pnas.1708290115)).
 - Reproducibility involves software, data and workflows.
-- LLMs add more reproducibility challenges.
+- Large language models, or LLMs, add more reproducibility challenges.
 
 ## AI workflows
 

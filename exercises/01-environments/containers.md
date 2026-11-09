@@ -18,7 +18,7 @@ title: 1b. Environments in containers
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
 - You run it on your own machine, after Exercise 1, because the images are built from the locks you committed there.
-- On our ARM Linux machine, 1b's commands took 23 seconds from an empty image cache. They downloaded about 380 MB, 270 MB of it the two base images, compressed. On a slow connection the downloads take most of the time.
+- On our ARM Linux machine, 1b's commands took 23 seconds from an empty image cache. They downloaded about 380 MB, compressed, and the two base images were 270 MB of that. On a slow connection the downloads take most of the time.
 
 +++ {"tags": ["track-hpc"]}
 
@@ -34,7 +34,7 @@ title: 1b. Environments in containers
 
 +++
 - [Tools and documentation](../../tools.md#containers-on-shared-machines) says which container tool to use on each kind of machine.
-- The site doesn't run this page. The output below was recorded from real runs, listed in [What we ran where](#containers-what-we-ran-where).
+- The site build doesn't run these commands. The output below was recorded from real runs, listed in [What we ran where](#containers-what-we-ran-where).
 
 ## The problem
 
@@ -67,11 +67,11 @@ cp metrics.json ../metrics-ex1.json
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
-- An image is the built container. You build it once from a recipe, a `Dockerfile`. Podman builds Dockerfiles.
+- An image is what you build. A container is a running copy of it. You build it once from a recipe, a `Dockerfile`. Podman builds Dockerfiles.
 - The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
 +++ {"tags": ["track-hpc"]}
 
-- An image is the built container. Apptainer builds it once from a recipe, a `.def` file, into one SIF file.
+- An image is what you build. A container is a running copy of it. Apptainer builds it once from a recipe, a `.def` file, into one SIF file.
 - The conda image builds from your `explicit-<platform>.txt`, and the uv image from your `uv.lock`.
 - The Mac, Linux and WSL2 tracks build the same images with Podman, from Dockerfiles in the same folder. A `.def` and its Dockerfile declare the same steps for two different tools, and our runs show they give the same results.
 
@@ -84,7 +84,7 @@ cp metrics.json ../metrics-ex1.json
 - A container is Linux, so the conda image needs a Linux lock: `explicit-linux-64.txt` on x86_64 or `explicit-linux-aarch64.txt` on ARM. One `uv.lock` builds on both.
 
 +++
-- A tag such as `miniforge3:26.9.4-2` can move, and a sha256 digest can't. Every recipe pins its base image by digest. Each digest covers x86_64 and ARM, and the tool pulls the one for your machine.
+- A tag such as `miniforge3:26.9.4-2` can later point to a different image, and a sha256 digest can't. Every recipe pins its base image by digest. Each digest covers x86_64 and ARM, and the tool pulls the one for your machine.
 +++ {"tags": ["track-hpc"]}
 
 - Each `.def` file's `From:` line pins its base image by digest, the same digest as its Dockerfile.
@@ -174,7 +174,7 @@ git add explicit-linux-*.txt
 git commit -m "Lock the conda environment for Linux"
 ```
 
-- That's a new solve from `environment.yml`, so compare its versions with your Mac lock. `grep /pandas- explicit-*.txt` prints the pandas line from both locks. The versions should match.
+- conda chose the versions again from `environment.yml`, so compare them with your Mac lock. `grep /pandas- explicit-*.txt` prints the pandas line from both locks. The versions should match.
 - With Podman 6.1.4 on a Mac with Apple silicon, it wrote the same 38 packages as the lock from Linux on ARM.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
@@ -192,7 +192,7 @@ diff ../metrics-ex1.json ../metrics-image-uv.json
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
-- `analyze.py` prints the same JSON it writes to `metrics.json`, so each run's file is the container's `metrics.json`.
+- `analyze.py` prints the same JSON it writes to `metrics.json`, so each `../metrics-image-*.json` file holds the container's `metrics.json`.
 - `diff` prints nothing when the files match exactly. That's the check.
 - Podman needs the full image name, with the registry. The recipes have it: `docker.io/condaforge/miniforge3` and `ghcr.io/astral-sh/uv`. Without `docker.io/`, Podman 4.9.3 on our Linux machine stopped with `short-name ... did not resolve to an alias`.
 +++ {"tags": ["track-mac"]}
@@ -203,7 +203,7 @@ diff ../metrics-ex1.json ../metrics-image-uv.json
 - The first `podman` command may print `"/" is not a shared mount, this could cause issues or missing mounts with rootless containers`. Our builds and runs worked with it.
 +++ {"tags": ["track-linux"]}
 
-- Rootless, both Podman builds can print warnings such as `can't raise ambient capability CAP_CHOWN`. Ours did, and both builds still succeeded.
+- Without root, both Podman builds can print warnings such as `can't raise ambient capability CAP_CHOWN`. Ours did, and both builds still succeeded.
 
 +++ {"tags": ["track-hpc"]}
 
@@ -253,7 +253,7 @@ sha256sum ../penguins-*.sif
 - **NVIDIA DGX Spark, aarch64, Ubuntu 24.04.5, Linux 7.0.0, with Apptainer 1.5.5.** Recorded November 8, 2026. The locks were `explicit-linux-aarch64.txt` and `uv.lock`, from Exercise 1 on that machine. We have root there, but ran Apptainer without sudo.
 +++ {"tags": ["track-mac"]}
 
-- **A Mac with Apple silicon, with Podman Desktop and Podman 6.1.4.** Recorded November 8, 2026. The locks were `explicit-linux-aarch64.txt`, written there with this page's Linux-lock step and identical to the lock from Linux on ARM, and `uv.lock` from Exercise 1 on the Mac.
+- **A Mac with Apple silicon, with Podman Desktop and Podman 6.1.4.** Recorded November 8, 2026. The conda lock was `explicit-linux-aarch64.txt`, written there with this page's Linux-lock step, and identical to the lock from Linux on ARM. The uv lock was `uv.lock`, from Exercise 1 on the Mac.
 +++ {"tags": ["track-wsl2"]}
 
 - **A Windows 11 PC, x86_64, WSL2 with Ubuntu 24.04.1, with rootless Podman 4.9.3.** Recorded November 8, 2026.

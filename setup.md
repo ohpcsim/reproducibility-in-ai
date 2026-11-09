@@ -141,7 +141,7 @@ wsl --install -d Ubuntu
 - Run everything below in that Ubuntu window.
 
 - Keep your work in your Linux home folder, not under `/mnt/c`.
-- DVC needs a Linux file system.
+- DVC, the data-versioning tool in Exercises 3 and 4, needs a Linux file system.
 
 +++ {"tags": ["track-linux", "track-hpc"]}
 
@@ -277,7 +277,7 @@ uv --version
 
 - The Miniforge installer may print `warning  libmamba Security Warning: This transaction includes executing package scripts (pre/post-link/unlink) if present.` It's harmless. The installer may run setup scripts that come with conda-forge's packages, and the warning says so.
 - The uv installer may print `WARN: The following commands are shadowed by other commands in your PATH: uv uvx` when an exercise's conda environment is active. That environment's own uv comes first in `PATH`. Either uv works.
-- `conda env create` may print `WARNING conda.conda_pypi...` and a "Did you know? ... conda-pypi" tip with current Miniforge. Both are harmless.
+- With current Miniforge, `conda env create` may print `WARNING conda.conda_pypi...` and a "Did you know? ... conda-pypi" tip. Both are harmless.
 
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2", "track-hpc"]}
 

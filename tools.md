@@ -4,7 +4,7 @@ title: Tools and documentation
 
 - This page lists every tool the exercises and the optional pages use.
 - Each row says what the tool is, where the workshop uses it, and where its official documentation and introduction are.
-- You don't install these one by one. Each exercise's environment file installs what it needs, and your track's Set up page, from [the home page](index.md), has the steps.
+- You don't install these one by one. Each exercise's environment file installs what it needs. Follow the steps on your track's Set up page, linked from [the home page](index.md).
 - Exercise links on this page open the Linux copy unless the link names another track. Your track's menu has your machine's copy.
 
 ## Code
@@ -26,7 +26,7 @@ title: Tools and documentation
 ## conda and uv
 
 - conda is the established choice in research computing.
-- uv is newer and growing fast. In its first year, 11% of surveyed Python developers used it, in the Python Developers Survey 2024 by JetBrains and the Python Software Foundation, published August 2025. ([The State of Python 2025](https://blog.jetbrains.com/pycharm/2025/08/the-state-of-python-2025/), [heise's coverage](https://www.heise.de/en/news/Rust-becomes-Python-s-performance-co-pilot-10560471.html))
+- uv is newer and growing fast. In the Python Developers Survey 2024 by JetBrains and the Python Software Foundation, 11% of surveyed Python developers used uv in its first year. The survey was published in August 2025. ([The State of Python 2025](https://blog.jetbrains.com/pycharm/2025/08/the-state-of-python-2025/), [heise's coverage](https://www.heise.de/en/news/Rust-becomes-Python-s-performance-co-pilot-10560471.html))
 
 | | Pros | Cons |
 |---|---|---|
@@ -50,7 +50,7 @@ title: Tools and documentation
 | Git LFS | A Git extension that keeps large files on a separate server and leaves pointers in the repository. | Not used. Git LFS needs a server. DVC, in [Exercise 3](exercises/03-dataops/dataops-linux.ipynb), doesn't. | [Documentation](https://github.com/git-lfs/git-lfs/tree/main/docs) | [Getting started](https://git-lfs.com/), on the home page |
 | GTO | Git Tag Ops. It records model versions and stages as Git tags, so the registry lives in the repository. | [Exercise 4](exercises/04-registry/registry-linux.ipynb). | [GTO documentation](https://mlem.ai/doc/gto) | [Get started](https://mlem.ai/doc/gto/get-started) |
 | OSN | The Open Storage Network, object storage for research data that you reach from laptops, clusters and cloud platforms. | Exercises [3](exercises/03-dataops/dataops-linux.ipynb) and [4](exercises/04-registry/registry-linux.ipynb) use a local folder that stands in for an OSN bucket. | [OSN user documentation](https://openstoragenetwork.github.io/docs/) | [Why use OSN?](https://openstoragenetwork.github.io/docs/why-osn/) |
-| pandas | Data tables for Python. | Exercises 2 to 4 read and summarize the penguin table with it. In [Exercise 1](exercises/01-environments/environments-linux.ipynb), the project imports it without declaring it, and you declare it. | [pandas documentation](https://pandas.pydata.org/docs/) | [Getting started](https://pandas.pydata.org/docs/getting_started/index.html) |
+| pandas | Data tables for Python. | Exercises 2 to 4 read and summarize the penguin table with it. In [Exercise 1](exercises/01-environments/environments-linux.ipynb), the project imports pandas without listing it as a dependency, and you add it to the environment file. | [pandas documentation](https://pandas.pydata.org/docs/) | [Getting started](https://pandas.pydata.org/docs/getting_started/index.html) |
 | scikit-learn | Machine learning for Python. | [Exercise 4](exercises/04-registry/registry-linux.ipynb) trains its penguin sex classifier with it. | [scikit-learn documentation](https://scikit-learn.org/stable/) | [Getting started](https://scikit-learn.org/stable/getting_started.html) |
 | PyTorch | Deep learning for Python, with GPU support. | [1c, PyTorch with a GPU](gpu/gpu.md) and [its container page](gpu/container.md). | [PyTorch documentation](https://docs.pytorch.org/docs/stable/) | [Learn the basics](https://docs.pytorch.org/tutorials/beginner/basics/intro.html) |
 
@@ -58,8 +58,8 @@ title: Tools and documentation
 
 | Tool | What it is | Where we use it | Documentation | Start here |
 |---|---|---|---|---|
-| Podman | Builds and runs containers from Dockerfiles, with no daemon and without root. | [1b](exercises/01-environments/containers.md) on the Mac, Linux and WSL2 tracks. | [Podman documentation](https://docs.podman.io/en/latest/) | [Get started](https://podman.io/get-started), and the [rootless tutorial](https://github.com/podman-container-tools/podman/blob/main/docs/tutorials/rootless_tutorial.md) |
-| Apptainer | Runs containers on HPC systems, from one SIF file, as your own user. Formerly Singularity. | [1b](exercises/01-environments/containers-hpc.md) on the HPC track, and [the GPU container page](gpu/container.md). It builds from its own recipe, a `.def` file. | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
+| Podman | Builds and runs containers from Dockerfiles without administrator privileges or a background service. | [1b](exercises/01-environments/containers.md) on the Mac, Linux and WSL2 tracks. | [Podman documentation](https://docs.podman.io/en/latest/) | [Get started](https://podman.io/get-started), and the [rootless tutorial](https://github.com/podman-container-tools/podman/blob/main/docs/tutorials/rootless_tutorial.md) |
+| Apptainer | Runs containers on high-performance computing systems as your own user. Each container is a single file in Singularity Image Format, or SIF. Formerly Singularity. | [1b](exercises/01-environments/containers-hpc.md) on the HPC track, and [the GPU container page](gpu/container.md). It builds from its own recipe, a `.def` file. | [Apptainer user guide](https://apptainer.org/docs/user/latest/) | [Quick start](https://apptainer.org/docs/user/latest/quick_start.html) |
 | NVIDIA NGC | NVIDIA's catalog of GPU container images, including PyTorch. | Not used here. Its PyTorch images are an alternative to building your own on [the GPU container page](gpu/container.md). | [NGC documentation](https://docs.nvidia.com/ngc/) | [NGC catalog](https://catalog.ngc.nvidia.com) |
 
 ## Containers on shared machines
@@ -71,7 +71,7 @@ title: Tools and documentation
 - Apptainer is the original Singularity project, renamed when it joined the Linux Foundation, and it still provides a `singularity` command. Sylabs' separate fork, SingularityCE, reached end of life on October 25, 2026, and [its repository](https://github.com/sylabs/singularity) is archived. If your site still says Singularity, use Apptainer. ([CIQ's announcement](https://ciq.com/blog/singularityce-end-of-life-apptainer))
 - A container that needs the GPU gets the host's NVIDIA driver through Apptainer's `--nv`. On WSL2, `--nv` alone didn't reach the GPU. [The WSL2 container page](gpu/container-wsl2.md) binds `/usr/lib/wsl` instead.
 
-- We cover Linux containers. They need a Linux kernel, so a Mac or Windows PC runs them in a VM.
+- We cover Linux containers. They need a Linux kernel, so a Mac or Windows PC runs them in a virtual machine, or VM.
 
 | Where you are | What to use | Why | What we ran |
 |---|---|---|---|

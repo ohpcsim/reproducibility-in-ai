@@ -40,8 +40,8 @@ title: "The project: the Palmer penguins dataset"
 
 - The links open the Linux copies. Your track's menu has your machine's copy.
 - [Exercise 1, Software environments](exercises/01-environments/environments-linux.ipynb): one script computes the 2007 table, and you declare and lock its environment with conda and with uv.
-- [Exercise 2, Workflows](exercises/02-workflows/workflows-linux.ipynb): the same table from a working workflow, in Snakemake or Nextflow, and you add a step that draws the README's figure. Git holds the code, and one command builds the numbers and the figure from the raw data.
-- [Exercise 3, Versioning data](exercises/03-dataops/dataops-linux.ipynb): the data moves to DVC and a bucket, the 2008 and 2009 seasons arrive as a new version, and you get the 2007 version, its table and its figure back from DVC.
+- [Exercise 2, Workflows](exercises/02-workflows/workflows-linux.ipynb): you start with a Snakemake or Nextflow workflow that computes the same table, then add a step that draws the README's figure. Git holds the code, and one command builds the numbers and the figure from the raw data.
+- [Exercise 3, Versioning data](exercises/03-dataops/dataops-linux.ipynb): you version the data with DVC and store it in a bucket. You add the 2008 and 2009 seasons as a new version, then restore the 2007 data, table and figure.
 - [Exercise 4, Model registry](exercises/04-registry/registry-linux.ipynb): you train the sex classifier at two values of `C`, register both versions with GTO, promote the better one and restore every version from the bucket.
 
 ## Why this example
@@ -56,7 +56,7 @@ title: "The project: the Palmer penguins dataset"
 - Their reason, in The R Journal: "`iris` is burdened by a history in eugenics research". They add that it lacks metadata, and that two of its five variables, sepal width and sepal length, aren't intuitive for most people who aren't botanists. ([Horst, Hill and Gorman 2022](https://journal.r-project.org/articles/RJ-2022-020/))
 - This workshop uses it because the file is 15 KB and every step runs in seconds on a CPU.
 - Its three seasons arrive like data deliveries, which Exercise 3 needs.
-- It has real missing values, a published question, and a published accuracy to compare with.
+- It has missing values, a question from a published study, and published classifier accuracy to compare with.
 
 ## License and citation
 

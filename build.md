@@ -10,7 +10,7 @@ How this site and its Binder sessions are built from one repository.
 ## What this site is
 
 - Exercises 1a, 2a, 3 and 4 are notebooks. They rerun when the site is published, so their output is real, but it's teaching output, not results. 1b, 1c and 2b show recorded output.
-- [The results page](results/results.ipynb) is the literate-science example: the penguin study's numbers, rebuilt from the project's code on every publish, and a figure the page draws from the project's validated table.
+- [The results page](results/results.ipynb) is the literate-science example. On every publish, it rebuilds the penguin study's numbers from the project's code and draws a figure from the project's validated table.
 - The site follows its own advice: everything it needs is declared in the repository, it rebuilds from scratch, and the build fails if a notebook raises an error or a cross-reference breaks.
 - It isn't a research publication. [The penguin analysis](project.md) is a teaching example on published data.
 
@@ -42,7 +42,7 @@ conda env create --quiet --prefix envs/results --file results/environment.yml
 conda install --quiet --yes --prefix envs/results jupyter_server
 ```
 
-- `results/environment.yml` isn't locked yet. It names its packages without versions, so a later build can solve newer ones.
+- `results/environment.yml` isn't locked yet. It lists packages without specifying versions, so a later build can install newer versions.
 
 - Install Jupyter Book with `pip install "jupyter-book==2.1.7"`.
 - Then one command builds the site into `_build/html`. Run it in a fresh clone, because running the notebooks writes `project/` folders, and `tracks.py` writes each track's pages over their sources. A second build needs another fresh clone.
@@ -63,7 +63,7 @@ conda install --quiet --yes --prefix envs/results jupyter_server
 ## The automation on each push
 
 - A GitHub Actions workflow runs the same build on every push to `main`, then publishes `_build/html` to GitHub Pages.
-- It builds each exercise's environment from its `.binder/environment.yml`, so the site runs on what a learner gets, and the results page's from `results/environment.yml`.
+- It builds each exercise's environment from its `.binder/environment.yml`, the same file learners use. It builds the results page's environment from `results/environment.yml`.
 
 ```{literalinclude} .github/workflows/site.yml
 :language: yaml

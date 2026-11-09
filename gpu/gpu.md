@@ -31,7 +31,7 @@ title: 1c. PyTorch with a GPU
 
 - A CUDA build can install and still fail to reach the GPU.
 - The usual trap is a CUDA build that doesn't match your GPU or your driver.
-- It may install fine, then crash when it does real work, or quietly fall back to the CPU.
+- It may crash when it does real work, or quietly fall back to the CPU.
 - So you check it the same way on every route.
 
 ## What you'll do
@@ -50,7 +50,7 @@ title: 1c. PyTorch with a GPU
 - [conda](../setup.md) for step 1, [uv](../setup.md#install-uv) for step 2, and about 15 GB of free disk for both.
 +++ {"tags": ["track-hpc"]}
 
-- On a cluster, do this on a GPU node, for example in a session from `srun --gpus=1 --pty bash`, because a login node has no GPU driver. The flags vary by site.
+- On a cluster, do this on a GPU node, because a login node has no GPU driver. For example, start a session with `srun --gpus=1 --pty bash`. The flags vary by site.
 - The GPU node needs network access for the clone and the installs.
 - By default the conda environment, uv's cache and Apptainer's cache go in your home folder. Check your quota before you start.
 - We haven't run this on an HPC cluster. The recorded runs are from a DGX Spark and a Windows PC with WSL2.
@@ -102,7 +102,7 @@ nvidia-smi --query-gpu=name,driver_version --format=csv
 uname -m -r
 ```
 
-You'll see your own versions and device. Recorded November 7, 2026, and the same on aarch64 when we ran it again on November 8:
+You'll see your own versions and device. We recorded this on November 7, 2026. A rerun on aarch64 on November 8 gave the same output:
 
 **NVIDIA DGX Spark: aarch64, NVIDIA GB10, driver 580.178.04, Ubuntu 24.04:**
 

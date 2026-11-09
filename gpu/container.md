@@ -3,7 +3,7 @@ title: 1c. If you need a container
 ---
 
 - This is step 3 of [1c, PyTorch with a GPU](gpu.md). It's optional, and none of the other exercises need it.
-- You run it yourself, after step 1 there, on the machine where the check passed, because the container is built from the conda lock you made there.
+- You run it yourself after step 1 of 1c, on the machine where the check passed. The container is built from the conda lock you made in step 1.
 - There's no Binder for it.
 
 - A container carries your software to the next system.
@@ -23,7 +23,7 @@ title: 1c. If you need a container
 
 +++
 
-- A tag such as `ubuntu:24.04` can move, and a sha256 digest can't, so `repro-gpu.def` pins the base image by digest and the installer by version.
+- A tag such as `ubuntu:24.04` can later point to a different image, and a sha256 digest can't. So `repro-gpu.def` pins the base image by digest and the Miniforge installer by version.
 - The digest is for a multi-architecture image, and Apptainer pulls the right one for your machine.
 - `uname -m` picks the matching installer.
 
@@ -48,7 +48,7 @@ podman images --digests docker.io/library/ubuntu
 +++ {"tags": ["track-hpc"]}
 
 - If your site has Apptainer as a module, load it first, for example `module load apptainer`.
-- The build needs Apptainer's `--fakeroot`, which your center may or may not allow. If it doesn't, build the SIF on a machine where it works, with the same architecture as the cluster, and copy it over.
+- The build needs Apptainer's `--fakeroot`, and some centers don't allow it. If it doesn't, build the SIF on a machine where it works, with the same architecture as the cluster, and copy it over.
 
 +++ {"tags": ["track-linux", "track-wsl2"]}
 
@@ -111,7 +111,7 @@ apptainer exec --bind /usr/lib/wsl --env LD_LIBRARY_PATH=/usr/lib/wsl/lib repro-
 
 - WSL2 exposes the GPU through `/dev/dxg` and `/usr/lib/wsl`, and there's no `/dev/nvidia0`.
 
-Here, `apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py` doesn't reach the GPU. The check printed this, which is why the check exists:
+Here, `apptainer exec --nv repro-gpu.sif python /opt/verify_gpu.py` doesn't reach the GPU. The check caught it and printed this:
 
 **Recorded November 7, 2026, on x86_64, NVIDIA GeForce RTX 3070, driver 610.74, WSL2, with Apptainer 1.4.5:**
 
