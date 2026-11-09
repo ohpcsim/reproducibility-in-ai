@@ -6,7 +6,7 @@ Pick an exercise and launch it. You need a browser and nothing else.
 
 - {button}`1. Software environments <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-environments?urlpath=lab/workspaces/exercise>` How do you declare and lock what the penguin project needs, with conda and with uv?
 - {button}`2. Workflows <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>` How do you add a step to the penguin project's workflow, so one command builds the numbers and the figure?
-- {button}`3. Versioning data <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise>` Do the 2008 and 2009 seasons change how much heavier male penguins are?
+- {button}`3. Versioning data <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise>` Does adding the 2008 and 2009 data change our estimate of how much heavier male penguins are?
 - {button}`4. Model registry <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise>` Which penguin model is live?
 
 ## What you'll see

@@ -1,4 +1,4 @@
-# 3. Versioning data: do the 2008 and 2009 seasons change how much heavier male penguins are?
+# 3. Versioning data: does adding the 2008 and 2009 data change our estimate of how much heavier male penguins are?
 
 About 15 minutes. The instructions are in `dataops.ipynb`, or on the site.
 

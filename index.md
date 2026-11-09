@@ -88,7 +88,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 :::{card} 3. Versioning data
 {button}`Launch in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise>`
 
-**Do the 2008 and 2009 seasons change how much heavier male penguins are?**
+**Does adding the 2008 and 2009 data change our estimate of how much heavier male penguins are?**
 
 - **Problem:** the data is in Git, and a new field season is coming.
 - **You'll learn:** version data with DVC and a bucket, rerun the declared steps on a new version, and bring back an old version with its numbers and its figure.
