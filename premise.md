@@ -127,7 +127,7 @@ The goal:
 
 ## From the ideas to the exercises
 
-- The links open the Binder pages. Your track's menu has your machine's copy.
+- The links open the Linux copies. Your track's menu has your machine's copy.
 - An environment file and its lock: [Exercise 1, Software environments](exercises/01-environments/environments-linux.ipynb).
 - Declared steps: [Exercise 2, Workflows](exercises/02-workflows/workflows-linux.ipynb).
 - Pointers to the data in Git, and the data in object storage: [Exercise 3, Versioning data](exercises/03-dataops/dataops-linux.ipynb).
