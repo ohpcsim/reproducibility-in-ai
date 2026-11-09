@@ -5,11 +5,11 @@ title: 2b. Workflows in Nextflow
 - This page is optional. It redoes [2a. Snakemake](workflows.ipynb) in Nextflow, with the same data, the same scripts and the same result.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
 
-- You run it on your own machine. There's no Binder for it, and the next section says why.
+- You run it on your own machine. There's no Binder for it, and the section "Why there's no Binder" below says why.
 
 +++ {"tags": ["track-hpc"]}
 
-- You run it on the cluster, with Nextflow's local executor. There's no Binder for it, and the next section says why.
+- You run it on the cluster, with Nextflow's local executor. There's no Binder for it, and the section "Why there's no Binder" below says why.
 
 +++
 
@@ -18,8 +18,8 @@ title: 2b. Workflows in Nextflow
 ## Learning objectives
 
 - Start from a working Nextflow workflow, and read what each process reads and writes.
-- Add a process written like the others, call it in the `workflow` block, and let `-resume` take the rest from the cache.
-- See how Nextflow decides what's stale. `-resume` reruns a task when the hash of its inputs or script changed, and takes the rest from `work/`. File dates play no part.
+- Add a process written like the others, call it in the `workflow` block, and run with `-resume` so the other processes come from the cache.
+- See how Nextflow decides what's stale. `-resume` reruns a task when the hash of its inputs or script changed, and takes the rest from `work/`. With this project's `cache = 'deep'`, file dates play no part.
 - Compare the two tools on the same job.
 
 ## The problem
@@ -27,7 +27,7 @@ title: 2b. Workflows in Nextflow
 - The workshop's exercises use one project, [a study of Palmer penguins](../../project.md), and add a capability in each exercise.
 - `project` has a working `main.nf` with three processes, `CLEAN`, `VALIDATE` and `REPORT`. They build `metrics.json` from the 2007 field season: how much heavier a male penguin is than a female of the same species, in grams.
 - Its README shows a figure, `figures/body_mass.svg`. `plot.py` draws it, and nothing runs `plot.py`.
-- [nf-core](https://nf-co.re/) pipelines are a common starting point in Nextflow. You run one, then add the step your study needs.
+- [nf-core](https://nf-co.re/) pipelines are a common starting point in Nextflow. Groups often run one and add the step their study needs.
 
 ## What you'll do
 
@@ -64,7 +64,7 @@ title: 2b. Workflows in Nextflow
 +++
 
 - You need [conda](../../setup.md). You don't need Jupyter or Java; the environment brings its own Java.
-- Paste this once. The folder is `workflows-nextflow`, so it doesn't meet a clone from another exercise:
+- Paste this once. The folder is `workflows-nextflow`, so it doesn't clash with a clone from another exercise:
 
 ```bash
 git clone --branch binder-02-workflows --single-branch https://github.com/ohpcsim/reproducibility-in-ai.git workflows-nextflow
@@ -258,7 +258,7 @@ git status --short
 
 ## Step 3: change a parameter
 
-**Problem:** `params.yaml` says `statistic: mean`. Change it to `median`, and which tasks have to rerun? Nextflow decides from hashes, and `-resume` tells you what it decided.
+**Problem:** `params.yaml` says `statistic: mean`. If you change it to `median`, which tasks have to rerun? Nextflow decides from hashes, and `-resume` tells you what it decided.
 
 **Facts**
 
@@ -311,8 +311,8 @@ $ git status --short
 
 ## Check your work
 
-- The same checker as the Snakemake exercise, with `--nextflow`. It clones your last commit into an empty folder, runs `nextflow run main.nf` there, compares the numbers with this page and reads the figure for the penguins it plots. Then it changes `report.statistic`, runs with `-resume`, and reads Nextflow's log to see that only `REPORT` ran.
-- Each line says what to do next. It takes about 10 seconds.
+- The same checker as the Snakemake exercise, with `--nextflow`. It clones your last commit into an empty folder, runs `nextflow run main.nf` there, compares the numbers with this page and checks which penguins the figure plots. Then it changes `report.statistic`, runs with `-resume`, and reads Nextflow's log to see that only `REPORT` ran.
+- Each FAIL line says what to fix. It takes about 10 seconds.
 
 ```bash
 python ../check.py --nextflow
@@ -334,7 +334,7 @@ PASS  A changed report.statistic reruns REPORT, and -resume takes the rest from 
 
 | | Snakemake | Nextflow |
 |---|---|---|
-| The workflow file | `Snakefile`, Python with a rule syntax. Rules name input and output files, and Snakemake connects them by file name. | `main.nf`, a language built on Groovy, on the Java virtual machine. Processes name inputs and outputs, and you connect them in the `workflow` block. |
+| The workflow file | `Snakefile`, Python with a rule syntax. Rules name input and output files, and Snakemake connects them by file name. | `main.nf`, written in a language built on Groovy that runs on the Java virtual machine. Processes name inputs and outputs, and you connect them in the `workflow` block. |
 | Where a step runs | In the project folder. Outputs land where the rule says. | In its own folder under `work/`, with inputs staged as links. `publishDir` copies outputs back. |
 | What's stale | A rule reruns when an input is newer than its output, or when its code, parameters, inputs or software environment are recorded as changed. `--rerun-triggers mtime` keeps only the dates. ([Snakemake command line](https://snakemake.readthedocs.io/en/stable/executing/cli.html)) | A task reruns when its hash isn't in the cache. The hash covers the inputs and the script. By default a file hashes by name, size and date. With `cache = 'deep'` it hashes by content. Nothing is reused unless you pass `-resume`. ([Cache and resume](https://docs.seqera.io/nextflow/cache-and-resume)) |
 | A parameter | `configfile:` loads it, and a rule's `params:` names the part it reads. A change reruns that rule only. | `params.yaml` is a file input of every process that reads it. A change to any part of the file reruns each of them. |
@@ -346,7 +346,7 @@ PASS  A changed report.statistic reruns REPORT, and -resume takes the rest from 
 | Learn more | [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/) | [Nextflow documentation](https://docs.seqera.io/nextflow/), [Hello Nextflow](https://training.nextflow.io/latest/hello_nextflow/) |
 
 - The idea doesn't change. Each step names what it reads and what it writes, the tool knows what's stale, and one command rebuilds everything from the raw data.
-- The two tools differ on how they know. Snakemake reads file dates first and keeps records next to them. Nextflow hashes.
+- The two tools differ in how they decide what's stale. Snakemake reads file dates first and keeps records next to them. Nextflow hashes.
 - In both, a new step is one more declaration, written like the others, and the tool runs only what's new or stale.
 
 ## What we ran where
