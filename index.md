@@ -123,6 +123,6 @@ It works the same way everywhere: read the page, and paste the commands into a t
 2. Pick an exercise in that track. If you're not sure, start with the first.
 3. On Binder, the first start can take a few minutes. A session has up to 2 GB of memory and ends when it sits idle, so download anything you want to keep.
 4. Do the steps on the page, then run the check the page gives.
-5. To learn a tool, [Tools and documentation](tools.md) links to its documentation and its introduction.
+5. New to a tool? [Tools and documentation](tools.md) links to each tool's documentation and a getting-started guide.
 
 The code here is MIT licensed. Each exercise names its data, its license and how to cite it.
