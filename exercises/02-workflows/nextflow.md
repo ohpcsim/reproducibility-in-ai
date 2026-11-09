@@ -40,7 +40,7 @@ title: 2b. Workflows in Nextflow
 
 ## Why there's no Binder
 
-- Nextflow runs on the Java virtual machine. On our machines one run of this workflow takes about 3 to 4 seconds, most of it starting Java, and peaks at 0.41 to 0.48 GB of memory. A Binder session has at least 1 GB and at most 2 GB, so one run would take a large share of it, next to JupyterLab.
+- Nextflow runs on the Java virtual machine. On our machines one run of this workflow takes about 2 to 4 seconds, most of it starting Java, and peaks at 0.39 to 0.48 GB of memory. A Binder session has at least 1 GB and at most 2 GB, so one run would take a large share of it, next to JupyterLab.
 - We checked whether the first run downloads anything. From the conda package it doesn't. The package carries the whole runtime, `~/.nextflow` held two empty folders after a run, and a run with the network switched off succeeded. Nextflow's own installer is different. [Its install page](https://docs.seqera.io/nextflow/install) says it downloads a Java bundle the first time each version runs, and that plugins download at run time.
 - It has executors for SLURM and the other schedulers, Kubernetes and the cloud batch services, and the point of the tool is to move a workflow from a laptop to those.
 +++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
@@ -181,12 +181,6 @@ $ grep body_mass README.md
 $ ls figures
 ls: cannot access 'figures': No such file or directory
 ```
-
-+++ {"tags": ["track-mac"]}
-
-- On a Mac, `ls` says `ls: figures: No such file or directory`. Either way, the folder isn't there yet.
-
-+++
 
 **Facts**
 
@@ -358,15 +352,13 @@ PASS  A changed report.statistic reruns REPORT, and -resume takes the rest from 
 ## What we ran where
 
 - Recorded November 8, 2026, with Nextflow 26.10.5, OpenJDK 25.0.2 and Python 3.12.16 from the environment file above.
-- The first two rows are the whole current page: the starter and its failing check, the three steps and the final check. Peak memory is the largest resident set of any process in the run, which is the Java virtual machine.
+- All three rows ran the whole current page by a script: the starter and its failing check, the three steps and the final check. Peak memory is the largest resident set of any process in the run, which is the Java virtual machine.
 
 | Machine | Starter fails | Solution passes | Whole page | Peak memory |
 |---|---|---|---|---|
 | aarch64, Linux, DGX Spark | Yes, 2 of 4 | Yes, 4 of 4 | 45 s | 0.47 GB |
 | x86_64, WSL2 on Windows, Ubuntu 24.04 | Yes, 2 of 4 | Yes, 4 of 4 | 29 s | 0.48 GB |
-| arm64, macOS 27.0.1 | Earlier version, 0 of 1. Not rerun on the current page. | Yes, 4 of 4 | 33 s, earlier version | 0.41 GB |
-
-- The macOS row ran an earlier version of this page, where you wrote `VALIDATE` and `REPORT` yourself.
+| arm64, macOS 27.0.1 | Yes, 2 of 4 | Yes, 4 of 4 | 31 s | 0.39 GB |
 
 +++ {"tags": ["track-hpc"]}
 
