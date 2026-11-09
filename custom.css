@@ -127,3 +127,10 @@ pre code {
 pre code .hljs-string {
   color: var(--repro-code-string);
 }
+
+/* Each track ends at exercise 4. The footer doesn't lead into the next track's setup page, or back from it. */
+a.myst-footer-link-next[href*="/setup-"],
+a.myst-footer-link-prev[href*="/registry"],
+.myst-footer-link-group {
+  display: none;
+}

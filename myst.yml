@@ -11,9 +11,8 @@ project:
       children:
         - file: premise.md
         - file: project.md
-          children:
-            - file: results/results.ipynb
-              title: "Literate Science Results"
+        - file: results/results.ipynb
+          title: "Literate Science Results"
     - title: Exercises
       children:
         - title: "Binder (workshop default)"
