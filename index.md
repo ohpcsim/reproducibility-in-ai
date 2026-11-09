@@ -91,7 +91,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 **Does adding the 2008 and 2009 data change our estimate of how much heavier male penguins are?**
 
 - **Problem:** the data is in Git, and a new field season is coming.
-- **You'll learn:** version data with DVC and a bucket, rerun the declared steps on a new version, and bring back an old version with its numbers and its figure.
+- **You'll learn:** version data with DVC and a bucket, rerun the declared steps on a new version, and go back to an old version and rebuild its numbers and figure to check that they match.
 - **Data:** Palmer penguins, the 2007 season, then 2007 to 2009.
 - About 15 minutes.
 

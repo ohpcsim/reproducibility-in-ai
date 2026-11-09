@@ -41,7 +41,7 @@ title: "The project: the Palmer penguins dataset"
 - The links open the Linux copies. Your track's menu has your machine's copy.
 - [Exercise 1, Software environments](exercises/01-environments/environments-linux.ipynb): one script computes the 2007 table, and you declare and lock its environment with conda and with uv.
 - [Exercise 2, Workflows](exercises/02-workflows/workflows-linux.ipynb): you start with a Snakemake or Nextflow workflow that computes the same table, then add a step that draws the README's figure. Git holds the code, and one command builds the numbers and the figure from the raw data.
-- [Exercise 3, Versioning data](exercises/03-dataops/dataops-linux.ipynb): you version the data with DVC and store it in a bucket. You add the 2008 and 2009 seasons as a new version, then restore the 2007 data, table and figure.
+- [Exercise 3, Versioning data](exercises/03-dataops/dataops-linux.ipynb): you version the data with DVC and store it in a bucket. You add the 2008 and 2009 seasons as a new version, then go back to the 2007 version and rebuild its table and figure to check that they match.
 - [Exercise 4, Model registry](exercises/04-registry/registry-linux.ipynb): you train the sex classifier at two values of `C`, register both versions with GTO, promote the better one, restore a version by hand and check that every version restores from the bucket.
 
 ## Why this example
