@@ -74,7 +74,7 @@ def read(src, text=None):
             c["source"] = "".join(c["source"])
             c["tags"] = c.get("metadata", {}).get("tags", [])
         return nb, nb["cells"]
-    front, body = re.match(r"(---\n.*?\n---\n)(.*)", text, re.S).groups()
+    front, body = re.match(r"((?:---\n.*?\n---\n)?)(.*)", text, re.S).groups()  # setup.md has none: each track has its own title
     cells, lines, tags, fence = [], [], [], False
     for line in body.split("\n"):
         if line.startswith("```"):
@@ -121,7 +121,7 @@ def select(cells, src, track, panel=False):
 
 def first_line(src, track):
     up = "../" * src.count("/")
-    return f"Track: {TRACKS[track]}. [{DONE}]({up}index.md)"
+    return f"Track: {TRACKS[track]}. [{DONE}]({up}index.md#pick-your-machine)"
 
 
 def with_line(cells, line, tags):

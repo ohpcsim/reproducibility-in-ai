@@ -24,7 +24,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 
 ## Pick your machine
 
-- Pick one. Each track has its own setup page and its own copy of each exercise, with the commands for that machine only.
+- Pick one. Binder is one page with a launch button for each exercise. Each other track has its own setup page and its own copy of each exercise, with the commands for that machine only.
 - Not sure? Use Binder, the workshop default.
 
 | Track | Who it's for | Exercises |
@@ -60,6 +60,8 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 ::::{grid} 1 1 2 2
 
 :::{card} 1. Software environments
+{button}`Launch in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-environments?urlpath=lab/workspaces/exercise>`
+
 **How do you declare and lock what the penguin project needs, with conda and with uv?**
 
 - **Problem:** a script imports a package that the project's dependency files don't declare.
@@ -67,10 +69,12 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 - **Data:** Palmer penguins, the 2007 field season.
 - About 20 minutes.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-01-environments?urlpath=lab/workspaces/exercise>` [Read the Binder page](exercises/01-environments/environments.ipynb)
+[Read the full exercise](exercises/01-environments/environments-linux.ipynb)
 :::
 
 :::{card} 2. Workflows
+{button}`Launch in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>`
+
 **How do you add a step to the penguin project's working workflow, so one command builds the numbers and the figure, with Snakemake or Nextflow?**
 
 - **Problem:** the project's workflow builds its numbers, and its README shows a figure that nothing builds.
@@ -78,10 +82,12 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 - **Data:** Palmer penguins, the 2007 field season.
 - About 15 to 20 minutes.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-02-workflows?urlpath=lab/workspaces/exercise>` [Read the Binder page](exercises/02-workflows/workflows.ipynb)
+[Read the full exercise](exercises/02-workflows/workflows-linux.ipynb)
 :::
 
 :::{card} 3. Versioning data
+{button}`Launch in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise>`
+
 **Do the 2008 and 2009 seasons change how much heavier male penguins are?**
 
 - **Problem:** the data is in Git, and a new field season is coming.
@@ -89,10 +95,12 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 - **Data:** Palmer penguins, the 2007 season, then 2007 to 2009.
 - About 15 minutes.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-03-dataops?urlpath=lab/workspaces/exercise>` [Read the Binder page](exercises/03-dataops/dataops.ipynb)
+[Read the full exercise](exercises/03-dataops/dataops-linux.ipynb)
 :::
 
 :::{card} 4. Model registry
+{button}`Launch in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise>`
+
 **Which penguin model is live?**
 
 - **Problem:** a trained penguin model has no registered version or live stage.
@@ -100,7 +108,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 - **Data:** Palmer penguins, 2007 to 2009.
 - About 15 to 20 minutes.
 
-{button}`Open in Binder <https://mybinder.org/v2/gh/ohpcsim/reproducibility-in-ai/binder-04-registry?urlpath=lab/workspaces/exercise>` [Read the Binder page](exercises/04-registry/registry.ipynb)
+[Read the full exercise](exercises/04-registry/registry-linux.ipynb)
 :::
 
 ::::
@@ -111,7 +119,7 @@ Starting an exercise? [Pick your machine](#pick-your-machine).
 
 It works the same way everywhere: read the page, and paste the commands into a terminal.
 
-1. Pick your machine at the top of this page, and follow its setup page.
+1. Choose a track under [Pick your machine](#pick-your-machine), and follow its setup page. Binder's page is a launch button for each exercise.
 2. Pick an exercise in that track. If you're not sure, start with the first.
 3. On Binder, the first start can take a few minutes. A session has up to 2 GB of memory and ends when it sits idle, so download anything you want to keep.
 4. Do the steps on the page, then run the check the page gives.

@@ -5,6 +5,7 @@ project:
   license:
     code: MIT
   # Each track's pages come from tracks.py, which build_site.sh runs first.
+  # Binder's copies of the exercise pages stay out of the site: Binder learners read the panel.
   toc:
     - file: index.md
     - title: About the workshop
@@ -15,18 +16,8 @@ project:
           title: "Literate Science Results"
     - title: Exercises
       children:
-        - title: "Binder (workshop default)"
-          children:
-            - file: setup.md
-              title: Set up
-            - file: exercises/01-environments/environments.ipynb
-              title: "1a. conda and uv locks"
-            - file: exercises/02-workflows/workflows.ipynb
-              title: "2a. Snakemake"
-            - file: exercises/03-dataops/dataops.ipynb
-              title: "3. Versioning data"
-            - file: exercises/04-registry/registry.ipynb
-              title: "4. Model registry"
+        - file: setup.md
+          title: "Binder (workshop default)"
         - title: "Your Mac"
           children:
             - file: setup-mac.md

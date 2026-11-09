@@ -39,10 +39,10 @@ title: "The project: the Palmer penguins dataset"
 ## What each exercise adds
 
 - The links open the Binder pages. Your track's menu has your machine's copy.
-- [Exercise 1, Software environments](exercises/01-environments/environments.ipynb): one script computes the 2007 table, and you declare and lock its environment with conda and with uv.
-- [Exercise 2, Workflows](exercises/02-workflows/workflows.ipynb): the same table from a working workflow, in Snakemake or Nextflow, and you add a step that draws the README's figure. Git holds the code, and one command builds the numbers and the figure from the raw data.
-- [Exercise 3, Versioning data](exercises/03-dataops/dataops.ipynb): the data moves to DVC and a bucket, the 2008 and 2009 seasons arrive as a new version, and you get the 2007 version, its table and its figure back from DVC.
-- [Exercise 4, Model registry](exercises/04-registry/registry.ipynb): you train the sex classifier at two values of `C`, register both versions with GTO, promote the better one and restore every version from the bucket.
+- [Exercise 1, Software environments](exercises/01-environments/environments-linux.ipynb): one script computes the 2007 table, and you declare and lock its environment with conda and with uv.
+- [Exercise 2, Workflows](exercises/02-workflows/workflows-linux.ipynb): the same table from a working workflow, in Snakemake or Nextflow, and you add a step that draws the README's figure. Git holds the code, and one command builds the numbers and the figure from the raw data.
+- [Exercise 3, Versioning data](exercises/03-dataops/dataops-linux.ipynb): the data moves to DVC and a bucket, the 2008 and 2009 seasons arrive as a new version, and you get the 2007 version, its table and its figure back from DVC.
+- [Exercise 4, Model registry](exercises/04-registry/registry-linux.ipynb): you train the sex classifier at two values of `C`, register both versions with GTO, promote the better one and restore every version from the bucket.
 
 ## Why this example
 

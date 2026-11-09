@@ -61,10 +61,10 @@ An AI result depends on:
 
 - \*Ops, or "splat ops", applies ideas from DevOps to everything else.
 - DevOps treats operations as a software development project.
-- DataOps: data has versions, and pipelines are declared steps. [Exercise 3](exercises/03-dataops/dataops.ipynb).
-- Workflows: each analysis step declares what it reads and writes, so a tool reruns only what changed. [Exercise 2](exercises/02-workflows/workflows.ipynb).
-- GitOps: the declared state lives in Git, and automation makes the system match it. [Exercise 1](exercises/01-environments/environments.ipynb) puts the declared environment in Git.
-- MLOps and LLMOps: models and prompts are versioned, tested and released like software. [Exercise 4](exercises/04-registry/registry.ipynb) does it for a model.
+- DataOps: data has versions, and pipelines are declared steps. [Exercise 3](exercises/03-dataops/dataops-linux.ipynb).
+- Workflows: each analysis step declares what it reads and writes, so a tool reruns only what changed. [Exercise 2](exercises/02-workflows/workflows-linux.ipynb).
+- GitOps: the declared state lives in Git, and automation makes the system match it. [Exercise 1](exercises/01-environments/environments-linux.ipynb) puts the declared environment in Git.
+- MLOps and LLMOps: models and prompts are versioned, tested and released like software. [Exercise 4](exercises/04-registry/registry-linux.ipynb) does it for a model.
 
 Timeline:
 
@@ -128,10 +128,10 @@ The goal:
 ## From the ideas to the exercises
 
 - The links open the Binder pages. Your track's menu has your machine's copy.
-- An environment file and its lock: [Exercise 1, Software environments](exercises/01-environments/environments.ipynb).
-- Declared steps: [Exercise 2, Workflows](exercises/02-workflows/workflows.ipynb).
-- Pointers to the data in Git, and the data in object storage: [Exercise 3, Versioning data](exercises/03-dataops/dataops.ipynb).
-- A model registry: [Exercise 4, Model registry](exercises/04-registry/registry.ipynb).
+- An environment file and its lock: [Exercise 1, Software environments](exercises/01-environments/environments-linux.ipynb).
+- Declared steps: [Exercise 2, Workflows](exercises/02-workflows/workflows-linux.ipynb).
+- Pointers to the data in Git, and the data in object storage: [Exercise 3, Versioning data](exercises/03-dataops/dataops-linux.ipynb).
+- A model registry: [Exercise 4, Model registry](exercises/04-registry/registry-linux.ipynb).
 
 ## Further reading
 
