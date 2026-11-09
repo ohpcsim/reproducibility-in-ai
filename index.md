@@ -3,6 +3,8 @@ title: Reproducibility in AI
 subject: Hands-on exercises
 ---
 
+Starting an exercise? [Pick your machine](#which-machine-are-you-on).
+
 ## About the workshop
 
 - The exercises from the Reproducibility in AI workshop at Rice Research Computing Day, November 10, 2026.
