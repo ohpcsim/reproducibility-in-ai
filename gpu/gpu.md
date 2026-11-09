@@ -204,10 +204,20 @@ If the check fails:
 ## Step 3: containers
 
 - A container carries the whole stack, apart from the driver, to the next system.
-- [The container page](container.md) builds an Apptainer SIF from your conda lock with a `.def` file, and runs the same check inside.
++++ {"tags": ["track-linux"]}
+
+- [The container page](container.md) builds an image from your conda lock with Docker or Podman, converts it to an Apptainer SIF for a cluster, and runs the same check inside.
++++ {"tags": ["track-hpc"]}
+
+- [The container page](container.md) builds an image from your conda lock with Docker and converts it to an Apptainer SIF for the cluster, or builds the SIF with Apptainer alone, and runs the same check inside.
 +++ {"tags": ["track-wsl2"]}
 
+- [The container page](container.md) builds an Apptainer SIF from your conda lock with a `.def` file, and runs the same check inside.
+
 - On WSL2, Apptainer's `--nv` doesn't reach the GPU. [The WSL2 section](container.md#on-wsl2) has the fix, `--bind /usr/lib/wsl`.
++++ {"tags": ["track-linux"]}
+
+- Rootless Podman 4.9 can't read the GPU spec that NVIDIA's current toolkit writes. [The admin fix](container.md#podman-admin-fix) needs root once.
 
 +++
 
