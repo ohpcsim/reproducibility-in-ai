@@ -3,35 +3,6 @@ title: Reproducibility in AI
 subject: Hands-on exercises
 ---
 
-## Which machine are you on?
-
-- Pick one. Each track has its own setup page and its own copy of each exercise, with the commands for that machine only.
-- Not sure? Use Binder, the workshop default.
-
-| Track | Who it's for | Exercises |
-|---|---|---|
-| [Binder](setup.md), the workshop default | Anyone. Nothing to install, you need a browser. | 1a, 2a, 3, 4 |
-| [Your Mac](setup-mac.md) | A Mac you own, with Apple silicon | 1a, 1b, 2a, 2b, 3, 4 |
-| [Your Linux machine](setup-linux.md) | Linux you own, with root | 1a, 1b, 1c with an NVIDIA GPU, 2a, 2b, 3, 4 |
-| [Windows (WSL2)](setup-wsl2.md) | A Windows PC you own | 1a, 1b, 1c with an NVIDIA GPU, 2a, 2b, 3, 4 |
-| [Shared Linux or HPC](setup-hpc.md) | An account with no root, such as a campus cluster | 1a, 1b with Apptainer, 1c on a GPU node, 2a, 2b, 3, 4 |
-
-### Binder or your own machine
-
-| | Binder | Your own machine |
-|---|---|---|
-| What you install | Nothing. You need a browser. | Miniforge and Git. On Windows, WSL2 too. |
-| Where your work lives | A temporary session on mybinder.org | A folder in your home directory |
-| How long a session lasts | It shuts down after 10 minutes idle, and aims to last up to six hours | As long as you want |
-| Memory | At least 1 GB, at most 2 GB | Your machine's |
-| Disk | Nothing on your machine | About 3 GB for all four exercises |
-| First start | A few minutes when the image isn't built or cached yet | A few minutes to build each environment |
-| Keeping your work | Only the files you download | Everything stays |
-
-- To try an exercise, use Binder.
-- To keep your work, use your own machine.
-- The Binder numbers are from the [mybinder.org usage guidelines](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#resources-available).
-
 ## About the workshop
 
 - The exercises from the Reproducibility in AI workshop at Rice Research Computing Day, November 10, 2026.
@@ -48,6 +19,35 @@ subject: Hands-on exercises
 - [The premise](premise.md) has the full argument.
 - [Literate Science Results: sexual dimorphism in Palmer penguins](results/results.ipynb) is one such document. The build runs the finished project's code. The page shows what it printed, and draws a figure from the project's validated table.
 - [How this site is built](build.md) shows its configuration, the command that builds it and the automation that reruns every notebook.
+
+## Which machine are you on?
+
+- Pick one. Each track has its own setup page and its own copy of each exercise, with the commands for that machine only.
+- Not sure? Use Binder, the workshop default.
+
+| Track | Who it's for | Exercises |
+|---|---|---|
+| [Binder](setup.md), the workshop default | Anyone. Nothing to install, you need a browser. | 1a, 2a, 3, 4 |
+| [Your Mac](setup-mac.md) | A Mac you own, with Apple silicon | 1a, 1b, 2a, 2b, 3, 4 |
+| [Your Linux machine](setup-linux.md) | Linux you own, with root | 1a, 1b, 1c with an NVIDIA GPU, 2a, 2b, 3, 4 |
+| [Windows (WSL2)](setup-wsl2.md) | A Windows PC you own | 1a, 1b, 1c with an NVIDIA GPU, 2a, 2b, 3, 4 |
+| [Shared Linux or HPC](setup-hpc.md) | An account with no root, such as a campus cluster | 1a, 1b with Apptainer, 1c on a GPU node, 2a, 2b, 3, 4 |
+
+**Binder or your own machine?**
+
+| | Binder | Your own machine |
+|---|---|---|
+| What you install | Nothing. You need a browser. | Miniforge and Git. On Windows, WSL2 too. |
+| Where your work lives | A temporary session on mybinder.org | A folder in your home directory |
+| How long a session lasts | It shuts down after 10 minutes idle, and aims to last up to six hours | As long as you want |
+| Memory | At least 1 GB, at most 2 GB | Your machine's |
+| Disk | Nothing on your machine | About 3 GB for all four exercises |
+| First start | A few minutes when the image isn't built or cached yet | A few minutes to build each environment |
+| Keeping your work | Only the files you download | Everything stays |
+
+- To try an exercise, use Binder.
+- To keep your work, use your own machine.
+- The Binder numbers are from the [mybinder.org usage guidelines](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#resources-available).
 
 ## The exercises
 
