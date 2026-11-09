@@ -65,6 +65,7 @@ The workshop uses conda. Exercises 2, 3 and 4 also give the same steps with uv.
 
 - Shared HPC and lab machines don't give users root.
 - Podman has no daemon and runs rootless. It builds from Dockerfiles.
+- Why Podman and not Docker: Docker Desktop needs a paid plan in larger organizations. Podman is free and open source, runs without root or a daemon, and takes the same commands.
 - Apptainer is the HPC standard. A container is one SIF file, it runs as your user, and there's no daemon.
 - Apptainer is the original Singularity project, renamed when it joined the Linux Foundation, and it still provides a `singularity` command. Sylabs' separate fork, SingularityCE, reached end of life on October 25, 2026, and [its repository](https://github.com/sylabs/singularity) is archived. If your site still says Singularity, use Apptainer. ([CIQ's announcement](https://ciq.com/blog/singularityce-end-of-life-apptainer))
 - A container that needs the GPU gets the host's NVIDIA driver through Apptainer's `--nv`.
