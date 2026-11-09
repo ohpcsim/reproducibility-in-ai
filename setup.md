@@ -102,7 +102,7 @@ When you open it, BinderHub does this ([what happens when a user clicks a Binder
 
 +++ {"tags": ["track-mac"]}
 
-- This page gets your Mac ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access.
+- This page gets your Mac ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access, except to install Podman Desktop for 1b.
 +++ {"tags": ["track-linux"]}
 
 - This page gets your Linux machine ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access, except to install Podman for 1b and Apptainer for 1c.
@@ -248,7 +248,7 @@ uv --version
 +++ {"tags": ["track-mac"]}
 
 - Only Exercise 1b uses one.
-- Install [Podman Desktop](https://podman-desktop.io/). It runs a small Linux VM.
+- Install [Podman Desktop](https://podman-desktop.io/). It runs a small Linux VM. Installing it asks for an administrator password.
 - Open a new Terminal window after installing, so `podman` is on your `PATH`.
 - Start the Podman machine from Podman Desktop, or with `podman machine init` and then `podman machine start`. Check that `podman machine list` says `Currently running`.
 - The default 2 GiB machine is enough for Exercise 1b.
