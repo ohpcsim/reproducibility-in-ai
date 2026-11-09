@@ -96,7 +96,7 @@ cd ~ && tar -czf my-work.tar.gz project && cd project
 - This page gets your Mac ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access.
 +++ {"tags": ["track-linux"]}
 
-- This page gets your Linux machine ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access, except to install Docker, Podman or Apptainer for 1b and 1c.
+- This page gets your Linux machine ready for the exercises: a terminal, conda and Git, and if you want them, uv and a container tool. You don't need administrator access, except to install Podman for 1b and Apptainer for 1c.
 +++ {"tags": ["track-wsl2"]}
 
 - This page gets your Windows PC ready for the exercises: Ubuntu in WSL2, conda and Git, and if you want them, uv, Podman and Apptainer. You need administrator access to turn on WSL2, and `sudo` in Ubuntu to install Podman and Apptainer.
@@ -210,14 +210,14 @@ uv --version
 +++ {"tags": ["track-linux"]}
 
 - Only Exercises 1b and 1c use one.
-- Install Docker Engine or Podman from your distribution's packages, with `sudo`. [Docker's install page](https://docs.docker.com/engine/install/) and [Podman's](https://podman.io/docs/installation) list the steps for each distribution.
-- Or install Apptainer, for 1b's Route B and 1c. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html) has the steps. Check with `apptainer --version`.
+- For 1b, install Podman from your distribution's packages, with `sudo`. [Podman's install page](https://podman.io/docs/installation) lists the steps for each distribution. Check with `podman --version`. Run `podman` itself without `sudo`.
+- For 1c, install Apptainer. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html) has the steps. Check with `apptainer --version`.
 
 +++ {"tags": ["track-wsl2"]}
 
 - Only Exercises 1b and 1c use one.
-- For Route A of 1b, install Podman in the same Ubuntu window: `sudo apt install -y podman`. Check with `podman --version`. Run `podman` itself without `sudo`.
-- Install Apptainer inside WSL2, in the Ubuntu window, with `sudo`. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html#install-ubuntu-packages) has the Ubuntu steps. Check with `apptainer --version`.
+- For 1b, install Podman in the same Ubuntu window: `sudo apt install -y podman`. Check with `podman --version`. Run `podman` itself without `sudo`.
+- For 1c, install Apptainer inside WSL2, in the Ubuntu window, with `sudo`. [Apptainer's install page](https://apptainer.org/docs/admin/main/installation.html#install-ubuntu-packages) has the Ubuntu steps. Check with `apptainer --version`.
 
 +++ {"tags": ["track-hpc"]}
 

@@ -1,4 +1,4 @@
-# The same steps as the Dockerfile, for a machine with Apptainer and no Docker.
+# 1c's container: your conda lock and the GPU check, built with Apptainer.
 Bootstrap: docker
 From: ubuntu@sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852
 
