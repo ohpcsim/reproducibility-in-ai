@@ -17,7 +17,7 @@ An AI result depends on:
 - Software you develop. It should be version controlled with Git.
 - Software you consume.
 - Workflows you develop.
-- Data you acquire, consume or both.
+- Data you collect or use.
 - LLMs you use.
 - Conclusions you draw from all of the above.
 
