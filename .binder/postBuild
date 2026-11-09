@@ -16,7 +16,7 @@ EOF
 jupyter lab workspaces import .binder/workspace.json
 settings=~/.jupyter/lab/user-settings/@jupyterlab/apputils-extension
 mkdir -p "$settings"
-echo '{"fetchNews": "false"}' > "$settings/notification.jupyterlab-settings"
+echo '{"fetchNews": "false", "checkForUpdates": false}' > "$settings/notification.jupyterlab-settings"
 # New terminals start in the project folder, with a short prompt, and vi opens vim. Only interactive shells, because the server itself starts through a login shell.
 for startup in ~/.bashrc ~/.profile; do
     echo 'case $- in *i*) if [ "$PWD" = "$HOME" ] && [ -d "$HOME/project" ]; then cd "$HOME/project"; fi; PS1="\\w\\$ "; alias vi=vim ;; esac' >> "$startup"
