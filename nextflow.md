@@ -1,9 +1,18 @@
 ---
-title: Workflows in Nextflow
+title: 2b. Workflows in Nextflow
 ---
 
 - This page is optional. It redoes [2a. Snakemake](workflows.ipynb) in Nextflow, with the same data, the same scripts and the same result.
++++ {"tags": ["track-mac", "track-linux", "track-wsl2"]}
+
 - You run it on your own machine. There's no Binder for it, and the next section says why.
+
++++ {"tags": ["track-hpc"]}
+
+- You run it on the cluster, with Nextflow's local executor. There's no Binder for it, and the next section says why.
+
++++
+
 - If you did the Snakemake exercise, the problem is the one you know, and steps 2 and 3 show where the two tools differ.
 
 ## Learning objectives
@@ -33,7 +42,7 @@ title: Workflows in Nextflow
 
 - Nextflow runs on the Java virtual machine. On our machines one run of this workflow takes about 3 to 4 seconds, most of it starting Java, and peaks at 0.41 to 0.47 GB of memory. A Binder session has at least 1 GB and at most 2 GB, so one run would take a large share of it, next to JupyterLab.
 - We checked whether the first run downloads anything. From the conda package it doesn't. The package carries the whole runtime, `~/.nextflow` held two empty folders after a run, and a run with the network switched off succeeded. Nextflow's own installer is different. [Its install page](https://docs.seqera.io/nextflow/install) says it downloads a Java bundle the first time each version runs, and that plugins download at run time.
-- Nextflow is built for real machines, clusters and clouds. It has executors for SLURM and the other schedulers, Kubernetes and the cloud batch services, and the point of the tool is to move a workflow from a laptop to those.
+- It has executors for SLURM and the other schedulers, Kubernetes and the cloud batch services, and the point of the tool is to move a workflow from a laptop to those.
 - So use it on your own Linux or macOS machine, or on Windows through WSL2, on x86_64 or ARM. The environment file below solved on all four platforms, and we ran the exercise on three machines, listed at the end.
 
 ## Get a terminal
@@ -66,13 +75,13 @@ cd project
 - `NXF_ANSI_LOG=false` makes Nextflow print one plain line per task, `Submitted process` or `Cached process`, as recorded on this page. Without it, Nextflow redraws a live table in your terminal, with the same information.
 - `nextflow -version` is the first run. It printed `version 26.10.5 build 14654` for us, and it also confirms that Nextflow found Java.
 - Every command below runs in that `project` folder.
-- In a new terminal, turn conda on as in [Set up](../../setup.md), then run `conda activate repro-nextflow`, `export NXF_ANSI_LOG=false` and `cd workflows-nextflow/project` from the folder above it.
-- To start over, go to the folder above it and run `python scripts/setup_project.py --nextflow --reset`. This deletes your work.
+- In a new terminal, turn conda on as in [Set up](../../setup.md), then run `conda activate repro-nextflow`, `export NXF_ANSI_LOG=false` and `cd workflows-nextflow/project` from the folder above `workflows-nextflow`.
+- To start over, run `cd ..` to leave `project`, then `python scripts/setup_project.py --nextflow --reset`. This deletes your work.
 
 **Editing files**
 
 - Use any text editor.
-- If you're not sure, `nano FILE` works in the terminal. Control-O saves and Control-X leaves.
+- If you're not sure, `nano FILE` works in the terminal. Ctrl+O, then Enter, saves. Ctrl+X quits.
 
 The environment:
 
@@ -104,12 +113,12 @@ The environment:
 - `path 'data/penguins.csv'` stages the file under that name, folder included, so the scripts run unchanged.
 - `publishDir '.', mode: 'copy', overwrite: true` copies the outputs back into the project, with their folders. Without it, `results/clean.csv` would exist only inside `work/`. Without `overwrite: true`, a resumed run leaves a published file alone when the task came from the cache, and step 3 would end with a stale `metrics.json`.
 - The `workflow` block connects the processes. `CLEAN(...)` returns a channel with `results/clean.csv`, and the next process takes it as input.
-- `process.cache = 'deep'` in the config hashes input files by content. Nextflow's default hashes their name, size and modification time, which is the Snakemake way.
+- `process.cache = 'deep'` in the config hashes input files by content. Nextflow's default hashes their name, size and modification time.
 - `.gitignore` lists what's built: `results/`, `metrics.json`, `figures/`, and what Nextflow writes, `work/`, `.nextflow/` and `.nextflow.log`.
 
 ## Step 1: run the workflow you were given
 
-**Problem.** Before you change a workflow, run it, and check that you get the numbers its authors got.
+**Problem:** Before you change a workflow, run it, and check that you get the numbers its authors got.
 
 ```bash
 nextflow run main.nf
@@ -141,7 +150,7 @@ $ git status --short
 - `ee/648ebf` is the start of the task's hash, and `work/ee/648ebf.../` is its folder. `ls -a` in there shows the staged inputs, `.command.sh` with the command, `.command.log` with what it printed and `.exitcode`.
 - `metrics.json` holds the numbers on this page: Adelie males are 648.9 g heavier, Chinstrap males 250.0 g and Gentoo males 934.2 g, from 103 penguins. The same numbers from the raw data, on your machine, show that the workflow reproduces the result.
 - `git status --short` prints nothing. What Nextflow builds is in `.gitignore`.
-- With `NXF_ANSI_LOG=false`, Nextflow prints the plain log: a banner, the run's name, and one line per task. It prints no summary line at the end. Run from an AI coding agent, Nextflow prints a shorter form instead, with `[PROCESS ...]` and `[SUCCESS]` lines.
+- With `NXF_ANSI_LOG=false`, Nextflow prints the plain log: a banner, the run's name, and one line per task. It prints no summary line at the end.
 
 **Steps**
 
@@ -150,7 +159,7 @@ $ git status --short
 
 ## Step 2: add a step
 
-**Problem.** The README shows a figure that nothing builds.
+**Problem:** The README shows a figure that nothing builds.
 
 ```bash
 grep body_mass README.md
@@ -164,6 +173,12 @@ $ grep body_mass README.md
 $ ls figures
 ls: cannot access 'figures': No such file or directory
 ```
+
++++ {"tags": ["track-mac"]}
+
+- On a Mac, `ls` says `ls: figures: No such file or directory`. Either way, the folder isn't there yet.
+
++++
 
 **Facts**
 
@@ -232,7 +247,7 @@ git status --short
 
 ## Step 3: change a parameter
 
-**Problem.** `params.yaml` says `statistic: mean`. Change it to `median`, and which tasks have to rerun? Nextflow decides from hashes, and `-resume` tells you what it decided.
+**Problem:** `params.yaml` says `statistic: mean`. Change it to `median`, and which tasks have to rerun? Nextflow decides from hashes, and `-resume` tells you what it decided.
 
 **Facts**
 
@@ -326,15 +341,22 @@ PASS  A changed report.statistic reruns REPORT, and -resume takes the rest from 
 ## What we ran where
 
 - Recorded November 8, 2026, with Nextflow 26.10.5, OpenJDK 25.0.2 and Python 3.12.16 from the environment file above.
-- Each row is the whole page, run by a script: the starter and its failing check, the three steps and the final check. Peak memory is the largest resident set of any process in the run, which is the Java virtual machine.
+- The first row is the whole current page, run by a script: the starter and its failing check, the three steps and the final check. Peak memory is the largest resident set of any process in the run, which is the Java virtual machine.
 
 | Machine | Starter fails | Solution passes | Whole page | Peak memory |
 |---|---|---|---|---|
 | aarch64, Linux, DGX Spark | Yes, 2 of 4 | Yes, 4 of 4 | 45 s | 0.47 GB |
-| x86_64, WSL2 on Windows, Ubuntu 24.04 | Yes, 0 of 1 | Yes, 4 of 4 | 36 s | 0.46 GB |
-| arm64, macOS 27.0.1 | Yes, 0 of 1 | Yes, 4 of 4 | 33 s | 0.41 GB |
+| x86_64, WSL2 on Windows, Ubuntu 24.04 | Earlier version, 0 of 1. Not rerun on the current page. | Yes, 4 of 4 | 36 s | 0.46 GB |
+| arm64, macOS 27.0.1 | Earlier version, 0 of 1. Not rerun on the current page. | Yes, 4 of 4 | 33 s | 0.41 GB |
 
 - The WSL2 and macOS rows ran an earlier version of this page, where you wrote `VALIDATE` and `REPORT` yourself.
+
++++ {"tags": ["track-hpc"]}
+
+- We haven't run this on an HPC cluster.
+
++++
+
 ## When you're done
 
 From the folder above `workflows-nextflow`:
