@@ -5,6 +5,8 @@ subject: Hands-on exercises
 
 Starting an exercise? [Pick your machine](#pick-your-machine).
 
+Working with a coding agent? [Start here with LLM work](start-here.md).
+
 ## About the workshop
 
 - The exercises from the Reproducibility in AI workshop at Rice Research Computing Day, November 10, 2026.

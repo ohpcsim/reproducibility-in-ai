@@ -14,6 +14,12 @@ project:
         - file: project.md
         - file: results/results.ipynb
           title: "Literate Science Results"
+    - title: LLM work after the workshop
+      children:
+        - file: start-here.md
+        - file: activities/contract.md
+        - file: activities/five-tests.md
+        - file: activities/review-one-change.md
     - title: Exercises
       children:
         - file: setup.md
